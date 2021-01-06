@@ -42,19 +42,10 @@ const DashboardLayout = () => {
   useEffect(() => {
     if (!firebase.getCurrentUsername()) {
       navigate("/");
-      console.log("entered");
     }
   });
-
-  // if (!firebase.getCurrentUsername()) {
-  //   navigate('/')
-  //   console.log("entered");
-  //   return null;
-  // }
   return (
     <div className={classes.root}>
-      {console.log("render")}
-
       <TopBar onMobileNavOpen={() => setMobileNavOpen(true)} />
       <NavBar
         onMobileClose={() => setMobileNavOpen(false)}

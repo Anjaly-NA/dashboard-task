@@ -21,7 +21,7 @@ const TopBar = ({ className, ...rest }) => {
 
   return (
     <AppBar
-      className={clsx(classes.root, className,'background-primary-color')}
+      className={clsx(classes.root, className)}
       elevation={0}
       {...rest}
     >

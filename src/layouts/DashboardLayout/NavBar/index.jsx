@@ -35,45 +35,45 @@ const user = {
 
 const items = [
   {
-    href: "/app/dashboard",
+    href: "/user/dashboard",
     icon: BarChartIcon,
     title: "Dashboard",
   },
   {
-    href: "/app/customers",
+    href: "/user/customers",
     icon: UsersIcon,
     title: "Customers",
   },
-  {
-    href: "/app/products",
-    icon: ShoppingBagIcon,
-    title: "Products",
-  },
-  {
-    href: "/app/account",
-    icon: UserIcon,
-    title: "Account",
-  },
-  {
-    href: "/app/settings",
-    icon: SettingsIcon,
-    title: "Settings",
-  },
-  {
-    href: "/login",
-    icon: LockIcon,
-    title: "Login",
-  },
-  {
-    href: "/register",
-    icon: UserPlusIcon,
-    title: "Register",
-  },
-  {
-    href: "/404",
-    icon: AlertCircleIcon,
-    title: "Error",
-  },
+  // {
+  //   href: "/app/products",
+  //   icon: ShoppingBagIcon,
+  //   title: "Products",
+  // },
+  // {
+  //   href: "/app/account",
+  //   icon: UserIcon,
+  //   title: "Account",
+  // },
+  // {
+  //   href: "/app/settings",
+  //   icon: SettingsIcon,
+  //   title: "Settings",
+  // },
+  // {
+  //   href: "/login",
+  //   icon: LockIcon,
+  //   title: "Login",
+  // },
+  // {
+  //   href: "/register",
+  //   icon: UserPlusIcon,
+  //   title: "Register",
+  // },
+  // {
+  //   href: "/404",
+  //   icon: AlertCircleIcon,
+  //   title: "Error",
+  // },
 ];
 
 const useStyles = makeStyles(() => ({
@@ -148,7 +148,7 @@ const NavBar = ({ onMobileClose, openMobile }) => {
         </List>
       </Box>
       <Box flexGrow={1} />
-      <Box p={2} m={2} bgcolor="background.dark">
+      {/* <Box p={2} m={2} bgcolor="background.dark">
         <Typography align="center" gutterBottom variant="h4">
           Need more?
         </Typography>
@@ -165,7 +165,7 @@ const NavBar = ({ onMobileClose, openMobile }) => {
             See PRO version
           </Button>
         </Box>
-      </Box>
+      </Box> */}
     </Box>
   );
 

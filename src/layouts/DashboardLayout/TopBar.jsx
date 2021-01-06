@@ -10,6 +10,7 @@ import {
   IconButton,
   Toolbar,
   makeStyles,
+  Typography,
 } from "@material-ui/core";
 import MenuIcon from "@material-ui/icons/Menu";
 import NotificationsIcon from "@material-ui/icons/NotificationsOutlined";
@@ -31,23 +32,26 @@ const TopBar = ({ className, onMobileNavOpen, ...rest }) => {
   return (
     <AppBar className={clsx(classes.root, className)} elevation={0} {...rest}>
       <Toolbar>
-        <RouterLink to="/">
+        <RouterLink to="/user/dashboard">
           <Logo />
         </RouterLink>
         <Box flexGrow={1} />
         <Hidden mdDown>
           <IconButton color="inherit">
             <Badge
-              badgeContent={notifications.length}
-              color="primary"
-              variant="dot"
+              badgeContent={4}
+              color="secondary"
+              // variant="dot"
             >
               <NotificationsIcon />
             </Badge>
           </IconButton>
-          <IconButton color="inherit">
+          <Typography variant="h4" color="inherit">
+            Dashboard App
+          </Typography>
+          {/* <IconButton color="inherit">
             <InputIcon />
-          </IconButton>
+          </IconButton> */}
         </Hidden>
         <Hidden lgUp>
           <IconButton color="inherit" onClick={onMobileNavOpen}>

@@ -14,8 +14,8 @@ import {
 } from "@material-ui/core";
 // import FacebookIcon from 'src/icons/Facebook';
 // import GoogleIcon from 'src/icons/Google';
-import Page from "../components/Page";
-import firebase from "../firebase";
+import Page from "../../components/Page";
+import firebase from "../../firebase";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -53,14 +53,14 @@ const LoginView = () => {
   const submitLogin = async (values) => {
     try {
       await firebase.login(values.email, values.password);
-      navigate("/user", { replace: true });
+      navigate("/user/dashboard", { replace: true });
     } catch (error) {
       console.log(error.message);
     }
   };
 
   return (
-    <Page className={classes.root} title="Login">
+    <Page className={classes.root} >
       <Box
         display="flex"
         flexDirection="column"
@@ -95,7 +95,7 @@ const LoginView = () => {
                       gutterBottom
                       variant="body2"
                     >
-                      Sign in on the internal platform
+                      Sign in to the application
                     </Typography>
                   </Box>
                   {/* <Grid
