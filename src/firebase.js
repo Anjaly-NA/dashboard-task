@@ -37,5 +37,16 @@ class Firebase {
   getCurrentUsername() {
     return this.auth.currentUser && this.auth.currentUser.displayName;
   }
+  async getCurrentUserInfo() {
+    var userId = this.auth.currentUser.uid;
+    const userRef =  this.db.collection("users").doc(userId);
+    const doc = await userRef.get()
+    return doc.data();
+    // if (!doc.exists) {
+    //   console.log("No such document!");
+    // } else {
+    //   console.log("Document data:", doc.data());
+    // }
+  }
 }
 export default new Firebase();

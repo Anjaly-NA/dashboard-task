@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 import { Formik } from "formik";
@@ -43,6 +43,12 @@ const signInSchema = Yup.object().shape({
 const LoginView = () => {
   const classes = useStyles();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (firebase.getCurrentUsername()) {
+      navigate("/user");
+    }
+  });
 
   const submitLogin = async (values) => {
     try {

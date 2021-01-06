@@ -7,20 +7,20 @@ import DashboardLayout from "./layouts/DashboardLayout";
 
 const routes = [
   {
-    path: "user",
-    element: <DashboardLayout />,
-    children: [
-      { path: "login", element: <LoginView /> },
-      { path: "register", element: <RegisterView /> },
-    ],
-  },
-  {
     path: "/",
     element: <MainLayout />,
     children: [
       { path: "/", element: <Navigate to="/login" /> },
       { path: "login", element: <LoginView /> },
-      { path: "register", element: <RegisterView /> },
+      { path: "register", element: <RegisterView />  },
+    ],
+  },
+  {
+    path: "user",
+    element: <DashboardLayout />,
+    children: [
+      // { path: "login", element: <LoginView /> },
+      // { path: "register", element: <RegisterView /> },
     ],
   },
 ];
