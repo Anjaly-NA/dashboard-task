@@ -58,7 +58,7 @@ const Planning = ({ head, subHead, icon, bg, className, ...rest }) => {
           </Grid>
           <Grid item>
             <Grid container>
-              <Grid item lg={6} md={6} sm={6} xs={6} xs={12}>
+              <Grid item xs={6} >
                 <Typography
                   color="textSecondary"
                   gutterBottom
@@ -67,7 +67,7 @@ const Planning = ({ head, subHead, icon, bg, className, ...rest }) => {
                   {subHead} One
                 </Typography>
               </Grid>
-              <Grid item lg={6} md={6} sm={6} xs={12}>
+              <Grid item xs={6}>
                 <Typography
                   color="textSecondary"
                   gutterBottom
@@ -76,7 +76,7 @@ const Planning = ({ head, subHead, icon, bg, className, ...rest }) => {
                   {subHead} Three
                 </Typography>
               </Grid>
-              <Grid item lg={6} md={6} sm={6} xs={12}>
+              <Grid item xs={6}>
                 <Typography
                   color="textSecondary"
                   gutterBottom
@@ -85,7 +85,7 @@ const Planning = ({ head, subHead, icon, bg, className, ...rest }) => {
                   {subHead} Eight
                 </Typography>
               </Grid>
-              <Grid item lg={6} md={6} sm={6} xs={12}>
+              <Grid item xs={6}>
                 <Typography
                   color="textSecondary"
                   gutterBottom
