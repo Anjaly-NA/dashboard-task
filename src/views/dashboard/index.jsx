@@ -7,6 +7,7 @@ import DescriptionIcon from "@material-ui/icons/Description";
 import DeveloperBoardIcon from "@material-ui/icons/DeveloperBoard";
 import DoneOutlineIcon from "@material-ui/icons/DoneOutline";
 import Development from "./Development";
+import Design from "./Design";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -71,7 +72,9 @@ const Dashboard = () => {
           <Grid item lg={8} md={12} xl={9} xs={12}>
             <Development />
           </Grid>
-          <Grid item lg={4} md={6} xl={3} xs={12}></Grid>
+          <Grid item lg={4} md={6} xl={3} xs={12}>
+            <Design />
+          </Grid>
           <Grid item lg={4} md={6} xl={3} xs={12}></Grid>
           <Grid item lg={8} md={12} xl={9} xs={12}></Grid>
         </Grid>

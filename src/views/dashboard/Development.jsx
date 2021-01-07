@@ -1,20 +1,14 @@
 import React from "react";
-import clsx from "clsx";
-import PropTypes from "prop-types";
 import { Bar } from "react-chartjs-2";
 import {
   Box,
-  Button,
   Card,
   CardContent,
   CardHeader,
   Divider,
   useTheme,
-  colors,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
-import ArrowRightIcon from "@material-ui/icons/ArrowRight";
 import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
 import InputLabel from "@material-ui/core/InputLabel";
@@ -117,7 +111,7 @@ const Development = () => {
             </Select>
           </FormControl>
         }
-        title="Development Details"
+        title="Latest Development"
       />
       <Divider />
       <CardContent>
