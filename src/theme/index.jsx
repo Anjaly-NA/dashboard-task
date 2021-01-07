@@ -16,6 +16,7 @@ const theme = createMuiTheme({
       color2: colors.green[600],
       color3: colors.blue[600],
       color4: colors.orange[600],
+      color5: colors.teal[50],
     },
     secondary: {
       main: colors.red[500],

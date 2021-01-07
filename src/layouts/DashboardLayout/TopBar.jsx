@@ -36,7 +36,7 @@ const TopBar = ({ className, onMobileNavOpen, ...rest }) => {
           <Logo />
         </RouterLink>
         <Box flexGrow={1} />
-        <Hidden mdDown>
+        <Hidden >
           <IconButton color="inherit">
             <Badge
               badgeContent={4}

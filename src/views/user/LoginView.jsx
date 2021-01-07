@@ -47,7 +47,7 @@ const LoginView = () => {
 
   useEffect(() => {
     if (firebase.getCurrentUsername()) {
-      navigate("/user");
+      navigate("/user/dashboard");
     }
   });
 

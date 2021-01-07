@@ -6,13 +6,7 @@ import CalendarTodayIcon from "@material-ui/icons/CalendarToday";
 import DescriptionIcon from "@material-ui/icons/Description";
 import DeveloperBoardIcon from "@material-ui/icons/DeveloperBoard";
 import DoneOutlineIcon from "@material-ui/icons/DoneOutline";
-// import LatestOrders from "./LatestOrders";
-// import LatestProducts from "./LatestProducts";
-// import Sales from "./Sales";
-// import TasksProgress from "./TasksProgress";
-// import TotalCustomers from "./TotalCustomers";
-// import TotalProfit from "./TotalProfit";
-// import TrafficByDevice from "./TrafficByDevice";
+import Development from "./Development";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -74,7 +68,9 @@ const Dashboard = () => {
               bg={classes.icon4}
             />
           </Grid>
-          <Grid item lg={8} md={12} xl={9} xs={12}></Grid>
+          <Grid item lg={8} md={12} xl={9} xs={12}>
+            <Development />
+          </Grid>
           <Grid item lg={4} md={6} xl={3} xs={12}></Grid>
           <Grid item lg={4} md={6} xl={3} xs={12}></Grid>
           <Grid item lg={8} md={12} xl={9} xs={12}></Grid>
