@@ -3,7 +3,6 @@ import clsx from "clsx";
 import PropTypes from "prop-types";
 import {
   Avatar,
-  Box,
   Card,
   CardContent,
   Grid,
@@ -52,7 +51,7 @@ const Planning = ({ head, subHead, icon, bg, className, ...rest }) => {
             </Typography> */}
           </Grid>
           <Grid item>
-            <Avatar className={classes.avatar,bg}>
+            <Avatar className={clsx(classes.avatar, bg)}>
               {icon}
             </Avatar>
           </Grid>

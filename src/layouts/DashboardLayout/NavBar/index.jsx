@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { Link as RouterLink, useLocation ,useNavigate} from "react-router-dom";
+import { Link as RouterLink, useLocation, useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 import {
   Avatar,
   Box,
-  Button,
   Divider,
   Drawer,
   Hidden,
@@ -12,16 +11,7 @@ import {
   Typography,
   makeStyles,
 } from "@material-ui/core";
-import {
-  AlertCircle as AlertCircleIcon,
-  BarChart as BarChartIcon,
-  Lock as LockIcon,
-  Settings as SettingsIcon,
-  ShoppingBag as ShoppingBagIcon,
-  User as UserIcon,
-  UserPlus as UserPlusIcon,
-  Users as UsersIcon,
-} from "react-feather";
+import { BarChart as BarChartIcon, Users as UsersIcon } from "react-feather";
 import NavItem from "./NavItem";
 import firebase from "../../../firebase";
 import ListItem from "@material-ui/core/ListItem";

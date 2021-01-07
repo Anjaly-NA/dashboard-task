@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Link as RouterLink } from "react-router-dom";
 import clsx from "clsx";
 import PropTypes from "prop-types";
@@ -14,7 +14,6 @@ import {
 } from "@material-ui/core";
 import MenuIcon from "@material-ui/icons/Menu";
 import NotificationsIcon from "@material-ui/icons/NotificationsOutlined";
-import InputIcon from "@material-ui/icons/Input";
 import Logo from "../../components/Logo";
 
 const useStyles = makeStyles(() => ({
@@ -27,7 +26,6 @@ const useStyles = makeStyles(() => ({
 
 const TopBar = ({ className, onMobileNavOpen, ...rest }) => {
   const classes = useStyles();
-  const [notifications] = useState([]);
 
   return (
     <AppBar className={clsx(classes.root, className)} elevation={0} {...rest}>
@@ -36,7 +34,7 @@ const TopBar = ({ className, onMobileNavOpen, ...rest }) => {
           <Logo />
         </RouterLink>
         <Box flexGrow={1} />
-        <Hidden >
+        <Hidden>
           <IconButton color="inherit">
             <Badge
               badgeContent={4}

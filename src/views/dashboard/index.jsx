@@ -1,5 +1,5 @@
 import React from "react";
-import { Container, Grid, makeStyles, colors } from "@material-ui/core";
+import { Container, Grid, makeStyles } from "@material-ui/core";
 import Page from "../../components/Page";
 import Planning from "./Planning";
 import CalendarTodayIcon from "@material-ui/icons/CalendarToday";

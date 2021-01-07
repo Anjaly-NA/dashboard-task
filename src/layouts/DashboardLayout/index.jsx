@@ -4,7 +4,6 @@ import { makeStyles } from "@material-ui/core";
 import NavBar from "./NavBar/index";
 import TopBar from "./TopBar";
 import firebase from "../../firebase";
-import MainLayout from "../MainLayout";
 
 const useStyles = makeStyles((theme) => ({
   root: {
