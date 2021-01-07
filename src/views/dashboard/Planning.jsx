@@ -41,7 +41,7 @@ const Planning = ({ head, subHead, icon, bg, className, ...rest }) => {
       <CardContent>
         <Grid container alignItems="center" spacing={2} direction="column">
           <Grid item>
-            <Typography color="textSecondary" gutterBottom variant="h5">
+            <Typography color="textPrimary" gutterBottom variant="h5">
               {head}
             </Typography>
             {/* <Typography
@@ -52,7 +52,7 @@ const Planning = ({ head, subHead, icon, bg, className, ...rest }) => {
             </Typography> */}
           </Grid>
           <Grid item>
-            <Avatar className={classes.avatar} style={{ backgroundColor: bg }}>
+            <Avatar className={classes.avatar,bg}>
               {icon}
             </Avatar>
           </Grid>

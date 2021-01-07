@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 import { Formik } from "formik";
@@ -12,10 +12,9 @@ import {
   Typography,
   makeStyles,
 } from "@material-ui/core";
-// import FacebookIcon from 'src/icons/Facebook';
-// import GoogleIcon from 'src/icons/Google';
 import Page from "../../components/Page";
 import firebase from "../../firebase";
+import ModalBox from "../../components/Modal";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -43,6 +42,8 @@ const signInSchema = Yup.object().shape({
 const LoginView = () => {
   const classes = useStyles();
   const navigate = useNavigate();
+  const [modal, setModal] = useState(false);
+  const [loginError, setLoginError] = useState("");
 
   useEffect(() => {
     if (firebase.getCurrentUsername()) {
@@ -55,12 +56,17 @@ const LoginView = () => {
       await firebase.login(values.email, values.password);
       navigate("/user/dashboard", { replace: true });
     } catch (error) {
-      console.log(error.message);
+      setModal(true);
+      setLoginError(error.message);
     }
+  };
+  const modalClose = () => {
+    setModal(false);
   };
 
   return (
-    <Page className={classes.root} >
+    <Page className={classes.root}>
+      <ModalBox modal={modal} message={loginError} closeModal={modalClose} />
       <Box
         display="flex"
         flexDirection="column"
@@ -98,54 +104,6 @@ const LoginView = () => {
                       Sign in to the application
                     </Typography>
                   </Box>
-                  {/* <Grid
-                  container
-                  spacing={3}
-                >
-                  <Grid
-                    item
-                    xs={12}
-                    md={6}
-                  >
-                    <Button
-                      color="primary"
-                      fullWidth
-                      startIcon={<FacebookIcon />}
-                      onClick={handleSubmit}
-                      size="large"
-                      variant="contained"
-                    >
-                      Login with Facebook
-                    </Button>
-                  </Grid>
-                  <Grid
-                    item
-                    xs={12}
-                    md={6}
-                  >
-                    <Button
-                      fullWidth
-                      startIcon={<GoogleIcon />}
-                      onClick={handleSubmit}
-                      size="large"
-                      variant="contained"
-                    >
-                      Login with Google
-                    </Button>
-                  </Grid>
-                </Grid> */}
-                  {/* <Box
-                  mt={3}
-                  mb={1}
-                >
-                  <Typography
-                    align="center"
-                    color="textSecondary"
-                    variant="body1"
-                  >
-                    or login with email address
-                  </Typography>
-                </Box> */}
                   <TextField
                     error={Boolean(touched.email && errors.email)}
                     fullWidth

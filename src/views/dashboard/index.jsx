@@ -21,6 +21,18 @@ const useStyles = makeStyles((theme) => ({
     paddingBottom: theme.spacing(3),
     paddingTop: theme.spacing(3),
   },
+  icon1: {
+    backgroundColor: theme.palette.primary.color1,
+  },
+  icon2: {
+    backgroundColor: theme.palette.primary.color2,
+  },
+  icon3: {
+    backgroundColor: theme.palette.primary.color3,
+  },
+  icon4: {
+    backgroundColor: theme.palette.primary.color4,
+  },
 }));
 
 const Dashboard = () => {
@@ -35,7 +47,7 @@ const Dashboard = () => {
               head="Planning"
               subHead="Plan"
               icon={<DescriptionIcon />}
-              bg={colors.red[400]}
+              bg={classes.icon1}
             />
           </Grid>
           <Grid item lg={3} sm={6} xl={3} xs={12}>
@@ -43,7 +55,7 @@ const Dashboard = () => {
               head="Design"
               subHead="Design"
               icon={<CalendarTodayIcon />}
-              bg={colors.green[600]}
+              bg={classes.icon2}
             />
           </Grid>
           <Grid item lg={3} sm={6} xl={3} xs={12}>
@@ -51,7 +63,7 @@ const Dashboard = () => {
               head="Development"
               subHead="Module"
               icon={<DeveloperBoardIcon />}
-              bg={colors.blue[600]}
+              bg={classes.icon3}
             />
           </Grid>
           <Grid item lg={3} sm={6} xl={3} xs={12}>
@@ -59,7 +71,7 @@ const Dashboard = () => {
               head="Testing"
               subHead="Test"
               icon={<DoneOutlineIcon />}
-              bg={colors.orange[600]}
+              bg={classes.icon4}
             />
           </Grid>
           <Grid item lg={8} md={12} xl={9} xs={12}></Grid>
