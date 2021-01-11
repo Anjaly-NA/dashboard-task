@@ -14,6 +14,8 @@ import {
 import Page from "../../components/Page";
 import firebase from "../../firebase";
 import ModalBox from "../../components/Modal";
+import { connect } from "react-redux";
+import { loginUser } from "../../redux";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -38,7 +40,7 @@ const signInSchema = Yup.object().shape({
     .required("Password is required"),
 });
 
-const LoginView = () => {
+const LoginView = (props) => {
   const classes = useStyles();
   const navigate = useNavigate();
   const [modal, setModal] = useState(false);
@@ -51,13 +53,28 @@ const LoginView = () => {
   });
 
   const submitLogin = async (values) => {
-    try {
-      await firebase.login(values.email, values.password);
-      navigate("/user/dashboard", { replace: true });
-    } catch (error) {
-      setModal(true);
-      setLoginError(error.message);
-    }
+    // try {
+    let credentials = { email: values.email, password: values.password };
+    await props.userLogin(credentials);
+    console.log("entered",  "yok", props.loginToken);
+    //   await userLogin(credentials);
+    //   console.log(loginData, "result");
+    //   if (loginData.errorMessage !== "") {
+    //     setModal(true);
+    //     setLoginError(loginData.errorMessage);
+    //   }
+    // localStorage.setItem("userToken", loginToken);
+
+    //login using firebase
+    // await firebase.login(values.email, values.password);
+    // navigate("/user/dashboard", { replace: true });
+    // } catch (error) {
+    //   setModal(true);
+    //   setLoginError(loginError);
+
+    //login error message using firebase
+    // setLoginError(error.message);
+    // }
   };
   const modalClose = () => {
     setModal(false);
@@ -156,5 +173,17 @@ const LoginView = () => {
     </Page>
   );
 };
-
-export default LoginView;
+const mapStateToProps = (state) => {
+  console.log(state.loginRed, "mapStateToProps");
+  return {
+    loginData: state.loginRed,
+    // loginLoading: state.loginRed.loading,
+    loginToken: state.loginRed.userToken,
+    // loginError: state.loginRed.errorMessage,
+  };
+};
+const mapDispatchToProps = (dispatch) => {
+  return { userLogin: (credentials) => dispatch(loginUser(credentials)) };
+};
+export default connect(mapStateToProps, mapDispatchToProps)(LoginView);
+// export default LoginView;

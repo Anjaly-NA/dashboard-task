@@ -6,6 +6,8 @@ import theme from "./theme";
 import GlobalStyles from "./components/GlobalStyles";
 import firebase from "./firebase";
 import { CircularProgress } from "@material-ui/core";
+import { Provider } from "react-redux";
+import store from "./redux/store";
 
 const App = () => {
   const routing = useRoutes(routes);
@@ -16,10 +18,12 @@ const App = () => {
     });
   });
   return firebaseInitialized !== false ? (
-    <ThemeProvider theme={theme}>
-      <GlobalStyles />
-      {routing}
-    </ThemeProvider>
+    <Provider store={store}>
+      <ThemeProvider theme={theme}>
+        <GlobalStyles />
+        {routing}
+      </ThemeProvider>
+    </Provider>
   ) : (
     <div>
       <CircularProgress />
