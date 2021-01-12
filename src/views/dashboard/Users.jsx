@@ -136,10 +136,7 @@ const User = (props, { className, ...rest }) => {
     props
       .getUserList(page + 1)
       .then((response) => {
-        props.userlistFetchSuccess(
-          response.data.data,
-          response.data.total
-        );
+        props.userlistFetchSuccess(response.data.data, response.data.total);
       })
       .catch((error) => {
         console.log(error.message);
@@ -150,10 +147,7 @@ const User = (props, { className, ...rest }) => {
     props
       .getUserList(newPage + 1)
       .then((response) => {
-        props.userlistFetchSuccess(
-          response.data.data,
-          response.data.total
-        );
+        props.userlistFetchSuccess(response.data.data, response.data.total);
       })
       .catch((error) => {
         console.log(error.message);
