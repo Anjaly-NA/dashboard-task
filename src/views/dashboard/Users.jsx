@@ -22,7 +22,12 @@ import {
   TablePagination,
   TableContainer,
 } from "@material-ui/core";
-import { fetchUserlist } from "../../redux";
+import {
+  userlistFetchRequest,
+  userlistFetchSuccess,
+  userlistFetchFailure,
+  fetchUserlist,
+} from "../../redux";
 import { connect } from "react-redux";
 
 const datas = [
@@ -120,25 +125,39 @@ const useStyle = makeStyles(() => ({
 
 const User = (props, { className, ...rest }) => {
   const classes = useStyle();
-  const [data, setData] = useState([]);
   const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(5);
+  // const [rowsPerPage, setRowsPerPage] = useState(5);
   useEffect(() => {
-    fetchList()
-  },[]);
+    fetchList();
+  }, []);
 
   const fetchList = () => {
-    props.getUserList(page + 1).then((response) => {
-      setData(response.data.data);
-      console.log(response.data.data, "response");
-    });
+    props.userlistFetchRequest();
+    props
+      .getUserList(page + 1)
+      .then((response) => {
+        props.userlistFetchSuccess(
+          response.data.data,
+          response.data.total
+        );
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
   };
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
-    props.getUserList(newPage + 1).then((response) => {
-      setData(response.data.data);
-      console.log(response.data.data, "response");
-    });
+    props
+      .getUserList(newPage + 1)
+      .then((response) => {
+        props.userlistFetchSuccess(
+          response.data.data,
+          response.data.total
+        );
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
   };
   // const handleChangeRowsPerPage = (event) => {
   //   setRowsPerPage(parseInt(event.target.value, 10));
@@ -156,11 +175,11 @@ const User = (props, { className, ...rest }) => {
               <TableHead>
                 <TableRow>
                   <TableCell>User ID</TableCell>
-                  <TableCell>User Name</TableCell>
+                  <TableCell>First Name</TableCell>
                   <TableCell sortDirection="asc">
                     <Tooltip enterDelay={100} title="Sort">
                       <TableSortLabel active direction="asc">
-                        User DOB
+                        Second Name
                       </TableSortLabel>
                     </Tooltip>
                   </TableCell>
@@ -168,8 +187,8 @@ const User = (props, { className, ...rest }) => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {data
-                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                {props.userlistData
+                  // .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                   .map((user, index) => (
                     <TableRow hover key={user.id} tabIndex={-1} key={index}>
                       <TableCell>{user.id}</TableCell>
@@ -195,7 +214,7 @@ const User = (props, { className, ...rest }) => {
             // rowsPerPageOptions={[5, 10, 25]}
             rowsPerPageOptions={6}
             component="div"
-            count={data.length}
+            count={props.totalUser}
             // rowsPerPage={rowsPerPage}
             rowsPerPage={6}
             page={page}
@@ -209,10 +228,19 @@ const User = (props, { className, ...rest }) => {
 };
 
 const mapStateToProps = (state) => {
-  return { userlistData: state.listRed };
+  return {
+    userlistData: state.listRed.userList,
+    totalUser: state.listRed.totalUser,
+  };
 };
 const mapDispatchToProps = (dispatch) => {
-  return { getUserList: (currentPage) => dispatch(fetchUserlist(currentPage)) };
+  return {
+    getUserList: (currentPage) => dispatch(fetchUserlist(currentPage)),
+    userlistFetchRequest: () => dispatch(userlistFetchRequest()),
+    userlistFetchSuccess: (userList, totalUser) =>
+      dispatch(userlistFetchSuccess(userList, totalUser)),
+    userlistFetchFailure: (error) => dispatch(userlistFetchFailure(error)),
+  };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(User);
 // export default User;
