@@ -1,10 +1,10 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import clsx from "clsx";
 import moment from "moment";
 import { v4 as uuid } from "uuid";
 import PerfectScrollbar from "react-perfect-scrollbar";
-import PropTypes from "prop-types";
 import {
+  Avatar,
   Box,
   Button,
   Card,
@@ -19,8 +19,13 @@ import {
   TableSortLabel,
   Tooltip,
   makeStyles,
+  TablePagination,
+  TableContainer,
 } from "@material-ui/core";
-const data = [
+import { fetchUserlist } from "../../redux";
+import { connect } from "react-redux";
+
+const datas = [
   {
     id: uuid(),
     ref: "CDD1049",
@@ -81,56 +86,133 @@ const data = [
     createdAt: 1554670800000,
     status: "delivered",
   },
+  {
+    id: uuid(),
+    ref: "CDD1044",
+    amount: 16.76,
+    customer: {
+      name: "Adam Denisov",
+    },
+    createdAt: 1554670800000,
+    status: "delivered",
+  },
+  {
+    id: uuid(),
+    ref: "CDD1044",
+    amount: 16.76,
+    customer: {
+      name: "Adam Denisov",
+    },
+    createdAt: 1554670800000,
+    status: "delivered",
+  },
 ];
 const useStyle = makeStyles(() => ({
   root: {},
   actions: {
     justifyContent: "flex-end",
   },
+  avatar: {
+    width: 45,
+    height: 45,
+  },
 }));
 
-const User = ({ className, ...rest }) => {
+const User = (props, { className, ...rest }) => {
   const classes = useStyle();
+  const [data, setData] = useState([]);
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
+  useEffect(() => {
+    fetchList()
+  },[]);
+
+  const fetchList = () => {
+    props.getUserList(page + 1).then((response) => {
+      setData(response.data.data);
+      console.log(response.data.data, "response");
+    });
+  };
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+    props.getUserList(newPage + 1).then((response) => {
+      setData(response.data.data);
+      console.log(response.data.data, "response");
+    });
+  };
+  // const handleChangeRowsPerPage = (event) => {
+  //   setRowsPerPage(parseInt(event.target.value, 10));
+  //   setPage(0);
+  // };
+
   return (
-    <Card className={clsx(classes.root, className)}
-    {...rest}>
+    <Card className={clsx(classes.root, className)} {...rest}>
       <CardHeader title="Our Users" />
       <Divider />
       <PerfectScrollbar>
-        <Box minWidth={700}>
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell>User ID</TableCell>
-                <TableCell>User Name</TableCell>
-                <TableCell sortDirection="asc">
-                  <Tooltip enterDelay={100} title="Sort">
-                    <TableSortLabel active direction="asc">
-                      User DOB
-                    </TableSortLabel>
-                  </Tooltip>
-                </TableCell>
-                <TableCell>Status </TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {data.map((order) => (
-                <TableRow hover key={order.id}>
-                  <TableCell>{order.ref}</TableCell>
-                  <TableCell>{order.customer.name}</TableCell>
-                  <TableCell>
-                    {moment(order.createdAt).format("DD/MM/YYYY")}
+        <Box minWidth={600} minHeight={400}>
+          <TableContainer>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableCell>User ID</TableCell>
+                  <TableCell>User Name</TableCell>
+                  <TableCell sortDirection="asc">
+                    <Tooltip enterDelay={100} title="Sort">
+                      <TableSortLabel active direction="asc">
+                        User DOB
+                      </TableSortLabel>
+                    </Tooltip>
                   </TableCell>
-                  <TableCell>
-                    <Chip color="primary" label={order.status} size="small" />
-                  </TableCell>
+                  <TableCell>Status </TableCell>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
+              </TableHead>
+              <TableBody>
+                {data
+                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                  .map((user, index) => (
+                    <TableRow hover key={user.id} tabIndex={-1} key={index}>
+                      <TableCell>{user.id}</TableCell>
+                      <TableCell>{user.first_name}</TableCell>
+                      <TableCell>
+                        {user.last_name}
+                        {/* {moment(user.createdAt).format("DD/MM/YYYY")} */}
+                      </TableCell>
+                      <TableCell>
+                        <Avatar className={classes.avatar} src={user.avatar} />
+                        {/* <Chip
+                          color="primary"
+                          label={user.status}
+                          size="small"
+                        /> */}
+                      </TableCell>
+                    </TableRow>
+                  ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+          <TablePagination
+            // rowsPerPageOptions={[5, 10, 25]}
+            rowsPerPageOptions={6}
+            component="div"
+            count={data.length}
+            // rowsPerPage={rowsPerPage}
+            rowsPerPage={6}
+            page={page}
+            onChangePage={handleChangePage}
+            // onChangeRowsPerPage={handleChangeRowsPerPage}
+          />
         </Box>
       </PerfectScrollbar>
     </Card>
   );
 };
-export default User;
+
+const mapStateToProps = (state) => {
+  return { userlistData: state.listRed };
+};
+const mapDispatchToProps = (dispatch) => {
+  return { getUserList: (currentPage) => dispatch(fetchUserlist(currentPage)) };
+};
+export default connect(mapStateToProps, mapDispatchToProps)(User);
+// export default User;
