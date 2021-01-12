@@ -39,9 +39,14 @@ const DashboardLayout = () => {
   const navigate = useNavigate();
   const [isMobileNavOpen, setMobileNavOpen] = useState(false);
   useEffect(() => {
-    if (!firebase.getCurrentUsername()) {
+    if (!localStorage.getItem("userToken")) {
       navigate("/");
     }
+
+    // firebase case: checking current user is logged in else navigate to login page
+    // if (!firebase.getCurrentUsername()) {
+    //   navigate("/");
+    // }
   });
   return (
     <div className={classes.root}>

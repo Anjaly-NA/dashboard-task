@@ -12,7 +12,7 @@ const initialState = {
 const loginReducer = (state = initialState, action) => {
   switch (action.type) {
     case USER_LOGIN_REQUEST:
-      return { ...state, loading: true };
+      return { ...state, loading: true, userToken: "", errorMessage: "" };
     case USER_LOGIN_SUCCESS:
       return {
         ...state,

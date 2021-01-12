@@ -102,6 +102,8 @@ const NavBar = ({ onMobileClose, openMobile }) => {
   };
   const LogOut = async () => {
     await firebase.logout();
+    // firebase case: the below statement is not required
+    localStorage.removeItem("userToken");
     navigate("/");
   };
 

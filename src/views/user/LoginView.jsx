@@ -15,7 +15,13 @@ import Page from "../../components/Page";
 import firebase from "../../firebase";
 import ModalBox from "../../components/Modal";
 import { connect } from "react-redux";
-import { loginUser } from "../../redux";
+import {
+  loginUser,
+  userLoginRequest,
+  userLoginSuccess,
+  userLoginFailure,
+} from "../../redux";
+import Loader from "../../components/Loader";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -47,32 +53,40 @@ const LoginView = (props) => {
   const [loginError, setLoginError] = useState("");
 
   useEffect(() => {
-    if (firebase.getCurrentUsername()) {
+    if (localStorage.getItem("userToken")) {
       navigate("/user/dashboard");
     }
+    // firebase case: if user is logged in ,when login page is taken navigate to the dashboard page
+    // if (firebase.getCurrentUsername()) {
+    //   navigate("/user/dashboard");
+    // }
   });
 
-  const submitLogin = async (values) => {
-    // try {
+  const submitLogin = (values) => {
+    props.userLoginRequest();
     let credentials = { email: values.email, password: values.password };
-    await props.userLogin(credentials);
-    console.log("entered",  "yok", props.loginToken);
-    //   await userLogin(credentials);
-    //   console.log(loginData, "result");
-    //   if (loginData.errorMessage !== "") {
-    //     setModal(true);
-    //     setLoginError(loginData.errorMessage);
-    //   }
-    // localStorage.setItem("userToken", loginToken);
+    props
+      .userLogin(credentials)
+      .then((resp) => {
+        props.userLoginSuccess(resp.data.token);
+        localStorage.setItem("userToken", resp.data.token);
+        navigate("/user/dashboard");
+      })
+      .catch((error) => {
+        props.userLoginFailure(error.message);
+        setModal(true);
+        setLoginError(error.message);
+      });
 
     //login using firebase
+    //     try {
     // await firebase.login(values.email, values.password);
     // navigate("/user/dashboard", { replace: true });
     // } catch (error) {
     //   setModal(true);
     //   setLoginError(loginError);
 
-    //login error message using firebase
+    // login error message using firebase
     // setLoginError(error.message);
     // }
   };
@@ -81,109 +95,113 @@ const LoginView = (props) => {
   };
 
   return (
-    <Page className={classes.root}>
-      <ModalBox modal={modal} message={loginError} closeModal={modalClose} />
-      <Box
-        display="flex"
-        flexDirection="column"
-        height="100%"
-        justifyContent="center"
-      >
-        <Container maxWidth="sm">
-          <Formik
-            initialValues={initialValues}
-            validationSchema={signInSchema}
-            onSubmit={submitLogin}
-          >
-            {(formik) => {
-              const {
-                values,
-                handleChange,
-                handleSubmit,
-                errors,
-                touched,
-                handleBlur,
-                isValid,
-                dirty,
-              } = formik;
-              return (
-                <form onSubmit={handleSubmit}>
-                  <Box mb={3}>
-                    <Typography color="textPrimary" variant="h2">
-                      Sign in
-                    </Typography>
-                    <Typography
-                      color="textSecondary"
-                      gutterBottom
-                      variant="body2"
-                    >
-                      Sign in to the application
-                    </Typography>
-                  </Box>
-                  <TextField
-                    error={Boolean(touched.email && errors.email)}
-                    fullWidth
-                    helperText={touched.email && errors.email}
-                    label="Email Address"
-                    margin="normal"
-                    name="email"
-                    onBlur={handleBlur}
-                    onChange={handleChange}
-                    type="email"
-                    value={values.email}
-                    variant="outlined"
-                  />
-                  <TextField
-                    error={Boolean(touched.password && errors.password)}
-                    fullWidth
-                    helperText={touched.password && errors.password}
-                    label="Password"
-                    margin="normal"
-                    name="password"
-                    onBlur={handleBlur}
-                    onChange={handleChange}
-                    type="password"
-                    value={values.password}
-                    variant="outlined"
-                  />
-                  <Box my={2}>
-                    <Button
-                      color="primary"
-                      disabled={!(dirty && isValid)}
+    <>
+      <Page className={classes.root}>
+        <ModalBox modal={modal} message={loginError} closeModal={modalClose} />
+        <Box
+          display="flex"
+          flexDirection="column"
+          height="100%"
+          justifyContent="center"
+        >
+          <Container maxWidth="sm">
+            {props.loginData.loading && <Loader />}
+            <Formik
+              initialValues={initialValues}
+              validationSchema={signInSchema}
+              onSubmit={submitLogin}
+            >
+              {(formik) => {
+                const {
+                  values,
+                  handleChange,
+                  handleSubmit,
+                  errors,
+                  touched,
+                  handleBlur,
+                  isValid,
+                  dirty,
+                } = formik;
+                return (
+                  <form onSubmit={handleSubmit}>
+                    <Box mb={3}>
+                      <Typography color="textPrimary" variant="h2">
+                        Sign in
+                      </Typography>
+                      <Typography
+                        color="textSecondary"
+                        gutterBottom
+                        variant="body2"
+                      >
+                        Sign in to the application
+                      </Typography>
+                    </Box>
+                    <TextField
+                      error={Boolean(touched.email && errors.email)}
                       fullWidth
-                      size="large"
-                      type="submit"
-                      variant="contained"
-                    >
-                      Sign in now
-                    </Button>
-                  </Box>
-                  <Typography color="textSecondary" variant="body1">
-                    Don&apos;t have an account?{" "}
-                    <Link component={RouterLink} to="/register" variant="h6">
-                      Sign up
-                    </Link>
-                  </Typography>
-                </form>
-              );
-            }}
-          </Formik>
-        </Container>
-      </Box>
-    </Page>
+                      helperText={touched.email && errors.email}
+                      label="Email Address"
+                      margin="normal"
+                      name="email"
+                      onBlur={handleBlur}
+                      onChange={handleChange}
+                      type="email"
+                      value={values.email}
+                      variant="outlined"
+                    />
+                    <TextField
+                      error={Boolean(touched.password && errors.password)}
+                      fullWidth
+                      helperText={touched.password && errors.password}
+                      label="Password"
+                      margin="normal"
+                      name="password"
+                      onBlur={handleBlur}
+                      onChange={handleChange}
+                      type="password"
+                      value={values.password}
+                      variant="outlined"
+                    />
+                    <Box my={2}>
+                      <Button
+                        color="primary"
+                        disabled={!(dirty && isValid)}
+                        fullWidth
+                        size="large"
+                        type="submit"
+                        variant="contained"
+                      >
+                        Sign in now
+                      </Button>
+                    </Box>
+                    <Typography color="textSecondary" variant="body1">
+                      Don&apos;t have an account?{" "}
+                      <Link component={RouterLink} to="/register" variant="h6">
+                        Sign up
+                      </Link>
+                    </Typography>
+                  </form>
+                );
+              }}
+            </Formik>
+          </Container>
+        </Box>
+      </Page>
+    </>
   );
 };
 const mapStateToProps = (state) => {
-  console.log(state.loginRed, "mapStateToProps");
   return {
     loginData: state.loginRed,
-    // loginLoading: state.loginRed.loading,
-    loginToken: state.loginRed.userToken,
-    // loginError: state.loginRed.errorMessage,
   };
 };
 const mapDispatchToProps = (dispatch) => {
-  return { userLogin: (credentials) => dispatch(loginUser(credentials)) };
+  return {
+    userLogin: (credentials) => dispatch(loginUser(credentials)),
+    userLoginSuccess: (token) => dispatch(userLoginSuccess(token)),
+    userLoginFailure: (errorMsg) => dispatch(userLoginFailure(errorMsg)),
+    userLoginRequest: () => dispatch(userLoginRequest()),
+  };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(LoginView);
 // export default LoginView;

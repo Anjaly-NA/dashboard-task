@@ -5,9 +5,9 @@ import routes from "./routes";
 import theme from "./theme";
 import GlobalStyles from "./components/GlobalStyles";
 import firebase from "./firebase";
-import { CircularProgress } from "@material-ui/core";
 import { Provider } from "react-redux";
 import store from "./redux/store";
+import Loader from "./components/Loader";
 
 const App = () => {
   const routing = useRoutes(routes);
@@ -26,7 +26,7 @@ const App = () => {
     </Provider>
   ) : (
     <div>
-      <CircularProgress />
+      <Loader />
     </div>
   );
 };
