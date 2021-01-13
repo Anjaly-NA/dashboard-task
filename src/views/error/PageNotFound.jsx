@@ -34,7 +34,7 @@ const PageNotFound = () => {
         <Typography className="text_404">404</Typography>
         <Typography className="text_lost">
           The page you are looking for <br />
-          has been lost in sTypographyace.
+          has been lost in space.
         </Typography>
       </Box>
       <Box className="window_group">
