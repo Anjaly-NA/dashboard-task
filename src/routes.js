@@ -6,6 +6,7 @@ import MainLayout from "./layouts/MainLayout";
 import DashboardLayout from "./layouts/DashboardLayout";
 import Dashboard from "./views/dashboard/index";
 import TermsConditions from "./views/user/TermsConditions";
+import PageNotFound from "./views/error/PageNotFound";
 
 const routes = [
   {
@@ -16,6 +17,8 @@ const routes = [
       { path: "login", element: <LoginView /> },
       { path: "register", element: <RegisterView /> },
       { path: "termsconditios", element: <TermsConditions /> },
+      { path: "404", element: <PageNotFound /> },
+      { path: "*", element: <Navigate to="/404" /> },
     ],
   },
   {
@@ -23,6 +26,7 @@ const routes = [
     element: <DashboardLayout />,
     children: [
       { path: "dashboard", element: <Dashboard /> },
+      { path: "*", element: <Navigate to="/404" /> },
       // { path: "register", element: <RegisterView /> },
     ],
   },
