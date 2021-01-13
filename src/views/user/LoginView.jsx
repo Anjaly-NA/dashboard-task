@@ -12,7 +12,6 @@ import {
   makeStyles,
 } from "@material-ui/core";
 import Page from "../../components/Page";
-import firebase from "../../firebase";
 import ModalBox from "../../components/Modal";
 import { connect } from "react-redux";
 import {
@@ -68,14 +67,18 @@ const LoginView = (props) => {
     props
       .userLogin(credentials)
       .then((resp) => {
-        props.userLoginSuccess(resp.data.token);
-        localStorage.setItem("userToken", resp.data.token);
-        navigate("/user/dashboard");
+        if (resp.status === 200) {
+          props.userLoginSuccess(resp.data.token);
+          localStorage.setItem("userToken", resp.data.token);
+          navigate("/user/dashboard");
+        }
       })
       .catch((error) => {
-        props.userLoginFailure(error.message);
-        setModal(true);
-        setLoginError(error.message);
+        if (error.message.includes("400")) {
+          props.userLoginFailure("User not found");
+          setModal(true);
+          setLoginError("User not found");
+        }
       });
 
     //login using firebase

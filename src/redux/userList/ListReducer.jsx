@@ -23,7 +23,7 @@ const listReducer = (state = initialState, action) => {
     case USERLIST_FETCH_SUCCESS:
       return {
         ...state,
-        loading: true,
+        loading: false,
         userList: action.payload,
         userListError: "",
         totalUser: action.number,
@@ -31,7 +31,7 @@ const listReducer = (state = initialState, action) => {
     case USERLIST_FETCH_FAILURE:
       return {
         ...state,
-        loading: true,
+        loading: false,
         userList: [],
         userListError: action.payload,
         totalUser: 0,

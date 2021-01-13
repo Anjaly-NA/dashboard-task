@@ -1,23 +1,21 @@
 import React, { useState, useEffect } from "react";
 import clsx from "clsx";
-import moment from "moment";
-import { v4 as uuid } from "uuid";
+// import moment from "moment";
+// import { v4 as uuid } from "uuid";
 import PerfectScrollbar from "react-perfect-scrollbar";
 import {
   Avatar,
   Box,
-  Button,
   Card,
   CardHeader,
-  Chip,
   Divider,
   Table,
   TableBody,
   TableCell,
   TableHead,
   TableRow,
-  TableSortLabel,
-  Tooltip,
+  // TableSortLabel,
+  // Tooltip,
   makeStyles,
   TablePagination,
   TableContainer,
@@ -29,89 +27,90 @@ import {
   fetchUserlist,
 } from "../../redux";
 import { connect } from "react-redux";
+import Loader from "../../components/Loader";
 
-const datas = [
-  {
-    id: uuid(),
-    ref: "CDD1049",
-    amount: 30.5,
-    customer: {
-      name: "Ekaterina Tankova",
-    },
-    createdAt: 1555016400000,
-    status: "pending",
-  },
-  {
-    id: uuid(),
-    ref: "CDD1048",
-    amount: 25.1,
-    customer: {
-      name: "Cao Yu",
-    },
-    createdAt: 1555016400000,
-    status: "delivered",
-  },
-  {
-    id: uuid(),
-    ref: "CDD1047",
-    amount: 10.99,
-    customer: {
-      name: "Alexa Richardson",
-    },
-    createdAt: 1554930000000,
-    status: "refunded",
-  },
-  {
-    id: uuid(),
-    ref: "CDD1046",
-    amount: 96.43,
-    customer: {
-      name: "Anje Keizer",
-    },
-    createdAt: 1554757200000,
-    status: "pending",
-  },
-  {
-    id: uuid(),
-    ref: "CDD1045",
-    amount: 32.54,
-    customer: {
-      name: "Clarke Gillebert",
-    },
-    createdAt: 1554670800000,
-    status: "delivered",
-  },
-  {
-    id: uuid(),
-    ref: "CDD1044",
-    amount: 16.76,
-    customer: {
-      name: "Adam Denisov",
-    },
-    createdAt: 1554670800000,
-    status: "delivered",
-  },
-  {
-    id: uuid(),
-    ref: "CDD1044",
-    amount: 16.76,
-    customer: {
-      name: "Adam Denisov",
-    },
-    createdAt: 1554670800000,
-    status: "delivered",
-  },
-  {
-    id: uuid(),
-    ref: "CDD1044",
-    amount: 16.76,
-    customer: {
-      name: "Adam Denisov",
-    },
-    createdAt: 1554670800000,
-    status: "delivered",
-  },
-];
+// const datas = [
+//   {
+//     id: uuid(),
+//     ref: "CDD1049",
+//     amount: 30.5,
+//     customer: {
+//       name: "Ekaterina Tankova",
+//     },
+//     createdAt: 1555016400000,
+//     status: "pending",
+//   },
+//   {
+//     id: uuid(),
+//     ref: "CDD1048",
+//     amount: 25.1,
+//     customer: {
+//       name: "Cao Yu",
+//     },
+//     createdAt: 1555016400000,
+//     status: "delivered",
+//   },
+//   {
+//     id: uuid(),
+//     ref: "CDD1047",
+//     amount: 10.99,
+//     customer: {
+//       name: "Alexa Richardson",
+//     },
+//     createdAt: 1554930000000,
+//     status: "refunded",
+//   },
+//   {
+//     id: uuid(),
+//     ref: "CDD1046",
+//     amount: 96.43,
+//     customer: {
+//       name: "Anje Keizer",
+//     },
+//     createdAt: 1554757200000,
+//     status: "pending",
+//   },
+//   {
+//     id: uuid(),
+//     ref: "CDD1045",
+//     amount: 32.54,
+//     customer: {
+//       name: "Clarke Gillebert",
+//     },
+//     createdAt: 1554670800000,
+//     status: "delivered",
+//   },
+//   {
+//     id: uuid(),
+//     ref: "CDD1044",
+//     amount: 16.76,
+//     customer: {
+//       name: "Adam Denisov",
+//     },
+//     createdAt: 1554670800000,
+//     status: "delivered",
+//   },
+//   {
+//     id: uuid(),
+//     ref: "CDD1044",
+//     amount: 16.76,
+//     customer: {
+//       name: "Adam Denisov",
+//     },
+//     createdAt: 1554670800000,
+//     status: "delivered",
+//   },
+//   {
+//     id: uuid(),
+//     ref: "CDD1044",
+//     amount: 16.76,
+//     customer: {
+//       name: "Adam Denisov",
+//     },
+//     createdAt: 1554670800000,
+//     status: "delivered",
+//   },
+// ];
 const useStyle = makeStyles(() => ({
   root: {},
   actions: {
@@ -121,17 +120,24 @@ const useStyle = makeStyles(() => ({
     width: 45,
     height: 45,
   },
+  box: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+  },
 }));
 
 const User = (props, { className, ...rest }) => {
   const classes = useStyle();
   const [page, setPage] = useState(0);
   // const [rowsPerPage, setRowsPerPage] = useState(5);
-  useEffect(() => {
-    fetchList();
-  }, []);
 
-  const fetchList = () => {
+  useEffect(() => {
+    fetchList(page);
+  }, [page]);
+
+  const fetchList = (page) => {
+    setPage(page);
     props.userlistFetchRequest();
     props
       .getUserList(page + 1)
@@ -139,19 +145,21 @@ const User = (props, { className, ...rest }) => {
         props.userlistFetchSuccess(response.data.data, response.data.total);
       })
       .catch((error) => {
-        console.log(error.message);
+        props.userlistFetchFailure(error.message);
       });
   };
+
   const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-    props
-      .getUserList(newPage + 1)
-      .then((response) => {
-        props.userlistFetchSuccess(response.data.data, response.data.total);
-      })
-      .catch((error) => {
-        console.log(error.message);
-      });
+    fetchList(newPage);
+    // setPage(newPage);
+    // props
+    //   .getUserList(newPage + 1)
+    //   .then((response) => {
+    //     props.userlistFetchSuccess(response.data.data, response.data.total);
+    //   })
+    //   .catch((error) => {
+    //     console.log(error.message);
+    //   });
   };
   // const handleChangeRowsPerPage = (event) => {
   //   setRowsPerPage(parseInt(event.target.value, 10));
@@ -164,6 +172,7 @@ const User = (props, { className, ...rest }) => {
       <Divider />
       <PerfectScrollbar>
         <Box minWidth={600} minHeight={400}>
+          {props.loading && <Loader />}
           <TableContainer>
             <Table>
               <TableHead>
@@ -171,20 +180,20 @@ const User = (props, { className, ...rest }) => {
                   <TableCell>User ID</TableCell>
                   <TableCell>First Name</TableCell>
                   <TableCell sortDirection="asc">
-                    <Tooltip enterDelay={100} title="Sort">
-                      <TableSortLabel active direction="asc">
-                        Second Name
-                      </TableSortLabel>
-                    </Tooltip>
+                    {/* <Tooltip enterDelay={100} title="Sort">
+                      <TableSortLabel active direction="asc"> */}
+                    Second Name
+                    {/* </TableSortLabel>
+                    </Tooltip> */}
                   </TableCell>
-                  <TableCell>Status </TableCell>
+                  <TableCell>Photo </TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
                 {props.userlistData
                   // .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                  .map((user, index) => (
-                    <TableRow hover key={user.id} tabIndex={-1} key={index}>
+                  .map((user) => (
+                    <TableRow hover key={user.id} tabIndex={-1}>
                       <TableCell>{user.id}</TableCell>
                       <TableCell>{user.first_name}</TableCell>
                       <TableCell>
@@ -225,6 +234,7 @@ const mapStateToProps = (state) => {
   return {
     userlistData: state.listRed.userList,
     totalUser: state.listRed.totalUser,
+    loading: state.listRed.loading,
   };
 };
 const mapDispatchToProps = (dispatch) => {

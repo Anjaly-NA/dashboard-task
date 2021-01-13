@@ -10,3 +10,9 @@ export {
   userlistFetchFailure,
   fetchUserlist,
 } from "./userList/ListAction";
+export {
+  userRegisterRequest,
+  userRegisterSuccess,
+  userRegisterFailure,
+  userRegister,
+} from "./userRegistration/RegisterAction";

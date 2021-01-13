@@ -3,7 +3,7 @@ import { Outlet, useNavigate } from "react-router-dom";
 import { makeStyles } from "@material-ui/core";
 import NavBar from "./NavBar/index";
 import TopBar from "./TopBar";
-import firebase from "../../firebase";
+// import firebase from "../../firebase";
 
 const useStyles = makeStyles((theme) => ({
   root: {
