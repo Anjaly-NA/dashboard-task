@@ -16,6 +16,7 @@ export const userlistFetchFailure = (userListError) => {
 };
 export const fetchUserlist = (page) => {
   return (dispatch) => {
-    return axios.get("https://reqres.in/api/users?page=" + page);
+    return axios.get(`https://reqres.in/api/users?page=${page}`);
+    // return axios.get("https://reqres.in/api/users?page=" + page);
   };
 };
