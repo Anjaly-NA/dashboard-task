@@ -8,17 +8,16 @@ import axios from "axios";
 export const designListRequest = () => {
   return { type: DESIGN_LIST_REQUEST };
 };
-export const designListSuccess = (designList, countDesign) => {
+export const designListSuccess = (designList) => {
   return {
     type: DESIGN_LIST_SUCCESS,
     payload: designList,
-    number: countDesign,
   };
 };
-export const designListFailure = (designError) => {
-  return { type: DESIGN_LIST_FAILURE, payload: designError };
+export const designListFailure = (designListError) => {
+  return { type: DESIGN_LIST_FAILURE, payload: designListError };
 };
-export const designListFetch = (page = 1) => {
+export const designListFetch = () => {
   return () => {
     return axios.get("https://reqres.in/api/unknown");
   };

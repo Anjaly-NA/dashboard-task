@@ -8,7 +8,6 @@ const initialState = {
   loading: false,
   designList: [],
   designListError: "",
-  totalDesign: 0,
 };
 
 const designReducer = (state = initialState, action) => {
@@ -18,21 +17,18 @@ const designReducer = (state = initialState, action) => {
         loading: true,
         designList: [],
         designListError: "",
-        totalDesign: 0,
       };
     case DESIGN_LIST_SUCCESS:
       return {
         loading: false,
         designList: action.payload,
         designListError: "",
-        totalDesign: action.number,
       };
     case DESIGN_LIST_FAILURE:
       return {
         loading: false,
         designList: [],
         designListError: action.payload,
-        totalDesign: 0,
       };
     default:
       return state;

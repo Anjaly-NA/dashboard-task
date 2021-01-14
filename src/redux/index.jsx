@@ -22,3 +22,8 @@ export {
   designListFailure,
   designListFetch,
 } from "./designList/designListAction";
+export {
+  designSingleSuccess,
+  designSingleFailure,
+  designSingleFetch
+} from "./design/designAction";
