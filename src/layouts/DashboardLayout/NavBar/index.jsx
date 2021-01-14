@@ -30,40 +30,10 @@ const items = [
     title: "Dashboard",
   },
   {
-    href: "/user/customers",
+    href: "/user/customer",
     icon: UsersIcon,
     title: "Customers",
   },
-  // {
-  //   href: "/app/products",
-  //   icon: ShoppingBagIcon,
-  //   title: "Products",
-  // },
-  // {
-  //   href: "/app/account",
-  //   icon: UserIcon,
-  //   title: "Account",
-  // },
-  // {
-  //   href: "/app/settings",
-  //   icon: SettingsIcon,
-  //   title: "Settings",
-  // },
-  // {
-  //   href: "/login",
-  //   icon: LockIcon,
-  //   title: "Login",
-  // },
-  // {
-  //   href: "/register",
-  //   icon: UserPlusIcon,
-  //   title: "Register",
-  // },
-  // {
-  //   href: "/404",
-  //   icon: AlertCircleIcon,
-  //   title: "Error",
-  // },
 ];
 
 const useStyles = makeStyles(() => ({
@@ -112,9 +82,9 @@ const NavBar = ({ onMobileClose, openMobile }) => {
       <Box alignItems="center" display="flex" flexDirection="column" p={2}>
         <Avatar
           className={classes.avatar}
-          component={RouterLink}
+          // component={RouterLink}
           src={user.avatar}
-          to="/app/account"
+          // to="/app/account"
         />
         <Typography className={classes.name} color="textPrimary" variant="h5">
           {firebase.getCurrentUsername()}

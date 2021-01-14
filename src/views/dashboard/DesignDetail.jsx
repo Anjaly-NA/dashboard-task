@@ -1,8 +1,6 @@
 import React, { useEffect } from "react";
 import clsx from "clsx";
-import moment from "moment";
 import {
-  Avatar,
   Box,
   Card,
   CardContent,
@@ -16,15 +14,6 @@ import {
 } from "../../redux";
 import { connect } from "react-redux";
 import { capitalizeFirstLetter } from "../../utils/capitalizeFirstLetter";
-
-const user = {
-  avatar: "/static/images/avatars/avatar_6.png",
-  city: "Los Angeles",
-  country: "USA",
-  jobTitle: "Senior Developer",
-  name: "Katarina Smith",
-  timezone: "GTM-7",
-};
 
 const useStyles = makeStyles(() => ({
   root: {},

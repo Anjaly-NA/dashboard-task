@@ -125,6 +125,9 @@ const useStyle = makeStyles(() => ({
     alignItems: "center",
     justifyContent: "center",
   },
+  table: {
+    minWidth: 700,
+  },
 }));
 
 const User = (props, { className, ...rest }) => {
@@ -171,10 +174,10 @@ const User = (props, { className, ...rest }) => {
       <CardHeader title="Our Users" />
       <Divider />
       <PerfectScrollbar>
-        <Box minWidth={600} minHeight={400}>
+        <Box minHeight={400}>
           {props.loading && <Loader />}
           <TableContainer>
-            <Table>
+            <Table className={classes.table}>
               <TableHead>
                 <TableRow>
                   <TableCell>User ID</TableCell>
