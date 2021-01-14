@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link as RouterLink, useNavigate } from "react-router-dom";
+import { Link as RouterLink } from "react-router-dom";
 import * as Yup from "yup";
 import { Formik } from "formik";
 import {
@@ -58,7 +58,6 @@ const initialValues = {
 
 const RegisterView = (props) => {
   const classes = useStyles();
-  const navigate = useNavigate();
   const [modal, setModal] = useState(false);
   const [registerMessage, setRegisterMessage] = useState("");
 
