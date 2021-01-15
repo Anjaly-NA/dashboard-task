@@ -22,6 +22,9 @@ const useStyle = makeStyles((theme) => ({
     top: theme.spacing(1),
     color: theme.palette.grey[500],
   },
+  content: {
+    padding: theme.spacing(2),
+  },
 }));
 
 const DialogBox = (props) => {
@@ -45,7 +48,10 @@ const DialogBox = (props) => {
             </IconButton>
           ) : null}
         </MuiDialogTitle>
-        <MuiDialogContent> user details</MuiDialogContent>
+        <MuiDialogContent className={classes.content}>
+          {" "}
+          user details
+        </MuiDialogContent>
       </Dialog>
     </div>
   );
