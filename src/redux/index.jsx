@@ -33,3 +33,9 @@ export {
   addCustomerFailure,
   addCustomer,
 } from "./addCustomer/addCustomerAction";
+export {
+  userDetailRequest,
+  userDetailSuccess,
+  userDetailFailure,
+  userDetailFetch,
+} from "./userDetail/userDetailAction";

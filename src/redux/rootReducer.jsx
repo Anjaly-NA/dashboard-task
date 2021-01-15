@@ -5,6 +5,8 @@ import registerReducer from "./userRegistration/RegisterReducer";
 import designReducer from "./designList/designListReducer";
 import designSingleReducer from "./design/designReducer";
 import addCustomerReducer from "./addCustomer/addCustomerReducer";
+import userDetailReducer from "./userDetail/userDetailReducer";
+
 const rootReducer = combineReducers({
   loginRed: loginReducer,
   listRed: listReducer,
@@ -12,5 +14,6 @@ const rootReducer = combineReducers({
   designRed: designReducer,
   designSingleRed: designSingleReducer,
   addCustomerRed: addCustomerReducer,
+  userDetailRed: userDetailReducer,
 });
 export default rootReducer;

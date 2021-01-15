@@ -19,15 +19,21 @@ import {
   makeStyles,
   TablePagination,
   TableContainer,
+  Button,
 } from "@material-ui/core";
 import {
   userlistFetchRequest,
   userlistFetchSuccess,
   userlistFetchFailure,
   fetchUserlist,
+  userDetailRequest,
+  userDetailSuccess,
+  userDetailFailure,
+  userDetailFetch,
 } from "../../redux";
 import { connect } from "react-redux";
 import Loader from "../../components/Loader";
+import DialogBox from "../../components/DialogBox";
 
 // const datas = [
 //   {
@@ -133,6 +139,11 @@ const useStyle = makeStyles(() => ({
 const User = (props, { className, ...rest }) => {
   const classes = useStyle();
   const [page, setPage] = useState(0);
+  const [openDialogue, setOpenDialogue] = useState(false);
+
+  const handleClose = () => {
+    setOpenDialogue(false);
+  };
   // const [rowsPerPage, setRowsPerPage] = useState(5);
 
   useEffect(() => {
@@ -160,67 +171,91 @@ const User = (props, { className, ...rest }) => {
   //   setPage(0);
   // };
 
+  const handleRowClick = (event, userId) => {
+    props.userDetailRequest();
+    props
+      .userDetailFetch(userId)
+      .then((response) => {
+        props.userDetailSuccess(response.data);
+        setOpenDialogue(true);
+      })
+      .catch((error) => {
+        props.userDetailFailure(error.message);
+      });
+  };
+
   return (
-    <Card className={clsx(classes.root, className)} {...rest}>
-      <CardHeader title="Our Users" />
-      <Divider />
-      <PerfectScrollbar>
-        <Box minHeight={400}>
-          {props.loading && <Loader />}
-          <TableContainer>
-            <Table className={classes.table}>
-              <TableHead>
-                <TableRow>
-                  <TableCell>User ID</TableCell>
-                  <TableCell>First Name</TableCell>
-                  <TableCell sortDirection="asc">
-                    {/* <Tooltip enterDelay={100} title="Sort">
+    <>
+      <DialogBox handleClose={handleClose} open={openDialogue} />
+      <Card className={clsx(classes.root, className)} {...rest}>
+        <CardHeader title="Our Users" />
+        <Divider />
+        <PerfectScrollbar>
+          <Box minHeight={400}>
+            {props.loading && <Loader />}
+            <TableContainer>
+              <Table className={classes.table}>
+                <TableHead>
+                  <TableRow>
+                    <TableCell>User ID</TableCell>
+                    <TableCell>First Name</TableCell>
+                    <TableCell sortDirection="asc">
+                      {/* <Tooltip enterDelay={100} title="Sort">
                       <TableSortLabel active direction="asc"> */}
-                    Second Name
-                    {/* </TableSortLabel>
+                      Second Name
+                      {/* </TableSortLabel>
                     </Tooltip> */}
-                  </TableCell>
-                  <TableCell>Photo </TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {props.userlistData
-                  // .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                  .map((user) => (
-                    <TableRow hover key={user.id} tabIndex={-1}>
-                      <TableCell>{user.id}</TableCell>
-                      <TableCell>{user.first_name}</TableCell>
-                      <TableCell>
-                        {user.last_name}
-                        {/* {moment(user.createdAt).format("DD/MM/YYYY")} */}
-                      </TableCell>
-                      <TableCell>
-                        <Avatar className={classes.avatar} src={user.avatar} />
-                        {/* <Chip
+                    </TableCell>
+                    <TableCell>Photo </TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {props.userlistData
+                    // .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                    .map((user) => (
+                      <TableRow
+                        hover
+                        key={user.id}
+                        tabIndex={-1}
+                        onClick={(event) => handleRowClick(event, user.id)}
+                      >
+                        <TableCell>{user.id}</TableCell>
+                        <TableCell>{user.first_name}</TableCell>
+                        <TableCell>
+                          {user.last_name}
+                          {/* {moment(user.createdAt).format("DD/MM/YYYY")} */}
+                        </TableCell>
+                        <TableCell>
+                          <Avatar
+                            className={classes.avatar}
+                            src={user.avatar}
+                          />
+                          {/* <Chip
                           color="primary"
                           label={user.status}
                           size="small"
                         /> */}
-                      </TableCell>
-                    </TableRow>
-                  ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
-          <TablePagination
-            // rowsPerPageOptions={[5, 10, 25]}
-            rowsPerPageOptions={6}
-            component="div"
-            count={props.totalUser}
-            // rowsPerPage={rowsPerPage}
-            rowsPerPage={6}
-            page={page}
-            onChangePage={handleChangePage}
-            // onChangeRowsPerPage={handleChangeRowsPerPage}
-          />
-        </Box>
-      </PerfectScrollbar>
-    </Card>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+            <TablePagination
+              // rowsPerPageOptions={[5, 10, 25]}
+              rowsPerPageOptions={6}
+              component="div"
+              count={props.totalUser}
+              // rowsPerPage={rowsPerPage}
+              rowsPerPage={6}
+              page={page}
+              onChangePage={handleChangePage}
+              // onChangeRowsPerPage={handleChangeRowsPerPage}
+            />
+          </Box>
+        </PerfectScrollbar>
+      </Card>
+    </>
   );
 };
 
@@ -229,6 +264,7 @@ const mapStateToProps = (state) => {
     userlistData: state.listRed.userList,
     totalUser: state.listRed.totalUser,
     loading: state.listRed.loading,
+    userDetailData: state.userDetailRed,
   };
 };
 const mapDispatchToProps = (dispatch) => {
@@ -238,6 +274,12 @@ const mapDispatchToProps = (dispatch) => {
     userlistFetchSuccess: (userList, totalUser) =>
       dispatch(userlistFetchSuccess(userList, totalUser)),
     userlistFetchFailure: (error) => dispatch(userlistFetchFailure(error)),
+
+    userDetailRequest: () => dispatch(userDetailRequest()),
+    userDetailFetch: (userId) => dispatch(userDetailFetch(userId)),
+    userDetailSuccess: (userData) => dispatch(userDetailSuccess(userData)),
+    userDetailFailure: (errorMessage) =>
+      dispatch(userDetailFailure(errorMessage)),
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(User);
