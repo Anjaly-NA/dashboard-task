@@ -74,10 +74,12 @@ const CustomerForm = (props, { className, ...rest }) => {
     props
       .addCustomer(body)
       .then((response) => {
-        props.addCustomerSuccess(response.data.data);
+        props.addCustomerSuccess(response.data);
         resetForm.resetForm();
         setModal(true);
-        setAddCustomerMessage("Added Customer Successfully");
+        setAddCustomerMessage(
+          `Added Customer : ${response.data.name} with job ${response.data.job} Successfully`
+        );
       })
       .catch((error) => {
         props.addCustomerFailure(error.message);

@@ -15,7 +15,6 @@ export const addCustomerFailure = (addCustomerError) => {
   return { type: ADD_CUSTOMER_FAILURE, payload: addCustomerError };
 };
 export const addCustomer = (customerData) => {
-    console.log(customerData,'customerData')
   return () => {
     return axios.post("https://reqres.in/api/users/", customerData);
   };
