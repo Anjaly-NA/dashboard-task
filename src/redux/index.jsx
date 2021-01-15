@@ -25,5 +25,11 @@ export {
 export {
   designSingleSuccess,
   designSingleFailure,
-  designSingleFetch
+  designSingleFetch,
 } from "./design/designAction";
+export {
+  addCustomerRequest,
+  addCustomerSuccess,
+  addCustomerFailure,
+  addCustomer,
+} from "./addCustomer/addCustomerAction";

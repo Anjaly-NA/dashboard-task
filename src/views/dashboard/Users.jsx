@@ -154,15 +154,6 @@ const User = (props, { className, ...rest }) => {
 
   const handleChangePage = (event, newPage) => {
     fetchList(newPage);
-    // setPage(newPage);
-    // props
-    //   .getUserList(newPage + 1)
-    //   .then((response) => {
-    //     props.userlistFetchSuccess(response.data.data, response.data.total);
-    //   })
-    //   .catch((error) => {
-    //     console.log(error.message);
-    //   });
   };
   // const handleChangeRowsPerPage = (event) => {
   //   setRowsPerPage(parseInt(event.target.value, 10));
