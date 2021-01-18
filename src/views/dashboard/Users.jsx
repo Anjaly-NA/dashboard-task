@@ -36,6 +36,7 @@ import { connect } from "react-redux";
 import Loader from "../../components/Loader";
 import DialogBox from "../../components/DialogBox";
 import DeleteRoundedIcon from "@material-ui/icons/DeleteRounded";
+import EditRoundedIcon from "@material-ui/icons/EditRounded";
 import axios from "axios";
 import ModalBox from "../../components/Modal";
 
@@ -61,6 +62,9 @@ const useStyle = makeStyles((theme) => ({
   },
   deleteIcon: {
     color: theme.palette.primary.color1,
+  },
+  editIcon: {
+    color: theme.palette.primary.color2,
   },
   image: {
     width: theme.spacing(20),
@@ -217,6 +221,7 @@ const User = (props, { className, ...rest }) => {
                     </TableCell>
                     <TableCell>Photo </TableCell>
                     <TableCell>Delete </TableCell>
+                    <TableCell>Edit </TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -263,6 +268,9 @@ const User = (props, { className, ...rest }) => {
                             className={classes.deleteIcon}
                             onClick={() => deleteUser(user.id)}
                           />
+                        </TableCell>
+                        <TableCell className={classes.deleteIcon}>
+                          <EditRoundedIcon className={classes.editIcon} />
                         </TableCell>
                       </TableRow>
                     ))}
