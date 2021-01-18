@@ -8,6 +8,7 @@ const initialState = {
   loading: false,
   userDetail: {},
   userDetailError: "",
+  userSupport: {},
 };
 
 const userDetailReducer = (state = initialState, action) => {
@@ -17,18 +18,21 @@ const userDetailReducer = (state = initialState, action) => {
         loading: true,
         userDetail: {},
         userDetailError: "",
+        userSupport: {},
       };
     case USER_DETAIL_SUCCESS:
       return {
         loading: false,
         userDetail: action.payload,
         userDetailError: "",
+        userSupport: action.support,
       };
     case USER_DETAIL_FAILURE:
       return {
         loading: false,
         userDetail: {},
         userDetailError: action.payload,
+        userSupport: {},
       };
     default:
       return state;

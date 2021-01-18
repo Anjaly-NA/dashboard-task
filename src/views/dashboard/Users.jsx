@@ -19,7 +19,6 @@ import {
   makeStyles,
   TablePagination,
   TableContainer,
-  Button,
 } from "@material-ui/core";
 import {
   userlistFetchRequest,
@@ -176,7 +175,7 @@ const User = (props, { className, ...rest }) => {
     props
       .userDetailFetch(userId)
       .then((response) => {
-        props.userDetailSuccess(response.data);
+        props.userDetailSuccess(response.data.data, response.data.support);
         setOpenDialogue(true);
       })
       .catch((error) => {
@@ -186,7 +185,11 @@ const User = (props, { className, ...rest }) => {
 
   return (
     <>
-      <DialogBox handleClose={handleClose} open={openDialogue} />
+      <DialogBox
+        handleClose={handleClose}
+        open={openDialogue}
+        userDetailData={props.userDetailData}
+      />
       <Card className={clsx(classes.root, className)} {...rest}>
         <CardHeader title="Our Users" />
         <Divider />
@@ -277,7 +280,8 @@ const mapDispatchToProps = (dispatch) => {
 
     userDetailRequest: () => dispatch(userDetailRequest()),
     userDetailFetch: (userId) => dispatch(userDetailFetch(userId)),
-    userDetailSuccess: (userData) => dispatch(userDetailSuccess(userData)),
+    userDetailSuccess: (userData, userSupport) =>
+      dispatch(userDetailSuccess(userData, userSupport)),
     userDetailFailure: (errorMessage) =>
       dispatch(userDetailFailure(errorMessage)),
   };
