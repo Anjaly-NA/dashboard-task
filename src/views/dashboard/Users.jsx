@@ -19,6 +19,8 @@ import {
   makeStyles,
   TablePagination,
   TableContainer,
+  Typography,
+  Link,
 } from "@material-ui/core";
 import {
   userlistFetchRequest,
@@ -33,8 +35,11 @@ import {
 import { connect } from "react-redux";
 import Loader from "../../components/Loader";
 import DialogBox from "../../components/DialogBox";
+import DeleteRoundedIcon from "@material-ui/icons/DeleteRounded";
+import axios from "axios";
+import ModalBox from "../../components/Modal";
 
-const useStyle = makeStyles(() => ({
+const useStyle = makeStyles((theme) => ({
   root: {},
   actions: {
     justifyContent: "flex-end",
@@ -51,15 +56,27 @@ const useStyle = makeStyles(() => ({
   table: {
     minWidth: 700,
   },
-  tablerow:{
-    cursor:'pointer'
-  }
+  tablerow: {
+    cursor: "pointer",
+  },
+  deleteIcon: {
+    color: theme.palette.primary.color1,
+  },
+  image: {
+    width: theme.spacing(20),
+    height: theme.spacing(20),
+  },
+  label: {
+    color: theme.palette.primary.main,
+  },
 }));
 
 const User = (props, { className, ...rest }) => {
   const classes = useStyle();
   const [page, setPage] = useState(0);
   const [openDialogue, setOpenDialogue] = useState(false);
+  const [modal, setModal] = useState(false);
+  const [message, setMessage] = useState("");
 
   const handleClose = () => {
     setOpenDialogue(false);
@@ -103,15 +120,83 @@ const User = (props, { className, ...rest }) => {
         props.userDetailFailure(error.message);
       });
   };
+  const deleteUser = (userId) => {
+    axios
+      .delete(`https://reqres.in/api/users/${userId}`)
+      .then((response) => {
+        if (response.status === 204) {
+          setModal(true);
+          setMessage("Successfully deleted user");
+        }
+      })
+      .catch((error) => {
+        setModal(true);
+        setMessage("Something went wrong while deleting user");
+      });
+  };
+  const closeModal = () => {
+    setModal(false);
+  };
+
+  const ContentSection = () => {
+    return (
+      <>
+        <Typography gutterBottom>
+          <Box component="span" className={classes.label}>
+            Name :{" "}
+          </Box>
+          {props.userDetailData.userDetail.first_name}{" "}
+          {props.userDetailData.userDetail.last_name}
+        </Typography>
+        <Typography gutterBottom>
+          <Box component="span" className={classes.label}>
+            {" "}
+            Email :{" "}
+          </Box>
+          {props.userDetailData.userDetail.email}
+        </Typography>
+        <Box component="div" mx="auto" className={classes.box}>
+          <Avatar
+            alt="Remy Sharp"
+            src={props.userDetailData.userDetail.avatar}
+            className={classes.image}
+          />
+        </Box>
+      </>
+    );
+  };
+  const ActionSection = () => {
+    return (
+      <>
+        <Typography gutterBottom>
+          For more details :{" "}
+          <Link
+            href={props.userDetailData.userSupport.url}
+            target="_blank"
+            color="textSecondary"
+          >
+            {props.userDetailData.userSupport.url}
+          </Link>
+        </Typography>
+        <Typography gutterBottom variant="caption" color="primary">
+          {props.userDetailData.userSupport.text}
+        </Typography>
+      </>
+    );
+  };
 
   return (
     <>
+      <ModalBox message={message} modal={modal} closeModal={closeModal} />
       <DialogBox
         handleClose={handleClose}
         open={openDialogue}
         userDetailData={props.userDetailData}
-      />
-      <Card className={clsx(classes.root, className)} {...rest}>
+        dialogHead="User Details"
+        content={<ContentSection />}
+        actionsec={<ActionSection />}
+      ></DialogBox>
+      <Card className={clsx(className)} {...rest}>
         <CardHeader title="Our Users" />
         <Divider />
         <PerfectScrollbar>
@@ -131,6 +216,7 @@ const User = (props, { className, ...rest }) => {
                     </Tooltip> */}
                     </TableCell>
                     <TableCell>Photo </TableCell>
+                    <TableCell>Delete </TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -141,16 +227,27 @@ const User = (props, { className, ...rest }) => {
                         hover
                         key={user.id}
                         tabIndex={-1}
-                        onClick={(event) => handleRowClick(event, user.id)}
                         className={classes.tablerow}
                       >
-                        <TableCell>{user.id}</TableCell>
-                        <TableCell>{user.first_name}</TableCell>
-                        <TableCell>
+                        <TableCell
+                          onClick={(event) => handleRowClick(event, user.id)}
+                        >
+                          {user.id}
+                        </TableCell>
+                        <TableCell
+                          onClick={(event) => handleRowClick(event, user.id)}
+                        >
+                          {user.first_name}
+                        </TableCell>
+                        <TableCell
+                          onClick={(event) => handleRowClick(event, user.id)}
+                        >
                           {user.last_name}
                           {/* {moment(user.createdAt).format("DD/MM/YYYY")} */}
                         </TableCell>
-                        <TableCell>
+                        <TableCell
+                          onClick={(event) => handleRowClick(event, user.id)}
+                        >
                           <Avatar
                             className={classes.avatar}
                             src={user.avatar}
@@ -160,6 +257,12 @@ const User = (props, { className, ...rest }) => {
                           label={user.status}
                           size="small"
                         /> */}
+                        </TableCell>
+                        <TableCell>
+                          <DeleteRoundedIcon
+                            className={classes.deleteIcon}
+                            onClick={() => deleteUser(user.id)}
+                          />
                         </TableCell>
                       </TableRow>
                     ))}
