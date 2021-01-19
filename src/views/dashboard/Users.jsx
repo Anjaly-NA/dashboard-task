@@ -36,9 +36,9 @@ import { connect } from "react-redux";
 import Loader from "../../components/Loader";
 import DialogBox from "../../components/DialogBox";
 import DeleteRoundedIcon from "@material-ui/icons/DeleteRounded";
-import EditRoundedIcon from "@material-ui/icons/EditRounded";
 import axios from "axios";
 import ModalBox from "../../components/Modal";
+import { setModal, unsetModal } from "../../redux/common/modal/modalAction";
 
 const useStyle = makeStyles((theme) => ({
   root: {},
@@ -73,14 +73,16 @@ const useStyle = makeStyles((theme) => ({
   label: {
     color: theme.palette.primary.main,
   },
+  container: {
+    position: "relative",
+  },
 }));
 
 const User = (props, { className, ...rest }) => {
   const classes = useStyle();
   const [page, setPage] = useState(0);
   const [openDialogue, setOpenDialogue] = useState(false);
-  const [modal, setModal] = useState(false);
-  const [message, setMessage] = useState("");
+  const [loader, setLoader] = useState(false);
 
   const handleClose = () => {
     setOpenDialogue(false);
@@ -125,21 +127,22 @@ const User = (props, { className, ...rest }) => {
       });
   };
   const deleteUser = (userId) => {
+    setLoader(true);
     axios
       .delete(`https://reqres.in/api/users/${userId}`)
       .then((response) => {
         if (response.status === 204) {
-          setModal(true);
-          setMessage("Successfully deleted user");
+          props.setModal("Successfully deleted user");
+          setLoader(false);
         }
       })
       .catch((error) => {
-        setModal(true);
-        setMessage("Something went wrong while deleting user");
+        props.setModal("Something went wrong while deleting user");
+        setLoader(false);
       });
   };
   const closeModal = () => {
-    setModal(false);
+    props.unsetModal();
   };
 
   const ContentSection = () => {
@@ -191,7 +194,11 @@ const User = (props, { className, ...rest }) => {
 
   return (
     <>
-      <ModalBox message={message} modal={modal} closeModal={closeModal} />
+      <ModalBox
+        message={props.modalData.modalMessage}
+        modal={props.modalData.openModal}
+        closeModal={closeModal}
+      />
       <DialogBox
         handleClose={handleClose}
         open={openDialogue}
@@ -204,8 +211,8 @@ const User = (props, { className, ...rest }) => {
         <CardHeader title="Our Users" />
         <Divider />
         <PerfectScrollbar>
-          <Box minHeight={400}>
-            {props.loading && <Loader />}
+          <Box height={500} className={classes.container} overflow="scroll">
+            {(loader || props.loading) && <Loader />}
             <TableContainer>
               <Table className={classes.table}>
                 <TableHead>
@@ -221,59 +228,56 @@ const User = (props, { className, ...rest }) => {
                     </TableCell>
                     <TableCell>Photo </TableCell>
                     <TableCell>Delete </TableCell>
-                    <TableCell>Edit </TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {props.userlistData
-                    // .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                    .map((user) => (
-                      <TableRow
-                        hover
-                        key={user.id}
-                        tabIndex={-1}
-                        className={classes.tablerow}
-                      >
-                        <TableCell
-                          onClick={(event) => handleRowClick(event, user.id)}
+                  {props.userlistData &&
+                    props.userlistData
+                      // .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                      .map((user) => (
+                        <TableRow
+                          hover
+                          key={user.id}
+                          tabIndex={-1}
+                          className={classes.tablerow}
                         >
-                          {user.id}
-                        </TableCell>
-                        <TableCell
-                          onClick={(event) => handleRowClick(event, user.id)}
-                        >
-                          {user.first_name}
-                        </TableCell>
-                        <TableCell
-                          onClick={(event) => handleRowClick(event, user.id)}
-                        >
-                          {user.last_name}
-                          {/* {moment(user.createdAt).format("DD/MM/YYYY")} */}
-                        </TableCell>
-                        <TableCell
-                          onClick={(event) => handleRowClick(event, user.id)}
-                        >
-                          <Avatar
-                            className={classes.avatar}
-                            src={user.avatar}
-                          />
-                          {/* <Chip
+                          <TableCell
+                            onClick={(event) => handleRowClick(event, user.id)}
+                          >
+                            {user.id}
+                          </TableCell>
+                          <TableCell
+                            onClick={(event) => handleRowClick(event, user.id)}
+                          >
+                            {user.first_name}
+                          </TableCell>
+                          <TableCell
+                            onClick={(event) => handleRowClick(event, user.id)}
+                          >
+                            {user.last_name}
+                            {/* {moment(user.createdAt).format("DD/MM/YYYY")} */}
+                          </TableCell>
+                          <TableCell
+                            onClick={(event) => handleRowClick(event, user.id)}
+                          >
+                            <Avatar
+                              className={classes.avatar}
+                              src={user.avatar}
+                            />
+                            {/* <Chip
                           color="primary"
                           label={user.status}
                           size="small"
                         /> */}
-                        </TableCell>
-                        <TableCell>
-                          <DeleteRoundedIcon
-                            className={classes.deleteIcon}
-                            onClick={() => deleteUser(user.id)}
-                          />
-                        </TableCell>
-                        <TableCell className={classes.deleteIcon}>
-                          <EditRoundedIcon className={classes.editIcon} />
-                        </TableCell>
-                      </TableRow>
-                    ))}
+                          </TableCell>
+                          <TableCell>
+                            <DeleteRoundedIcon
+                              className={classes.deleteIcon}
+                              onClick={() => deleteUser(user.id)}
+                            />
+                          </TableCell>
+                        </TableRow>
+                      ))}
                 </TableBody>
               </Table>
             </TableContainer>
@@ -301,6 +305,7 @@ const mapStateToProps = (state) => {
     totalUser: state.listRed.totalUser,
     loading: state.listRed.loading,
     userDetailData: state.userDetailRed,
+    modalData: state.modalRed,
   };
 };
 const mapDispatchToProps = (dispatch) => {
@@ -317,6 +322,9 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(userDetailSuccess(userData, userSupport)),
     userDetailFailure: (errorMessage) =>
       dispatch(userDetailFailure(errorMessage)),
+
+    setModal: (message) => dispatch(setModal(message)),
+    unsetModal: () => dispatch(unsetModal()),
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(User);

@@ -21,6 +21,7 @@ import {
   userLoginFailure,
 } from "../../redux";
 import Loader from "../../components/Loader";
+import { setModal, unsetModal } from "../../redux/common/modal/modalAction";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -48,8 +49,6 @@ const signInSchema = Yup.object().shape({
 const LoginView = (props) => {
   const classes = useStyles();
   const navigate = useNavigate();
-  const [modal, setModal] = useState(false);
-  const [loginError, setLoginError] = useState("");
 
   useEffect(() => {
     if (localStorage.getItem("userToken")) {
@@ -76,8 +75,7 @@ const LoginView = (props) => {
       .catch((error) => {
         if (error.message.includes("400")) {
           props.userLoginFailure("User not found");
-          setModal(true);
-          setLoginError("User not found");
+          props.setModal("User not found");
         }
       });
 
@@ -93,14 +91,19 @@ const LoginView = (props) => {
     // setLoginError(error.message);
     // }
   };
-  const modalClose = () => {
-    setModal(false);
+  const closeModal = () => {
+    // setModal(false);
+    props.unsetModal();
   };
 
   return (
     <>
       <Page className={classes.root}>
-        <ModalBox modal={modal} message={loginError} closeModal={modalClose} />
+        <ModalBox
+          message={props.modalData.modalMessage}
+          modal={props.modalData.openModal}
+          closeModal={closeModal}
+        />
         <Box
           display="flex"
           flexDirection="column"
@@ -196,6 +199,7 @@ const LoginView = (props) => {
 const mapStateToProps = (state) => {
   return {
     loginData: state.loginRed,
+    modalData: state.modalRed,
   };
 };
 const mapDispatchToProps = (dispatch) => {
@@ -204,6 +208,9 @@ const mapDispatchToProps = (dispatch) => {
     userLoginSuccess: (token) => dispatch(userLoginSuccess(token)),
     userLoginFailure: (errorMsg) => dispatch(userLoginFailure(errorMsg)),
     userLoginRequest: () => dispatch(userLoginRequest()),
+
+    setModal: (message) => dispatch(setModal(message)),
+    unsetModal: () => dispatch(unsetModal()),
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(LoginView);

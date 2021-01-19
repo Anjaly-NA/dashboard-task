@@ -9,6 +9,7 @@ import DoneOutlineIcon from "@material-ui/icons/DoneOutline";
 import Development from "./Development";
 import Design from "./Design";
 import Users from "./Users";
+import EditUser from "./EditUser";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -77,7 +78,7 @@ const Dashboard = () => {
             <Design />
           </Grid>
           <Grid item lg={4} md={6} xl={3} xs={12}>
-            {/* <Design /> */}
+            <EditUser />
           </Grid>
           <Grid item lg={8} md={12} xl={9} xs={12}>
             <Users />

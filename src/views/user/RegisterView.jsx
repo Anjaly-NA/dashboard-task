@@ -22,6 +22,7 @@ import {
   userRegister,
 } from "../../redux";
 import ModalBox from "../../components/Modal";
+import { setModal, unsetModal } from "../../redux/common/modal/modalAction";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -58,11 +59,9 @@ const initialValues = {
 
 const RegisterView = (props) => {
   const classes = useStyles();
-  const [modal, setModal] = useState(false);
-  const [registerMessage, setRegisterMessage] = useState("");
 
-  const modalClose = () => {
-    setModal(false);
+  const closeModal = () => {
+    props.unsetModal();
     // navigate("/user/dashboard");
   };
 
@@ -74,23 +73,21 @@ const RegisterView = (props) => {
       .then((response) => {
         if (response.status === 200) {
           props.userRegisterSuccess(response.data.token);
-          setModal(true);
-          setRegisterMessage("Registration Success, Logn Now");
+          props.setModal("Registration Success, Logn Now");
         }
       })
       .catch((error) => {
         props.userRegisterFailure(error.message);
-        setModal(true);
-        setRegisterMessage("Registration Failed");
+        props.setModal("Registration Failed");
       });
   };
 
   return (
     <Page className={classes.root} title="Register">
       <ModalBox
-        modal={modal}
-        message={registerMessage}
-        closeModal={modalClose}
+        message={props.modalData.modalMessage}
+        modal={props.modalData.openModal}
+        closeModal={closeModal}
       />
       <Box
         display="flex"
@@ -223,7 +220,7 @@ const RegisterView = (props) => {
   );
 };
 const mapStateToProps = (state) => {
-  return { registerData: state.registerRed };
+  return { registerData: state.registerRed, modalData: state.modalRed };
 };
 const mapDispatchToProps = (dispatch) => {
   return {
@@ -233,6 +230,9 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(userRegisterSuccess(registerToken)),
     userRegisterFailure: (registerError) =>
       dispatch(userRegisterFailure(registerError)),
+
+    setModal: (message) => dispatch(setModal(message)),
+    unsetModal: () => dispatch(unsetModal()),
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(RegisterView);

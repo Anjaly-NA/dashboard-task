@@ -6,6 +6,8 @@ import designReducer from "./designList/designListReducer";
 import designSingleReducer from "./design/designReducer";
 import addCustomerReducer from "./addCustomer/addCustomerReducer";
 import userDetailReducer from "./userDetail/userDetailReducer";
+import userEditReducer from "./userEdit/userEditReducer";
+import modalReducer from "../redux/common/modal/modalReducer";
 
 const rootReducer = combineReducers({
   loginRed: loginReducer,
@@ -15,5 +17,7 @@ const rootReducer = combineReducers({
   designSingleRed: designSingleReducer,
   addCustomerRed: addCustomerReducer,
   userDetailRed: userDetailReducer,
+  userEditRed: userEditReducer,
+  modalRed: modalReducer,
 });
 export default rootReducer;

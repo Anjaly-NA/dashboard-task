@@ -39,3 +39,10 @@ export {
   userDetailFailure,
   userDetailFetch,
 } from "./userDetail/userDetailAction";
+export {
+  userEditRequest,
+  userEditSuccess,
+  userEditFailure,
+  editUser,
+} from "./userEdit/userEditAction";
+export { setModal, unsetModal } from "./common/modal/modalAction";
