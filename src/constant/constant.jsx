@@ -45,6 +45,11 @@ export const items = [
     icon: AssignmentTurnedInRoundedIcon,
     title: "Products",
   },
+  {
+    href: "/user/gallery",
+    icon: AssignmentTurnedInRoundedIcon,
+    title: "Gallery",
+  },
 ];
 
 export const products = [
