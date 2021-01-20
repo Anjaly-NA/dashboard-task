@@ -25,20 +25,24 @@ const useStyles = makeStyles(() => ({
 
 const DesignDetail = (props, { className, ...rest }) => {
   const classes = useStyles();
+  const {
+    designSingleFetch,
+    designSingleSuccess,
+    designSingleFailure,
+    designId,
+  } = props;
   useEffect(() => {
-    props
-      .designSingleFetch(props.designId)
+    designSingleFetch(designId)
       .then((response) => {
-        props.designSingleSuccess(response.data.data);
+        designSingleSuccess(response.data.data);
       })
-      .catch((error) => props.designSingleFailure(error));
-  }, []);
+      .catch((error) => designSingleFailure(error));
+  }, [designSingleFetch, designSingleSuccess, designSingleFailure, designId]);
 
   return (
     <Card className={clsx(classes.root, className)} {...rest}>
       <CardContent>
         <Box alignItems="center" display="flex" flexDirection="column">
-          {/* <Avatar className={classes.avatar} src={user.avatar} /> */}
           <svg height="100" width="100">
             <circle
               cx="50"

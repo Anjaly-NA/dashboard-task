@@ -29,6 +29,7 @@ import ModalBox from "../../components/Modal";
 import * as Yup from "yup";
 import { Formik } from "formik";
 import { setModal, unsetModal } from "../../redux/common/modal/modalAction";
+import Loader from "../../components/Loader";
 
 const initialValues = {
   name: "",
@@ -56,13 +57,16 @@ const useStyle = makeStyles((theme) => ({
   container: {
     position: "relative",
   },
+  btn: {
+    marginTop: "20px",
+  },
 }));
 const EditUser = (props, { className, ...rest }) => {
   const classes = useStyle();
   const [openDialogue, setOpenDialogue] = useState(false);
   const [userId, setUserId] = useState("");
-  const [modal, setModal] = useState(false);
-  const [message, setMessage] = useState("");
+  // const [modal, setModal] = useState(false);
+  // const [message, setMessage] = useState("");
   const [userDetail, setUserDetail] = useState({ name: "edf", job: "dsa" });
 
   const closeModal = () => {
@@ -119,6 +123,7 @@ const EditUser = (props, { className, ...rest }) => {
             } = formik;
             return (
               <form onSubmit={handleSubmit}>
+                {props.editData.loading && <Loader />}
                 <TextField
                   error={Boolean(touched.name && errors.name)}
                   fullWidth
@@ -145,16 +150,30 @@ const EditUser = (props, { className, ...rest }) => {
                   value={values.job}
                   variant="outlined"
                 />
-                <Button
-                  color="primary"
-                  disabled={!(dirty && isValid)}
-                  fullWidth
-                  size="large"
-                  type="submit"
-                  variant="contained"
-                >
-                  Edit
-                </Button>
+                <Box>
+                  <Button
+                    color="primary"
+                    disabled={!(dirty && isValid)}
+                    fullWidth
+                    size="large"
+                    type="submit"
+                    variant="contained"
+                    className={classes.btn}
+                  >
+                    Edit
+                  </Button>
+                  <Button
+                    color="secondary"
+                    fullWidth
+                    size="large"
+                    type="button"
+                    variant="contained"
+                    onClick={handleClose}
+                    className={classes.btn}
+                  >
+                    Cancel
+                  </Button>
+                </Box>
               </form>
             );
           }}
@@ -181,7 +200,6 @@ const EditUser = (props, { className, ...rest }) => {
         <CardHeader title="Edit Users" />
         <Divider />
         <Box height={500} className={classes.container} overflow="scroll">
-          {/* {(loader || props.loading) && <Loader />} */}
           <TableContainer>
             <Table className={classes.table}>
               <TableHead>

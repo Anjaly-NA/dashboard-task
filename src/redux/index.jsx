@@ -46,4 +46,9 @@ export {
   editUser,
 } from "./userEdit/userEditAction";
 export { setModal, unsetModal } from "./common/modal/modalAction";
-export { setLoader, unsetLoader } from "./common/loader/loaderAction";
+export {
+  productListFailure,
+  productListSuccess,
+  productListFetch,
+  productListRequest,
+} from "./productList/productListAction";

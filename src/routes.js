@@ -8,6 +8,7 @@ import Dashboard from "./views/dashboard/index";
 import TermsConditions from "./views/user/TermsConditions";
 import PageNotFound from "./views/error/PageNotFound";
 import Customer from "./views/customer/index";
+import Product from "./views/product/index";
 
 const routes = [
   {
@@ -28,8 +29,8 @@ const routes = [
     children: [
       { path: "dashboard", element: <Dashboard /> },
       { path: "customer", element: <Customer /> },
+      { path: "product", element: <Product /> },
       { path: "*", element: <Navigate to="/404" /> },
-      // { path: "register", element: <RegisterView /> },
     ],
   },
 ];

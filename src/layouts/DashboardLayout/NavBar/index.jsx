@@ -12,30 +12,11 @@ import {
   Typography,
   makeStyles,
 } from "@material-ui/core";
-import { BarChart as BarChartIcon, Users as UsersIcon } from "react-feather";
 import NavItem from "./NavItem";
 import firebase from "../../../firebase";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
-
-const user = {
-  avatar: "/static/images/avatars/avatar_6.png",
-  jobTitle: "Senior Developer",
-  name: "Katarina Smith",
-};
-
-const items = [
-  {
-    href: "/user/dashboard",
-    icon: BarChartIcon,
-    title: "Dashboard",
-  },
-  {
-    href: "/user/customer",
-    icon: UsersIcon,
-    title: "Customers",
-  },
-];
+import { items } from "../../../constant/constant";
 
 const useStyles = makeStyles(() => ({
   mobileDrawer: {
@@ -84,7 +65,7 @@ const NavBar = ({ onMobileClose, openMobile }) => {
         <Avatar
           className={classes.avatar}
           // component={RouterLink}
-          src={user.avatar}
+          // src={user.avatar}
           // to="/app/account"
         />
         <Typography className={classes.name} color="textPrimary" variant="h5">

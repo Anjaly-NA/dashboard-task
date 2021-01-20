@@ -1,7 +1,7 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Modal from "@material-ui/core/Modal";
-import { Button, Typography } from "@material-ui/core";
+import { Button, Typography, Box } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -31,7 +31,7 @@ const ModalBox = (props) => {
         justifyContent: "center",
       }}
     >
-      <div className={classes.paper}>
+      <Box className={classes.paper} component="span">
         <Typography color="textPrimary" gutterBottom variant="body2">
           {props.message}
         </Typography>
@@ -44,7 +44,7 @@ const ModalBox = (props) => {
         >
           OK
         </Button>
-      </div>
+      </Box>
     </Modal>
   );
 };

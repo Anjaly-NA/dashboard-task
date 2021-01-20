@@ -73,17 +73,23 @@ const useStyles = makeStyles((theme) => ({
 
 const Design = (props, { ...rest }) => {
   const classes = useStyles();
+  const {
+    designListRequest,
+    fetchDesign,
+    designListSuccess,
+    designListFailure,
+  } = props;
   useEffect(() => {
-    props.designListRequest();
-    props
-      .fetchDesign()
+    designListRequest();
+    fetchDesign()
       .then((response) => {
-        props.designListSuccess(response.data.data);
+        designListSuccess(response.data.data);
       })
       .catch((error) => {
-        props.designListFailure(error.message);
+        designListFailure(error.message);
       });
-  }, []);
+    return;
+  }, [designListRequest, fetchDesign, designListSuccess, designListFailure]);
   return (
     <Card className={clsx(classes.root)} {...rest}>
       <CardHeader subtitle={`${data.length} in total`} title="Latest Designs" />
@@ -115,7 +121,7 @@ const Design = (props, { ...rest }) => {
               // secondary={`Updated ${item.updatedAt.fromNow()}`}
               secondary={`Pantone value ${item.pantone_value}`}
             />
-            <PopOver designId={item.id}/>
+            <PopOver designId={item.id} />
           </ListItem>
         ))}
       </List>

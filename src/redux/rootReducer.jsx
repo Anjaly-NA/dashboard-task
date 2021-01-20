@@ -8,7 +8,7 @@ import addCustomerReducer from "./addCustomer/addCustomerReducer";
 import userDetailReducer from "./userDetail/userDetailReducer";
 import userEditReducer from "./userEdit/userEditReducer";
 import modalReducer from "../redux/common/modal/modalReducer";
-import loaderReducer from "./common/loader/loaderReducer";
+import productListReducer from "../redux/productList/productListReducer";
 
 const rootReducer = combineReducers({
   loginRed: loginReducer,
@@ -20,6 +20,6 @@ const rootReducer = combineReducers({
   userDetailRed: userDetailReducer,
   userEditRed: userEditReducer,
   modalRed: modalReducer,
-  loaderRed: loaderReducer,
+  productListRed: productListReducer,
 });
 export default rootReducer;

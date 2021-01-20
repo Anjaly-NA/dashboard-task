@@ -83,6 +83,12 @@ const User = (props, { className, ...rest }) => {
   const [page, setPage] = useState(0);
   const [openDialogue, setOpenDialogue] = useState(false);
   const [loader, setLoader] = useState(false);
+  const {
+    userlistFetchRequest,
+    getUserList,
+    userlistFetchSuccess,
+    userlistFetchFailure,
+  } = props;
 
   const handleClose = () => {
     setOpenDialogue(false);
@@ -90,19 +96,32 @@ const User = (props, { className, ...rest }) => {
   // const [rowsPerPage, setRowsPerPage] = useState(5);
 
   useEffect(() => {
-    fetchList(page);
-  }, [page]);
+    setPage(page);
+    userlistFetchRequest();
+    getUserList(page + 1)
+      .then((response) => {
+        userlistFetchSuccess(response.data.data, response.data.total);
+      })
+      .catch((error) => {
+        userlistFetchFailure(error.message);
+      });
+  }, [
+    page,
+    userlistFetchRequest,
+    getUserList,
+    userlistFetchSuccess,
+    userlistFetchFailure,
+  ]);
 
   const fetchList = (page) => {
     setPage(page);
-    props.userlistFetchRequest();
-    props
-      .getUserList(page + 1)
+    userlistFetchRequest();
+    getUserList(page + 1)
       .then((response) => {
-        props.userlistFetchSuccess(response.data.data, response.data.total);
+        userlistFetchSuccess(response.data.data, response.data.total);
       })
       .catch((error) => {
-        props.userlistFetchFailure(error.message);
+        userlistFetchFailure(error.message);
       });
   };
 
@@ -263,6 +282,7 @@ const User = (props, { className, ...rest }) => {
                             <Avatar
                               className={classes.avatar}
                               src={user.avatar}
+                              variant="rounded"
                             />
                             {/* <Chip
                           color="primary"
