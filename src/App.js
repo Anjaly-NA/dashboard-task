@@ -8,6 +8,10 @@ import firebase from "./firebase";
 import { Provider } from "react-redux";
 import store from "./redux/store";
 import Loader from "./components/Loader";
+import { loadStripe } from "@stripe/stripe-js";
+import { Elements } from "@stripe/react-stripe-js";
+
+const stripePromise = loadStripe("pk_test_6pRNASCoBOKtIshFeQd4XMUh");
 
 const App = () => {
   const routing = useRoutes(routes);
@@ -18,12 +22,13 @@ const App = () => {
     });
   });
   return firebaseInitialized !== false ? (
-    <Provider store={store}>
-      <ThemeProvider theme={theme}>
-        <GlobalStyles />
-        {routing}
-      </ThemeProvider>
-    </Provider>
+    <Elements stripe={stripePromise}>
+      <Provider store={store}>
+        <ThemeProvider theme={theme}>
+          <GlobalStyles /> {routing}
+        </ThemeProvider>
+      </Provider>
+    </Elements>
   ) : (
     <div>
       <Loader />

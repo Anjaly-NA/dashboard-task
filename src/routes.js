@@ -9,6 +9,8 @@ import TermsConditions from "./views/user/TermsConditions";
 import PageNotFound from "./views/error/PageNotFound";
 import Customer from "./views/customer/index";
 import Product from "./views/product/index";
+import Gallery from "./views/gallery/Gallery";
+import Payment from "./views/payment/Payment";
 
 const routes = [
   {
@@ -27,9 +29,11 @@ const routes = [
     path: "user",
     element: <DashboardLayout />,
     children: [
+      { path: "payment", element: <Payment /> },
       { path: "dashboard", element: <Dashboard /> },
       { path: "customer", element: <Customer /> },
       { path: "product", element: <Product /> },
+      { path: "gallery", element: <Gallery /> },
       { path: "*", element: <Navigate to="/404" /> },
     ],
   },

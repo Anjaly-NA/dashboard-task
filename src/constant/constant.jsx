@@ -1,6 +1,8 @@
 import AssignmentTurnedInRoundedIcon from "@material-ui/icons/AssignmentTurnedInRounded";
 import { BarChart as BarChartIcon, Users as UsersIcon } from "react-feather";
 import { v4 as uuid } from "uuid";
+import ImageIcon from "@material-ui/icons/Image";
+import LocalAtmIcon from '@material-ui/icons/LocalAtm';
 
 export const editUserList = [
   {
@@ -47,8 +49,13 @@ export const items = [
   },
   {
     href: "/user/gallery",
-    icon: AssignmentTurnedInRoundedIcon,
+    icon: ImageIcon,
     title: "Gallery",
+  },
+  {
+    href: "/user/payment",
+    icon: LocalAtmIcon,
+    title: "Payment",
   },
 ];
 
@@ -116,5 +123,52 @@ export const products = [
       "Squarespace provides software as a service for website building and hosting. Headquartered in NYC.",
     title: "Squarespace",
     totalDownloads: "835",
+  },
+];
+export const images = [
+  {
+    url: "/static/design.jpg",
+    title: "Design",
+    width: "40%",
+  },
+  {
+    url: "/static/develop.png",
+    title: "Develop",
+    width: "20%",
+  },
+  {
+    url: "/static/test.png",
+    title: "Testing",
+    width: "40%",
+  },
+  {
+    url: "/static/design.jpg",
+    title: "Develop",
+    width: "38%",
+  },
+  {
+    url: "/static/test.png",
+    title: "Testing",
+    width: "38%",
+  },
+  {
+    url: "/static/develop.png",
+    title: "Develop",
+    width: "24%",
+  },
+  {
+    url: "/static/test.png",
+    title: "Develop",
+    width: "40%",
+  },
+  {
+    url: "/static/develop.png",
+    title: "Testing",
+    width: "20%",
+  },
+  {
+    url: "/static/test.png",
+    title: "Develop",
+    width: "40%",
   },
 ];

@@ -1,0 +1,130 @@
+import React from "react";
+import {
+  Typography,
+  makeStyles,
+  ButtonBase,
+  Container,
+} from "@material-ui/core";
+import { images } from "../../constant/constant";
+import Page from "../../components/Page";
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    marginTop: theme.spacing(8),
+    marginBottom: theme.spacing(4),
+  },
+  images: {
+    marginTop: theme.spacing(8),
+    display: "flex",
+    flexWrap: "wrap",
+  },
+  imageWrapper: {
+    position: "relative",
+    display: "block",
+    padding: 0,
+    borderRadius: 0,
+    height: "40vh",
+    [theme.breakpoints.down("sm")]: {
+      width: "100% !important",
+      height: 100,
+    },
+    "&:hover": {
+      zIndex: 1,
+    },
+    "&:hover $imageBackdrop": {
+      opacity: 0,
+    },
+    "&:hover $imageMarked": {
+      opacity: 0,
+    },
+    "&:hover $imageTitle": {
+      border: `4px solid ${theme.palette.primary.color3}`,
+    },
+  },
+  imageButton: {
+    position: "absolute",
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0,
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    color: theme.palette.primary.white,
+  },
+  imageSrc: {
+    position: "absolute",
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0,
+    backgroundSize: "cover",
+    backgroundPosition: "center 40%",
+  },
+  imageBackdrop: {
+    position: "absolute",
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0,
+    background: theme.palette.primary.color4,
+    opacity: 0.5,
+    transition: theme.transitions.create("opacity"),
+  },
+  imageTitle: {
+    position: "relative",
+    padding: `${theme.spacing(2)}px ${theme.spacing(4)}px 14px`,
+  },
+  imageMarked: {
+    height: 3,
+    width: 18,
+    background: theme.palette.primary.color3,
+    position: "absolute",
+    bottom: -2,
+    left: "calc(50% - 9px)",
+    transition: theme.transitions.create("opacity"),
+  },
+}));
+
+const Gallery = (props) => {
+  const classes = useStyles();
+
+  return (
+    <Page className={classes.root} title="Gallery">
+      <Container className={classes.root} component="section">
+        <div className={classes.images}>
+          {images.map((image) => (
+            <ButtonBase
+              key={image.title}
+              className={classes.imageWrapper}
+              style={{
+                width: image.width,
+              }}
+            >
+              <div
+                className={classes.imageSrc}
+                style={{
+                  backgroundImage: `url(${image.url})`,
+                }}
+              />
+              <div className={classes.imageBackdrop} />
+              <div className={classes.imageButton}>
+                <Typography
+                  component="h3"
+                  variant="h3"
+                  color="inherit"
+                  className={classes.imageTitle}
+                >
+                  {image.title}
+                  <div className={classes.imageMarked} />
+                </Typography>
+              </div>
+            </ButtonBase>
+          ))}
+        </div>
+      </Container>
+    </Page>
+  );
+};
+
+export default Gallery;
