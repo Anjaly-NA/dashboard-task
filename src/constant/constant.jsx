@@ -57,6 +57,11 @@ export const items = [
     icon: LocalAtmIcon,
     title: "Payment",
   },
+  {
+    href: "/user/checkout",
+    icon: LocalAtmIcon,
+    title: "Address",
+  },
 ];
 
 export const products = [

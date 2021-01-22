@@ -11,6 +11,8 @@ import Customer from "./views/customer/index";
 import Product from "./views/product/index";
 import Gallery from "./views/gallery/Gallery";
 import Payment from "./views/payment/Payment";
+import AddressForm from './views/checkout/Checkout'
+import Multistep from './components/Multistep'
 
 const routes = [
   {
@@ -29,6 +31,7 @@ const routes = [
     path: "user",
     element: <DashboardLayout />,
     children: [
+      { path: "checkout", element: <Multistep /> },
       { path: "payment", element: <Payment /> },
       { path: "dashboard", element: <Dashboard /> },
       { path: "customer", element: <Customer /> },
