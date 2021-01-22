@@ -74,13 +74,11 @@ const useStyle = makeStyles((theme) => ({
     alignItems: "center",
   },
   active: {
-    backgroundImage:
-      `linear-gradient( 136deg, ${theme.palette.primary.color4} 0%, ${theme.palette.primary.color1} 50%, ${theme.palette.primary.color1} 100%)`,
+    backgroundImage: `linear-gradient( 136deg, ${theme.palette.primary.color4} 0%, ${theme.palette.primary.color1} 50%, ${theme.palette.primary.color1} 100%)`,
     boxShadow: "0 4px 10px 0 rgba(0,0,0,.25)",
   },
   completed: {
-    backgroundImage:
-      `linear-gradient( 136deg, ${theme.palette.primary.white} 0%, ${theme.palette.primary.color4} 50%, ${theme.palette.primary.color4} 100%)`,
+    backgroundImage: `linear-gradient( 136deg, ${theme.palette.primary.white} 0%, ${theme.palette.primary.color4} 50%, ${theme.palette.primary.color4} 100%)`,
   },
 }));
 
@@ -120,47 +118,39 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const getSteps = () => {
-  return ["Select shipping address", "Create an ad group", "Create an ad"];
+  return ["Select  address", "step 2", "step 3"];
 };
 const getTitle = (step) => {
   switch (step) {
     case 0:
       return "Addresss";
     case 1:
-      return "What is an ad group anyways?";
+      return "pay here?";
     case 2:
-      return "This is the bit I really care about!";
+      return "confirm";
     default:
       return "Unknown step";
   }
 };
 
 const getStepContent = (step, formik) => {
-  const {
-    errors,
-    values,
-    handleChange,
-    handleBlur,
-    handleSubmit,
-    touched,
-    isValid,
-    dirty,
-  } = formik;
+  //   const {
+  //     errors,
+  //     values,
+  //     handleChange,
+  //     handleBlur,
+  //     handleSubmit,
+  //     touched,
+  //     isValid,
+  //     dirty,
+  //   } = formik;
   switch (step) {
     case 0:
-      return (
-        <AddressForm
-          errors={errors}
-          values={values}
-          handleChange={handleChange}
-          handleBlur={handleBlur}
-          touched={touched}
-        />
-      );
+      return <AddressForm formik={formik} />;
     case 1:
-      return "What is an ad group anyways?";
+      return "component1";
     case 2:
-      return "This is the bit I really care about!";
+      return "component2";
     default:
       return "Unknown step";
   }

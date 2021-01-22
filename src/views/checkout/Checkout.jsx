@@ -111,7 +111,7 @@ const countries = [
 //     .required("Country is required"),
 //   policy: Yup.boolean().oneOf([true], "This field must be checked"),
 // });
-// const initialValues = {
+// const initialformik.Values = {
 //   firstName: "",
 //   lastName: "",
 //   address1: "",
@@ -130,18 +130,18 @@ const AddressForm = (props, { className, ...rest }) => {
     //     <Grid container spacing={3}>
     //       <Grid item lg={8} md={6} xs={12} sm={8}>
     //         <Formik
-    //           initialValues={initialValues}
+    //           initialformik.Values={initialformik.Values}
     //           validationSchema={validationSchema}
     //           // onSubmit={saveCustomer}
     //         >
     //           {(formik) => {
     //             const {
-    //               props.errors,
-    //               props.values,
-    //               props.handleChange,
-    //               props.handleBlur,
+    //               props.formik.errors,
+    //               props.formik.values,
+    //               props.formik.handleChange,
+    //               props.formik.handleBlur,
     //               handleSubmit,
-    //               props.touched,
+    //               props.formik.touched,
     //               isValid,
     //               dirty,
     //             } = formik;
@@ -157,71 +157,87 @@ const AddressForm = (props, { className, ...rest }) => {
     <Grid container spacing={3}>
       <Grid item md={6} xs={12}>
         <TextField
-          error={Boolean(props.touched.firstName && props.errors.firstName)}
-          helperText={props.touched.firstName && props.errors.firstName}
+          error={Boolean(
+            props.formik.touched.firstName && props.formik.errors.firstName
+          )}
+          helperText={
+            props.formik.touched.firstName && props.formik.errors.firstName
+          }
           fullWidth
           label="Name"
           name="firstName"
-          onChange={props.handleChange}
-          onBlur={props.handleBlur}
+          onChange={props.formik.handleChange}
+          onBlur={props.formik.handleBlur}
           required
-          value={props.values.firstName}
+          value={props.formik.values.firstName}
           variant="outlined"
         />
       </Grid>
       <Grid item md={6} xs={12}>
         <TextField
-          error={Boolean(props.touched.lastName && props.errors.lastName)}
-          helperText={props.touched.lastName && props.errors.lastName}
+          error={Boolean(
+            props.formik.touched.lastName && props.formik.errors.lastName
+          )}
+          helperText={
+            props.formik.touched.lastName && props.formik.errors.lastName
+          }
           fullWidth
           label="Last Name"
           name="lastName"
-          onChange={props.handleChange}
-          onBlur={props.handleBlur}
+          onChange={props.formik.handleChange}
+          onBlur={props.formik.handleBlur}
           required
-          value={props.values.lastName}
+          value={props.formik.values.lastName}
           variant="outlined"
         />
       </Grid>
       <Grid item xs={12}>
         <TextField
-          error={Boolean(props.touched.address1 && props.errors.address1)}
-          helperText={props.touched.address1 && props.errors.address1}
+          error={Boolean(
+            props.formik.touched.address1 && props.formik.errors.address1
+          )}
+          helperText={
+            props.formik.touched.address1 && props.formik.errors.address1
+          }
           fullWidth
           label="Address Line 1"
           name="address1"
-          onChange={props.handleChange}
-          onBlur={props.handleBlur}
+          onChange={props.formik.handleChange}
+          onBlur={props.formik.handleBlur}
           required
-          value={props.values.address1}
+          value={props.formik.values.address1}
           variant="outlined"
         />
       </Grid>
       <Grid item xs={12}>
         <TextField
-          error={Boolean(props.touched.address2 && props.errors.address2)}
-          helperText={props.touched.address2 && props.errors.address2}
+          error={Boolean(
+            props.formik.touched.address2 && props.formik.errors.address2
+          )}
+          helperText={
+            props.formik.touched.address2 && props.formik.errors.address2
+          }
           fullWidth
           label="Address Line 2"
           name="address2"
-          onChange={props.handleChange}
-          onBlur={props.handleBlur}
+          onChange={props.formik.handleChange}
+          onBlur={props.formik.handleBlur}
           // type="number"
-          value={props.values.address2}
+          value={props.formik.values.address2}
           variant="outlined"
         />
       </Grid>
       <Grid item md={6} xs={12}>
         <TextField
-          error={Boolean(props.touched.city && props.errors.city)}
-          helperText={props.touched.city && props.errors.city}
+          error={Boolean(props.formik.touched.city && props.formik.errors.city)}
+          helperText={props.formik.touched.city && props.formik.errors.city}
           fullWidth
           label="City"
           name="city"
-          onChange={props.handleChange}
-          onBlur={props.handleBlur}
+          onChange={props.formik.handleChange}
+          onBlur={props.formik.handleBlur}
           required
-          value={props.values.city}
+          value={props.formik.values.city}
           variant="outlined"
           SelectProps={{ native: true }}
           select
@@ -235,16 +251,18 @@ const AddressForm = (props, { className, ...rest }) => {
       </Grid>
       <Grid item md={6} xs={12}>
         <TextField
-          error={Boolean(props.touched.state && props.errors.state)}
-          helperText={props.touched.state && props.errors.state}
+          error={Boolean(
+            props.formik.touched.state && props.formik.errors.state
+          )}
+          helperText={props.formik.touched.state && props.formik.errors.state}
           fullWidth
           name="state"
-          onChange={props.handleChange}
-          onBlur={props.handleBlur}
+          onChange={props.formik.handleChange}
+          onBlur={props.formik.handleBlur}
           required
           select
           SelectProps={{ native: true }}
-          value={props.values.state}
+          value={props.formik.values.state}
           variant="outlined"
         >
           {states.map((option) => (
@@ -256,30 +274,34 @@ const AddressForm = (props, { className, ...rest }) => {
       </Grid>
       <Grid item md={6} xs={12}>
         <TextField
-          error={Boolean(props.touched.zip && props.errors.zip)}
-          helperText={props.touched.zip && props.errors.zip}
+          error={Boolean(props.formik.touched.zip && props.formik.errors.zip)}
+          helperText={props.formik.touched.zip && props.formik.errors.zip}
           fullWidth
           label="Zip"
           name="zip"
-          onChange={props.handleChange}
-          onBlur={props.handleBlur}
+          onChange={props.formik.handleChange}
+          onBlur={props.formik.handleBlur}
           // type="number"
-          value={props.values.zip}
+          value={props.formik.values.zip}
           variant="outlined"
         />
       </Grid>
       <Grid item md={6} xs={12}>
         <TextField
-          error={Boolean(props.touched.country && props.errors.country)}
-          helperText={props.touched.country && props.errors.country}
+          error={Boolean(
+            props.formik.touched.country && props.formik.errors.country
+          )}
+          helperText={
+            props.formik.touched.country && props.formik.errors.country
+          }
           fullWidth
           name="country"
-          onChange={props.handleChange}
-          onBlur={props.handleBlur}
+          onChange={props.formik.handleChange}
+          onBlur={props.formik.handleBlur}
           required
           select
           SelectProps={{ native: true }}
-          value={props.values.country}
+          value={props.formik.values.country}
           variant="outlined"
         >
           {countries.map((option) => (
@@ -292,9 +314,9 @@ const AddressForm = (props, { className, ...rest }) => {
       <Grid item md={6} xs={12}>
         <Box alignItems="center" display="flex" ml={-1}>
           <Checkbox
-            checked={props.values.policy}
+            checked={props.formik.values.policy}
             name="policy"
-            onChange={props.handleChange}
+            onChange={props.formik.handleChange}
           />
           <Typography color="textSecondary" variant="body1">
             Let me in
