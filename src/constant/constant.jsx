@@ -3,6 +3,7 @@ import { BarChart as BarChartIcon, Users as UsersIcon } from "react-feather";
 import { v4 as uuid } from "uuid";
 import ImageIcon from "@material-ui/icons/Image";
 import LocalAtmIcon from '@material-ui/icons/LocalAtm';
+import LocalShippingIcon from '@material-ui/icons/LocalShipping';
 
 export const editUserList = [
   {
@@ -59,8 +60,8 @@ export const items = [
   },
   {
     href: "/user/checkout",
-    icon: LocalAtmIcon,
-    title: "Address",
+    icon: LocalShippingIcon,
+    title: "Checkout",
   },
 ];
 

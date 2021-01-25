@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import clsx from "clsx";
 import Stepper from "@material-ui/core/Stepper";
@@ -12,7 +12,7 @@ import Typography from "@material-ui/core/Typography";
 import AddressForm from "../views/checkout/Checkout";
 import * as Yup from "yup";
 import Page from "../components/Page";
-import { Formik } from "formik";
+import { Formik, Form } from "formik";
 import {
   Container,
   Grid,
@@ -22,6 +22,8 @@ import {
   CardHeader,
   Divider,
 } from "@material-ui/core";
+import PaymentForm from "../views/checkout/PaymentForm";
+import Review from "../views/checkout/Review";
 
 var isValidZip = /(^\d{5}$)|(^\d{5}-\d{4}$)/;
 const validationSchema = Yup.object().shape({
@@ -123,34 +125,24 @@ const getSteps = () => {
 const getTitle = (step) => {
   switch (step) {
     case 0:
-      return "Addresss";
+      return "Shipping address";
     case 1:
-      return "pay here?";
+      return "Payment";
     case 2:
-      return "confirm";
+      return "Order summary";
     default:
       return "Unknown step";
   }
 };
 
 const getStepContent = (step, formik) => {
-  //   const {
-  //     errors,
-  //     values,
-  //     handleChange,
-  //     handleBlur,
-  //     handleSubmit,
-  //     touched,
-  //     isValid,
-  //     dirty,
-  //   } = formik;
   switch (step) {
     case 0:
       return <AddressForm formik={formik} />;
     case 1:
-      return "component1";
+      return <PaymentForm />;
     case 2:
-      return "component2";
+      return <Review />;
     default:
       return "Unknown step";
   }
@@ -172,8 +164,15 @@ const Multistep = () => {
   const handleReset = () => {
     setActiveStep(0);
   };
+  const handleMultistep = () => {
+    if (activeStep === steps.length - 1) {
+    } else {
+      handleNext();
+    }
+  };
 
   return (
+    <Page className={classes.root} title="Checkout">
     <div className={classes.root}>
       <Stepper alternativeLabel activeStep={activeStep}>
         {steps.map((label) => (
@@ -195,14 +194,14 @@ const Multistep = () => {
         ) : (
           <div>
             <Typography className={classes.instructions}>
-              <Page className={classes.root} title="Chechout">
+              <Page className={classes.root} title="Checkout">
                 <Container maxWidth="lg">
                   <Grid container spacing={3}>
                     <Grid item lg={8} md={6} xs={12} sm={8}>
                       <Formik
                         initialValues={initialValues}
                         validationSchema={validationSchema}
-                        // onSubmit={saveCustomer}
+                        onSubmit={handleMultistep}
                       >
                         {(formik) => {
                           const {
@@ -216,10 +215,7 @@ const Multistep = () => {
                             dirty,
                           } = formik;
                           return (
-                            <form
-                              //   className={clsx(className)}
-                              onSubmit={handleSubmit}
-                            >
+                            <Form onSubmit={handleSubmit}>
                               <Card>
                                 <CardHeader
                                   subheader="This information can't be edited"
@@ -235,7 +231,6 @@ const Multistep = () => {
                                   justifyContent="flex-end"
                                   p={2}
                                 >
-                                  {" "}
                                   <div>
                                     <Button
                                       disabled={activeStep === 0}
@@ -245,9 +240,10 @@ const Multistep = () => {
                                       Back
                                     </Button>
                                     <Button
+                                      type="submit"
                                       variant="contained"
                                       color="primary"
-                                      onClick={handleNext}
+                                      // onClick={handleNext}
                                       className={classes.button}
                                       disabled={!(dirty && isValid)}
                                     >
@@ -258,7 +254,7 @@ const Multistep = () => {
                                   </div>
                                 </Box>
                               </Card>
-                            </form>
+                            </Form>
                           );
                         }}
                       </Formik>
@@ -288,7 +284,7 @@ const Multistep = () => {
           </div>
         )}
       </div>
-    </div>
+    </div></Page>
   );
 };
 export default Multistep;
