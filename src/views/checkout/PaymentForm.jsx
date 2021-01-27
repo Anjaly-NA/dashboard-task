@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import {
-  useStripe,
-  useElements,
+  // useStripe,
+  // useElements,
   CardNumberElement,
   CardCvcElement,
   CardExpiryElement,

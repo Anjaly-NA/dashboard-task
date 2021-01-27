@@ -2,8 +2,8 @@ import AssignmentTurnedInRoundedIcon from "@material-ui/icons/AssignmentTurnedIn
 import { BarChart as BarChartIcon, Users as UsersIcon } from "react-feather";
 import { v4 as uuid } from "uuid";
 import ImageIcon from "@material-ui/icons/Image";
-import LocalAtmIcon from '@material-ui/icons/LocalAtm';
-import LocalShippingIcon from '@material-ui/icons/LocalShipping';
+import LocalAtmIcon from "@material-ui/icons/LocalAtm";
+import LocalShippingIcon from "@material-ui/icons/LocalShipping";
 
 export const editUserList = [
   {
@@ -176,5 +176,62 @@ export const images = [
     url: "/static/test.png",
     title: "Develop",
     width: "40%",
+  },
+];
+
+export const cities = [
+  {
+    value: undefined,
+    label: "Choose a city",
+  },
+  {
+    value: "1",
+    label: "New York",
+  },
+  {
+    value: "2",
+    label: "Chicago",
+  },
+  {
+    value: "3",
+    label: "Saigon",
+  },
+];
+
+export const states = [
+  {
+    value: undefined,
+    label: "Choose state",
+  },
+  {
+    value: "11",
+    label: "Florida",
+  },
+  {
+    value: "22",
+    label: "Michigan",
+  },
+  {
+    value: "33",
+    label: "Texas",
+  },
+];
+
+export const countries = [
+  {
+    value: null,
+    label: "Choose a Country",
+  },
+  {
+    value: "111",
+    label: "United States",
+  },
+  {
+    value: "222",
+    label: "Italy",
+  },
+  {
+    value: "333",
+    label: "Vietnam",
   },
 ];

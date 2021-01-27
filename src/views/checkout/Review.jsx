@@ -9,6 +9,7 @@ import {
   Typography,
 } from "@material-ui/core";
 import { capitalizeFirstLetter } from "../../utils/capitalizeFirstLetter";
+import { cities, states, countries } from "../../constant/constant";
 
 const Review = (props) => {
   const { values: formValues } = useFormikContext();
@@ -25,19 +26,30 @@ const Review = (props) => {
 
   return (
     <Container maxWidth="sm">
+      {cities
+        .filter((item) => item.value === city)
+        .map((filteredCity) => console.log(filteredCity.label, "filteredCity"))}
       <Card>
         <CardHeader title="Shipping address" />
         <Divider />
         <CardContent>
-          <Typography variant="h6" color="textSecondary">
+          <Typography variant="h6" color="textPrimary">
             {capitalizeFirstLetter(firstName)} {capitalizeFirstLetter(lastName)}
           </Typography>
           <Typography variant="h6" color="textSecondary">
             {capitalizeFirstLetter(address1)} {capitalizeFirstLetter(address2)}
           </Typography>
           <Typography variant="h6" color="textSecondary">
-            {capitalizeFirstLetter(city)} {capitalizeFirstLetter(state)}{" "}
-            {capitalizeFirstLetter(country)}
+            {cities
+              .filter((item) => item.value === city)
+              .map((filteredCity) => filteredCity.label)}{" "}
+            {states
+              .filter((item) => item.value === state)
+              .map((filteredState) => filteredState.label)}
+            <br />
+            {countries
+              .filter((item) => item.value === country)
+              .map((filteredCountry) => filteredCountry.label)}
           </Typography>
           <Typography variant="h6" color="textSecondary" gutterBottom>
             {zip}

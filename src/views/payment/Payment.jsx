@@ -128,7 +128,6 @@ const Payment = (props) => {
                   type="submit"
                   disabled={!stripe}
                   size="large"
-                  type="submit"
                   variant="contained"
                   color="primary"
                   className={classes.btn}
