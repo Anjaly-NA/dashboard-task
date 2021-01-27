@@ -86,10 +86,10 @@ const countries = [
 ];
 
 const AddressForm = (props, { className, ...rest }) => {
-  const classes = useStyles();
   useEffect(() => {
-    props.buttonEnableSet();
+    props.setButtonDisable(false);
   });
+  const classes = useStyles();
   return (
     <Grid container spacing={3}>
       <Grid item md={6} xs={12}>

@@ -136,17 +136,14 @@ const getTitle = (step) => {
   }
 };
 
-const getStepContent = (step, formik, buttonDisableSet, buttonEnableSet) => {
+const getStepContent = (step, formik, setButtonDisable) => {
   switch (step) {
     case 0:
-      return <AddressForm formik={formik} buttonEnableSet={buttonEnableSet} />;
-    case 1:
       return (
-        <PaymentForm
-          buttonDisableSet={buttonDisableSet}
-          buttonEnableSet={buttonEnableSet}
-        />
+        <AddressForm formik={formik} setButtonDisable={setButtonDisable} />
       );
+    case 1:
+      return <PaymentForm setButtonDisable={setButtonDisable} />;
     case 2:
       return <Review />;
     default:
@@ -158,14 +155,7 @@ const Multistep = () => {
   const classes = useStyles();
   const [activeStep, setActiveStep] = useState(0);
   const steps = getSteps();
-  const [disableButton, setButtonDisable] = useState(false);
-
-  const buttonDisableSet = () => {
-    setButtonDisable(true);
-  };
-  const buttonEnableSet = () => {
-    setButtonDisable(false);
-  };
+  const [disableButton, setButtonDisable] = useState(true);
 
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -175,12 +165,10 @@ const Multistep = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
 
-  const handleReset = () => {
-    setActiveStep(0);
-  };
   const handleMultistep = () => {
     if (activeStep === steps.length - 1) {
       handleNext();
+      //here comes
     } else {
       handleNext();
     }
@@ -236,8 +224,7 @@ const Multistep = () => {
                                     {getStepContent(
                                       activeStep,
                                       formik,
-                                      buttonDisableSet,
-                                      buttonEnableSet
+                                      setButtonDisable
                                     )}
                                   </CardContent>
                                   <Divider />
@@ -260,7 +247,9 @@ const Multistep = () => {
                                         color="primary"
                                         // onClick={handleNext}
                                         className={classes.button}
-                                        disabled={!(dirty && isValid)}
+                                        disabled={
+                                          !(dirty && isValid) || disableButton
+                                        }
                                       >
                                         {activeStep === steps.length - 1
                                           ? "Finish"

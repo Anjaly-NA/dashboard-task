@@ -74,9 +74,12 @@ const PaymentForm = (props) => {
   const classes = useStyle();
   const [num, setNum] = useState(" ");
   const [dat, setDat] = useState(" ");
-
   useEffect(() => {
-    props.buttonDisableSet();
+    if (num === "" && dat === "") {
+      props.setButtonDisable(false);
+    } else {
+      props.setButtonDisable(true);
+    }
   });
 
   const handleSubmit = async (event) => {
@@ -99,6 +102,7 @@ const PaymentForm = (props) => {
       props.setModal(
         `Paid successfully via ${payload.paymentMethod.card.brand}`
       );
+      props.setButtonDisable(false);
     } else {
       props.unsetLoader();
       props.setModal(payload.error.message);
@@ -168,7 +172,7 @@ const PaymentForm = (props) => {
                 {"  "}
                 {dat}
               </Typography>
-              <Button
+              {/* <Button
                 type="submit"
                 size="large"
                 type="submit"
@@ -179,7 +183,7 @@ const PaymentForm = (props) => {
                 onClick={handleSubmit}
               >
                 Pay
-              </Button>
+              </Button> */}
             </Box>
             {/* </form> */}
           </CardContent>
