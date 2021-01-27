@@ -74,8 +74,10 @@ const PaymentForm = (props) => {
   const classes = useStyle();
   const [num, setNum] = useState(" ");
   const [dat, setDat] = useState(" ");
+  const [cvc, setCvc] = useState(" ");
+
   useEffect(() => {
-    if (num === "" && dat === "") {
+    if (num === "" && dat === "" && cvc === "") {
       props.setButtonDisable(false);
     } else {
       props.setButtonDisable(true);
@@ -127,6 +129,14 @@ const PaymentForm = (props) => {
         setDat(event.error.message);
       } else {
         setDat("Date Incomplete");
+      }
+    } else if (type === "cvc") {
+      if (event.complete === true) {
+        setCvc("");
+      } else if (event.error !== undefined) {
+        setCvc(event.error.message);
+      } else {
+        setCvc("Cvc Incomplete");
       }
     }
   };
