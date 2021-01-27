@@ -1,33 +1,6 @@
 import React, { useEffect } from "react";
-import { Formik } from "formik";
-import clsx from "clsx";
-import {
-  Box,
-  Button,
-  Checkbox,
-  Container,
-  FormHelperText,
-  Link,
-  TextField,
-  Typography,
-  makeStyles,
-  Grid,
-  Card,
-  CardHeader,
-  Divider,
-  CardContent,
-} from "@material-ui/core";
-import * as Yup from "yup";
-import Page from "../../components/Page";
+import { Box, Checkbox, TextField, Typography, Grid } from "@material-ui/core";
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    backgroundColor: theme.palette.background.dark,
-    minHeight: "100%",
-    paddingBottom: theme.spacing(3),
-    paddingTop: theme.spacing(3),
-  },
-}));
 const cities = [
   {
     value: undefined,
@@ -89,7 +62,6 @@ const AddressForm = (props, { className, ...rest }) => {
   useEffect(() => {
     props.setButtonDisable(false);
   });
-  const classes = useStyles();
   return (
     <Grid container spacing={3}>
       <Grid item md={6} xs={12}>

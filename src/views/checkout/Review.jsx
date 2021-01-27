@@ -1,14 +1,11 @@
 import React from "react";
 import { useFormikContext } from "formik";
 import {
-  Box,
-  Button,
   Card,
   CardContent,
   CardHeader,
   Container,
   Divider,
-  makeStyles,
   Typography,
 } from "@material-ui/core";
 import { capitalizeFirstLetter } from "../../utils/capitalizeFirstLetter";
@@ -24,7 +21,6 @@ const Review = (props) => {
     state,
     zip,
     country,
-    policy,
   } = formValues;
 
   return (

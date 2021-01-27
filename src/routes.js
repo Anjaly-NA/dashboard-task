@@ -11,8 +11,7 @@ import Customer from "./views/customer/index";
 import Product from "./views/product/index";
 import Gallery from "./views/gallery/Gallery";
 import Payment from "./views/payment/Payment";
-import AddressForm from './views/checkout/Checkout'
-import Multistep from './components/Multistep'
+import Multistep from "./components/Multistep";
 
 const routes = [
   {

@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { makeStyles, withStyles } from "@material-ui/core/styles";
+import React, { useState } from "react";
+import { makeStyles } from "@material-ui/core/styles";
 import clsx from "clsx";
 import Stepper from "@material-ui/core/Stepper";
 import Step from "@material-ui/core/Step";
@@ -9,7 +9,7 @@ import GroupAddIcon from "@material-ui/icons/GroupAdd";
 import VideoLabelIcon from "@material-ui/icons/VideoLabel";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
-import AddressForm from "../views/checkout/Checkout";
+import AddressForm from "../views/checkout/AddressForm";
 import * as Yup from "yup";
 import Page from "../components/Page";
 import { Formik, Form } from "formik";
@@ -202,16 +202,7 @@ const Multistep = () => {
                           onSubmit={handleMultistep}
                         >
                           {(formik) => {
-                            const {
-                              errors,
-                              values,
-                              handleChange,
-                              handleBlur,
-                              handleSubmit,
-                              touched,
-                              isValid,
-                              dirty,
-                            } = formik;
+                            const { handleSubmit, isValid, dirty } = formik;
                             return (
                               <Form onSubmit={handleSubmit}>
                                 <Card>

@@ -8,7 +8,6 @@ import {
 } from "@stripe/react-stripe-js";
 import {
   Box,
-  Button,
   Card,
   CardContent,
   CardHeader,
@@ -69,8 +68,8 @@ const useStyle = makeStyles((theme) => ({
 }));
 
 const PaymentForm = (props) => {
-  const stripe = useStripe();
-  const elements = useElements();
+  // const stripe = useStripe();
+  // const elements = useElements();
   const classes = useStyle();
   const [num, setNum] = useState(" ");
   const [dat, setDat] = useState(" ");
@@ -84,32 +83,30 @@ const PaymentForm = (props) => {
     }
   });
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    props.setLoader();
+  // const handleSubmit = async (event) => {
+  //   event.preventDefault();
+  //   props.setLoader();
 
-    if (!stripe || !elements) {
-      // Stripe.js has not loaded yet. Make sure to disable
-      // form submission until Stripe.js has loaded.
-      return;
-    }
+  //   if (!stripe || !elements) {
+  //     return;
+  //   }
 
-    const payload = await stripe.createPaymentMethod({
-      type: "card",
-      card: elements.getElement(CardNumberElement),
-    });
+  //   const payload = await stripe.createPaymentMethod({
+  //     type: "card",
+  //     card: elements.getElement(CardNumberElement),
+  //   });
 
-    if (payload.paymentMethod) {
-      props.unsetLoader();
-      props.setModal(
-        `Paid successfully via ${payload.paymentMethod.card.brand}`
-      );
-      props.setButtonDisable(false);
-    } else {
-      props.unsetLoader();
-      props.setModal(payload.error.message);
-    }
-  };
+  //   if (payload.paymentMethod) {
+  //     props.unsetLoader();
+  //     props.setModal(
+  //       `Paid successfully via ${payload.paymentMethod.card.brand}`
+  //     );
+  //     props.setButtonDisable(false);
+  //   } else {
+  //     props.unsetLoader();
+  //     props.setModal(payload.error.message);
+  //   }
+  // };
   const closeModal = () => {
     props.unsetModal();
   };
