@@ -1,62 +1,6 @@
 import React, { useEffect } from "react";
 import { Box, Checkbox, TextField, Typography, Grid } from "@material-ui/core";
-
-const cities = [
-  {
-    value: undefined,
-    label: "Choose a city",
-  },
-  {
-    value: "1",
-    label: "New York",
-  },
-  {
-    value: "2",
-    label: "Chicago",
-  },
-  {
-    value: "3",
-    label: "Saigon",
-  },
-];
-
-const states = [
-  {
-    value: undefined,
-    label: "Choose state",
-  },
-  {
-    value: "11",
-    label: "Florida",
-  },
-  {
-    value: "22",
-    label: "Michigan",
-  },
-  {
-    value: "33",
-    label: "Texas",
-  },
-];
-
-const countries = [
-  {
-    value: null,
-    label: "Choose a Country",
-  },
-  {
-    value: "111",
-    label: "United States",
-  },
-  {
-    value: "222",
-    label: "Italy",
-  },
-  {
-    value: "333",
-    label: "Vietnam",
-  },
-];
+import { cities, states, countries } from "../../constant/constant";
 
 const AddressForm = (props, { className, ...rest }) => {
   useEffect(() => {
