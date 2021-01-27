@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   useStripe,
   useElements,
@@ -63,9 +63,9 @@ const useStyle = makeStyles((theme) => ({
   btn: {
     width: "50px",
   },
-  indicator:{
-    color:theme.palette.primary.color1
-  }
+  indicator: {
+    color: theme.palette.primary.color1,
+  },
 }));
 
 const PaymentForm = (props) => {
@@ -74,6 +74,10 @@ const PaymentForm = (props) => {
   const classes = useStyle();
   const [num, setNum] = useState(" ");
   const [dat, setDat] = useState(" ");
+
+  useEffect(() => {
+    props.buttonDisableSet();
+  });
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -89,7 +93,6 @@ const PaymentForm = (props) => {
       type: "card",
       card: elements.getElement(CardNumberElement),
     });
-    console.log(elements,'elements')
 
     if (payload.paymentMethod) {
       props.unsetLoader();
@@ -105,7 +108,6 @@ const PaymentForm = (props) => {
     props.unsetModal();
   };
   const handleNumber = (event, type) => {
-    console.log(event,'eventeventevent')
     if (type === "number") {
       if (event.complete === true) {
         setNum("");
@@ -122,7 +124,6 @@ const PaymentForm = (props) => {
       } else {
         setDat("Date Incomplete");
       }
-    } else {
     }
   };
 
@@ -162,12 +163,12 @@ const PaymentForm = (props) => {
                   onChange={(event) => handleNumber(event, "cvc")}
                 />
               </label>
-              <Typography variant='body2' className={classes.indicator}>
+              <Typography variant="body2" className={classes.indicator}>
                 {num}
                 {"  "}
                 {dat}
               </Typography>
-              {/* <Button
+              <Button
                 type="submit"
                 size="large"
                 type="submit"
@@ -178,7 +179,7 @@ const PaymentForm = (props) => {
                 onClick={handleSubmit}
               >
                 Pay
-              </Button> */}
+              </Button>
             </Box>
             {/* </form> */}
           </CardContent>

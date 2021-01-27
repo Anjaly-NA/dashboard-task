@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Formik } from "formik";
 import clsx from "clsx";
 import {
@@ -85,75 +85,12 @@ const countries = [
   },
 ];
 
-// var isValidZip = /(^\d{5}$)|(^\d{5}-\d{4}$)/.test("90210");
-// const validationSchema = Yup.object().shape({
-//   firstName: Yup.string()
-//     .max(255)
-//     .required("First name is required"),
-//   lastName: Yup.string()
-//     .max(255)
-//     .required("Last name is required"),
-//   address1: Yup.string()
-//     .max(255)
-//     .required("Address is required"),
-//   address2: Yup.string().max(255),
-//   city: Yup.string()
-//     .max(255)
-//     .required("City is required"),
-//   state: Yup.string()
-//     .max(255)
-//     .required("State is required"),
-//   zip: Yup.string()
-//     .required("Zip code is required")
-//     .matches(isValidZip, "Invalid zip code"),
-//   country: Yup.string()
-//     .max(255)
-//     .required("Country is required"),
-//   policy: Yup.boolean().oneOf([true], "This field must be checked"),
-// });
-// const initialformik.Values = {
-//   firstName: "",
-//   lastName: "",
-//   address1: "",
-//   address2: "",
-//   city: "",
-//   state: "",
-//   zip: "",
-//   country: "",
-//   policy: false,
-// };
 const AddressForm = (props, { className, ...rest }) => {
   const classes = useStyles();
+  useEffect(() => {
+    props.buttonEnableSet();
+  });
   return (
-    // <Page className={classes.root} title="Chechout">
-    //   <Container maxWidth="lg">
-    //     <Grid container spacing={3}>
-    //       <Grid item lg={8} md={6} xs={12} sm={8}>
-    //         <Formik
-    //           initialformik.Values={initialformik.Values}
-    //           validationSchema={validationSchema}
-    //           // onSubmit={saveCustomer}
-    //         >
-    //           {(formik) => {
-    //             const {
-    //               props.formik.errors,
-    //               props.formik.values,
-    //               props.formik.handleChange,
-    //               props.formik.handleBlur,
-    //               handleSubmit,
-    //               props.formik.touched,
-    //               isValid,
-    //               dirty,
-    //             } = formik;
-    //             return (
-    //               <form className={clsx(className)} onSubmit={handleSubmit}>
-    // <Card>
-    //   <CardHeader
-    //     subheader="The information can't be edited"
-    //     title="Address"
-    //   />
-    //   <Divider />
-    //   <CardContent>
     <Grid container spacing={3}>
       <Grid item md={6} xs={12}>
         <TextField
@@ -324,18 +261,6 @@ const AddressForm = (props, { className, ...rest }) => {
         </Box>
       </Grid>
     </Grid>
-    //   </CardContent>
-    //   <Divider />
-    //   <Box display="flex" justifyContent="flex-end" p={2}></Box>
-    // </Card>
-    //               </form>
-    //             );
-    //           }}
-    //         </Formik>
-    //       </Grid>
-    //     </Grid>
-    //   </Container>
-    // </Page>
   );
 };
 export default AddressForm;

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import clsx from "clsx";
 import Stepper from "@material-ui/core/Stepper";
@@ -24,6 +24,7 @@ import {
 } from "@material-ui/core";
 import PaymentForm from "../views/checkout/PaymentForm";
 import Review from "../views/checkout/Review";
+import OrderSuccess from "../views/checkout/OrderSuccess";
 
 var isValidZip = /(^\d{5}$)|(^\d{5}-\d{4}$)/;
 const validationSchema = Yup.object().shape({
@@ -135,12 +136,17 @@ const getTitle = (step) => {
   }
 };
 
-const getStepContent = (step, formik) => {
+const getStepContent = (step, formik, buttonDisableSet, buttonEnableSet) => {
   switch (step) {
     case 0:
-      return <AddressForm formik={formik} />;
+      return <AddressForm formik={formik} buttonEnableSet={buttonEnableSet} />;
     case 1:
-      return <PaymentForm />;
+      return (
+        <PaymentForm
+          buttonDisableSet={buttonDisableSet}
+          buttonEnableSet={buttonEnableSet}
+        />
+      );
     case 2:
       return <Review />;
     default:
@@ -150,8 +156,16 @@ const getStepContent = (step, formik) => {
 
 const Multistep = () => {
   const classes = useStyles();
-  const [activeStep, setActiveStep] = React.useState(0);
+  const [activeStep, setActiveStep] = useState(0);
   const steps = getSteps();
+  const [disableButton, setButtonDisable] = useState(false);
+
+  const buttonDisableSet = () => {
+    setButtonDisable(true);
+  };
+  const buttonEnableSet = () => {
+    setButtonDisable(false);
+  };
 
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -166,6 +180,7 @@ const Multistep = () => {
   };
   const handleMultistep = () => {
     if (activeStep === steps.length - 1) {
+      handleNext();
     } else {
       handleNext();
     }
@@ -173,97 +188,97 @@ const Multistep = () => {
 
   return (
     <Page className={classes.root} title="Checkout">
-    <div className={classes.root}>
-      <Stepper alternativeLabel activeStep={activeStep}>
-        {steps.map((label) => (
-          <Step key={label}>
-            <StepLabel StepIconComponent={ColorlibStepIcon}>{label}</StepLabel>
-          </Step>
-        ))}
-      </Stepper>
-      <div>
-        {activeStep === steps.length ? (
-          <div>
-            <Typography className={classes.instructions}>
-              All steps completed - you&apos;re finished
-            </Typography>
-            <Button onClick={handleReset} className={classes.button}>
-              Reset
-            </Button>
-          </div>
-        ) : (
-          <div>
-            <Typography className={classes.instructions}>
-              <Page className={classes.root} title="Checkout">
-                <Container maxWidth="lg">
-                  <Grid container spacing={3}>
-                    <Grid item lg={8} md={6} xs={12} sm={8}>
-                      <Formik
-                        initialValues={initialValues}
-                        validationSchema={validationSchema}
-                        onSubmit={handleMultistep}
-                      >
-                        {(formik) => {
-                          const {
-                            errors,
-                            values,
-                            handleChange,
-                            handleBlur,
-                            handleSubmit,
-                            touched,
-                            isValid,
-                            dirty,
-                          } = formik;
-                          return (
-                            <Form onSubmit={handleSubmit}>
-                              <Card>
-                                <CardHeader
-                                  subheader="This information can't be edited"
-                                  title={getTitle(activeStep)}
-                                />
-                                <Divider />
-                                <CardContent>
-                                  {getStepContent(activeStep, formik)}
-                                </CardContent>
-                                <Divider />
-                                <Box
-                                  display="flex"
-                                  justifyContent="flex-end"
-                                  p={2}
-                                >
-                                  <div>
-                                    <Button
-                                      disabled={activeStep === 0}
-                                      onClick={handleBack}
-                                      className={classes.button}
-                                    >
-                                      Back
-                                    </Button>
-                                    <Button
-                                      type="submit"
-                                      variant="contained"
-                                      color="primary"
-                                      // onClick={handleNext}
-                                      className={classes.button}
-                                      disabled={!(dirty && isValid)}
-                                    >
-                                      {activeStep === steps.length - 1
-                                        ? "Finish"
-                                        : "Next"}
-                                    </Button>
-                                  </div>
-                                </Box>
-                              </Card>
-                            </Form>
-                          );
-                        }}
-                      </Formik>
+      <div className={classes.root}>
+        <Stepper alternativeLabel activeStep={activeStep}>
+          {steps.map((label) => (
+            <Step key={label}>
+              <StepLabel StepIconComponent={ColorlibStepIcon}>
+                {label}
+              </StepLabel>
+            </Step>
+          ))}
+        </Stepper>
+        <div>
+          {activeStep === steps.length ? (
+            <OrderSuccess />
+          ) : (
+            <div>
+              <Typography className={classes.instructions}>
+                <Page className={classes.root} title="Checkout">
+                  <Container maxWidth="lg">
+                    <Grid container spacing={3}>
+                      <Grid item lg={8} md={6} xs={12} sm={8}>
+                        <Formik
+                          initialValues={initialValues}
+                          validationSchema={validationSchema}
+                          onSubmit={handleMultistep}
+                        >
+                          {(formik) => {
+                            const {
+                              errors,
+                              values,
+                              handleChange,
+                              handleBlur,
+                              handleSubmit,
+                              touched,
+                              isValid,
+                              dirty,
+                            } = formik;
+                            return (
+                              <Form onSubmit={handleSubmit}>
+                                <Card>
+                                  <CardHeader
+                                    subheader="This information can't be edited"
+                                    title={getTitle(activeStep)}
+                                  />
+                                  <Divider />
+                                  <CardContent>
+                                    {getStepContent(
+                                      activeStep,
+                                      formik,
+                                      buttonDisableSet,
+                                      buttonEnableSet
+                                    )}
+                                  </CardContent>
+                                  <Divider />
+                                  <Box
+                                    display="flex"
+                                    justifyContent="flex-end"
+                                    p={2}
+                                  >
+                                    <div>
+                                      <Button
+                                        disabled={activeStep === 0}
+                                        onClick={handleBack}
+                                        className={classes.button}
+                                      >
+                                        Back
+                                      </Button>
+                                      <Button
+                                        type="submit"
+                                        variant="contained"
+                                        color="primary"
+                                        // onClick={handleNext}
+                                        className={classes.button}
+                                        disabled={!(dirty && isValid)}
+                                      >
+                                        {activeStep === steps.length - 1
+                                          ? "Finish"
+                                          : "Next"}
+                                      </Button>
+                                    </div>
+                                  </Box>
+                                </Card>
+                              </Form>
+                            );
+                          }}
+                        </Formik>
+                      </Grid>
                     </Grid>
-                  </Grid>
-                </Container>
-              </Page>
-            </Typography>
-            {/* <div>
+                  </Container>
+                </Page>
+              </Typography>
+              {/* <div>
               <Button
                 disabled={activeStep === 0}
                 onClick={handleBack}
@@ -281,10 +296,11 @@ const Multistep = () => {
                 {activeStep === steps.length - 1 ? "Finish" : "Next"}
               </Button>
             </div> */}
-          </div>
-        )}
+            </div>
+          )}
+        </div>
       </div>
-    </div></Page>
+    </Page>
   );
 };
 export default Multistep;
