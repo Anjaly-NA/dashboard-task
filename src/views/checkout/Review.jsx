@@ -26,9 +26,6 @@ const Review = (props) => {
 
   return (
     <Container maxWidth="sm">
-      {cities
-        .filter((item) => item.value === city)
-        .map((filteredCity) => console.log(filteredCity.label, "filteredCity"))}
       <Card>
         <CardHeader title="Shipping address" />
         <Divider />
