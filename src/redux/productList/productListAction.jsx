@@ -14,8 +14,8 @@ export const productListSuccess = (productList) => {
 export const productListFailure = (error) => {
   return { type: PRODUCT_LIST_FAILURE, payload: error };
 };
-export const productListFetch = () => {
+export const productListFetch = (productId = "") => {
   return () => {
-    return axios.get("https://reqres.in/api/unknown");
+    return axios.get(`https://reqres.in/api/unknown/${productId}`);
   };
 };

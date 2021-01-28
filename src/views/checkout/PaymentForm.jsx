@@ -1,7 +1,5 @@
 import React from "react";
 import { Box, Checkbox, TextField, Typography, Grid } from "@material-ui/core";
-import { DatePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
-import DateFnsUtils from "@date-io/date-fns";
 
 const AddressForm = (props, { className, ...rest }) => {
   return (
