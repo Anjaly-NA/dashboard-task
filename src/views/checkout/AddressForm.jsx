@@ -3,9 +3,6 @@ import { Box, Checkbox, TextField, Typography, Grid } from "@material-ui/core";
 import { cities, states, countries } from "../../constant/constant";
 
 const AddressForm = (props, { className, ...rest }) => {
-  useEffect(() => {
-    props.setButtonDisable(false);
-  });
   return (
     <Grid container spacing={3}>
       <Grid item md={6} xs={12}>

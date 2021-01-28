@@ -1,216 +1,83 @@
-import React, { useEffect, useState } from "react";
-import {
-  // useStripe,
-  // useElements,
-  CardNumberElement,
-  CardCvcElement,
-  CardExpiryElement,
-} from "@stripe/react-stripe-js";
-import {
-  Box,
-  Card,
-  CardContent,
-  CardHeader,
-  Container,
-  Divider,
-  makeStyles,
-  Typography,
-} from "@material-ui/core";
-import Page from "../../components/Page";
-import ModalBox from "../../components/Modal";
-import { connect } from "react-redux";
-import {
-  setModal,
-  unsetModal,
-  setLoader,
-  unsetLoader,
-} from "../../redux/common/modal/modalAction";
-import Loader from "../../components/Loader";
+import React from "react";
+import { Box, Checkbox, TextField, Typography, Grid } from "@material-ui/core";
+import { DatePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
+import DateFnsUtils from "@date-io/date-fns";
 
-const options = {
-  iconStyle: "solid",
-  style: {
-    base: {
-      iconColor: "#c4f0ff",
-      color: "teal",
-      fontWeight: 500,
-      fontFamily: "Roboto, Open Sans, Segoe UI, sans-serif",
-      fontSize: "16px",
-      fontSmoothing: "antialiased",
-      letterSpacing: "0.025em",
-    },
-    invalid: {
-      iconColor: "#ffc7ee",
-      color: "#9e2146",
-    },
-  },
-};
-
-const useStyle = makeStyles((theme) => ({
-  label: {
-    color: theme.palette.text.secondary,
-  },
-  card: {
-    marginTop: "30px",
-  },
-  box: {
-    display: "flex",
-    flexDirection: "column",
-    height: "220px",
-    justifyContent: "space-around",
-  },
-  btn: {
-    width: "50px",
-  },
-  indicator: {
-    color: theme.palette.primary.color1,
-  },
-}));
-
-const PaymentForm = (props) => {
-  // const stripe = useStripe();
-  // const elements = useElements();
-  const classes = useStyle();
-  const [num, setNum] = useState(" ");
-  const [dat, setDat] = useState(" ");
-  const [cvc, setCvc] = useState(" ");
-
-  useEffect(() => {
-    if (num === "" && dat === "" && cvc === "") {
-      props.setButtonDisable(false);
-    } else {
-      props.setButtonDisable(true);
-    }
-  });
-
-  // const handleSubmit = async (event) => {
-  //   event.preventDefault();
-  //   props.setLoader();
-
-  //   if (!stripe || !elements) {
-  //     return;
-  //   }
-
-  //   const payload = await stripe.createPaymentMethod({
-  //     type: "card",
-  //     card: elements.getElement(CardNumberElement),
-  //   });
-
-  //   if (payload.paymentMethod) {
-  //     props.unsetLoader();
-  //     props.setModal(
-  //       `Paid successfully via ${payload.paymentMethod.card.brand}`
-  //     );
-  //     props.setButtonDisable(false);
-  //   } else {
-  //     props.unsetLoader();
-  //     props.setModal(payload.error.message);
-  //   }
-  // };
-  const closeModal = () => {
-    props.unsetModal();
-  };
-  const handleNumber = (event, type) => {
-    if (type === "number") {
-      if (event.complete === true) {
-        setNum("");
-      } else if (event.error !== undefined) {
-        setNum(event.error.message);
-      } else {
-        setNum("Card Number Incomplete");
-      }
-    } else if (type === "date") {
-      if (event.complete === true) {
-        setDat("");
-      } else if (event.error !== undefined) {
-        setDat(event.error.message);
-      } else {
-        setDat("Date Incomplete");
-      }
-    } else if (type === "cvc") {
-      if (event.complete === true) {
-        setCvc("");
-      } else if (event.error !== undefined) {
-        setCvc(event.error.message);
-      } else {
-        setCvc("Cvc Incomplete");
-      }
-    }
-  };
-
+const AddressForm = (props, { className, ...rest }) => {
   return (
-    <Page title="Payment">
-      <ModalBox
-        message={props.modalData.modalMessage}
-        modal={props.modalData.openModal}
-        closeModal={closeModal}
-      />
-      {props.modalData.loader && <Loader />}
-      <Container maxWidth="sm">
-        <Card className={classes.card}>
-          <CardHeader title="Payment" />
-          <Divider />
-          <CardContent>
-            {/* <form onSubmit={handleSubmit}> */}
-            <Box className={classes.box}>
-              <label className={classes.label}>
-                Card number
-                <CardNumberElement
-                  options={options}
-                  onChange={(event) => handleNumber(event, "number")}
-                />
-              </label>
-              <label className={classes.label}>
-                Expiration date
-                <CardExpiryElement
-                  options={options}
-                  onChange={(event) => handleNumber(event, "date")}
-                />
-              </label>
-              <label className={classes.label}>
-                CVC
-                <CardCvcElement
-                  options={options}
-                  onChange={(event) => handleNumber(event, "cvc")}
-                />
-              </label>
-              <Typography variant="body2" className={classes.indicator}>
-                {num}
-                {"  "}
-                {dat}
-              </Typography>
-              {/* <Button
-                type="submit"
-                size="large"
-                type="submit"
-                variant="contained"
-                color="primary"
-                className={classes.btn}
-                disabled={num !== "" || dat !== ""}
-                onClick={handleSubmit}
-              >
-                Pay
-              </Button> */}
-            </Box>
-            {/* </form> */}
-          </CardContent>
-        </Card>
-      </Container>
-    </Page>
+    <Grid container spacing={3}>
+      <Grid item md={6} xs={12}>
+        <TextField
+          error={Boolean(
+            props.formik.touched.nameOnCard && props.formik.errors.nameOnCard
+          )}
+          helperText={
+            props.formik.touched.nameOnCard && props.formik.errors.nameOnCard
+          }
+          fullWidth
+          label="Name on Card"
+          name="nameOnCard"
+          onChange={props.formik.handleChange}
+          onBlur={props.formik.handleBlur}
+          required
+          value={props.formik.values.nameOnCard}
+          variant="outlined"
+        />
+      </Grid>
+      <Grid item md={6} xs={12}>
+        <TextField
+          error={Boolean(
+            props.formik.touched.cardNumber && props.formik.errors.cardNumber
+          )}
+          helperText={
+            props.formik.touched.cardNumber && props.formik.errors.cardNumber
+          }
+          fullWidth
+          label="Card Number"
+          name="cardNumber"
+          onChange={props.formik.handleChange}
+          onBlur={props.formik.handleBlur}
+          required
+          value={props.formik.values.cardNumber}
+          variant="outlined"
+        />
+      </Grid>
+      <Grid item xs={12}>
+        <TextField
+          type="date"
+          error={Boolean(
+            props.formik.touched.expiryDate && props.formik.errors.expiryDate
+          )}
+          helperText={
+            props.formik.touched.expiryDate && props.formik.errors.expiryDate
+          }
+          fullWidth
+          label="Expiry Date"
+          name="expiryDate"
+          onChange={props.formik.handleChange}
+          onBlur={props.formik.handleBlur}
+          required
+          value={props.formik.values.expiryDate}
+          variant="outlined"
+          InputLabelProps={{
+            shrink: true,
+          }}
+        />
+      </Grid>
+      <Grid item xs={12}>
+        <TextField
+          error={Boolean(props.formik.touched.cvv && props.formik.errors.cvv)}
+          helperText={props.formik.touched.cvv && props.formik.errors.cvv}
+          fullWidth
+          label="Cvv"
+          name="cvv"
+          onChange={props.formik.handleChange}
+          onBlur={props.formik.handleBlur}
+          value={props.formik.values.cvv}
+          variant="outlined"
+        />
+      </Grid>
+    </Grid>
   );
 };
-
-const mapStateToProps = (state) => {
-  return {
-    modalData: state.modalRed,
-  };
-};
-const mapDispatchToProps = (dispatch) => {
-  return {
-    setModal: (message) => dispatch(setModal(message)),
-    unsetModal: () => dispatch(unsetModal()),
-    setLoader: () => dispatch(setLoader()),
-    unsetLoader: () => dispatch(unsetLoader()),
-  };
-};
-export default connect(mapStateToProps, mapDispatchToProps)(PaymentForm);
+export default AddressForm;

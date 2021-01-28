@@ -25,33 +25,60 @@ import {
 import PaymentForm from "../views/checkout/PaymentForm";
 import Review from "../views/checkout/Review";
 import OrderSuccess from "../views/checkout/OrderSuccess";
+import moment from "moment";
 
 var isValidZip = /(^\d{5}$)|(^\d{5}-\d{4}$)/;
-const validationSchema = Yup.object().shape({
-  firstName: Yup.string()
-    .max(255)
-    .required("First name is required"),
-  lastName: Yup.string()
-    .max(255)
-    .required("Last name is required"),
-  address1: Yup.string()
-    .max(255)
-    .required("Address is required"),
-  address2: Yup.string().max(255),
-  city: Yup.string()
-    .max(255)
-    .required("City is required"),
-  state: Yup.string()
-    .max(255)
-    .required("State is required"),
-  zip: Yup.string()
-    .required("Zip code is required")
-    .matches(isValidZip, "Invalid zip code"),
-  country: Yup.string()
-    .max(255)
-    .required("Country is required"),
-  policy: Yup.boolean().oneOf([true], "This field must be checked"),
-});
+const visaRegEx = /^(?:4[0-9]{12}(?:[0-9]{3})?)$/;
+const validationSchema = [
+  Yup.object().shape({
+    firstName: Yup.string()
+      .max(255)
+      .required("First name is required"),
+    lastName: Yup.string()
+      .max(255)
+      .required("Last name is required"),
+    address1: Yup.string()
+      .max(255)
+      .required("Address is required"),
+    address2: Yup.string().max(255),
+    city: Yup.string()
+      .max(255)
+      .required("City is required"),
+    state: Yup.string()
+      .max(255)
+      .required("State is required"),
+    zip: Yup.string()
+      .required("Zip code is required")
+      .matches(isValidZip, "Invalid zip code"),
+    country: Yup.string()
+      .max(255)
+      .required("Country is required"),
+    policy: Yup.boolean().oneOf([true], "This field must be checked"),
+  }),
+  Yup.object().shape({
+    nameOnCard: Yup.string().required("Card holder name is required"),
+    cardNumber: Yup.string()
+      .required("Card number is required")
+      .matches(visaRegEx, "Invalid card number"),
+    expiryDate: Yup.string()
+      .nullable()
+      .required("Expiry date is required")
+      .test("expDate", "Enter valid expiry date", (val) => {
+        if (val) {
+          const startDate = new Date();
+          const endDate = new Date(2050, 12, 31);
+          if (moment(val, moment.ISO_8601).isValid()) {
+            return moment(val).isBetween(startDate, endDate);
+          }
+          return false;
+        }
+        return false;
+      }),
+    cvv: Yup.string()
+      .required("Cvv is required")
+      .test("len", "Enter valid cvv", (val) => val && val.length === 3),
+  }),
+];
 const initialValues = {
   firstName: "",
   lastName: "",
@@ -62,6 +89,10 @@ const initialValues = {
   zip: "",
   country: "",
   policy: false,
+  nameOnCard: "",
+  cardNumber: "",
+  expiryDate: "",
+  cvv: "",
 };
 
 const useStyle = makeStyles((theme) => ({
@@ -136,14 +167,12 @@ const getTitle = (step) => {
   }
 };
 
-const getStepContent = (step, formik, setButtonDisable) => {
+const getStepContent = (step, formik) => {
   switch (step) {
     case 0:
-      return (
-        <AddressForm formik={formik} setButtonDisable={setButtonDisable} />
-      );
+      return <AddressForm formik={formik} />;
     case 1:
-      return <PaymentForm setButtonDisable={setButtonDisable} />;
+      return <PaymentForm formik={formik} />;
     case 2:
       return <Review />;
     default:
@@ -155,7 +184,6 @@ const Multistep = () => {
   const classes = useStyles();
   const [activeStep, setActiveStep] = useState(0);
   const steps = getSteps();
-  const [disableButton, setButtonDisable] = useState(true);
 
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -165,12 +193,13 @@ const Multistep = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
 
-  const handleMultistep = () => {
+  const handleMultistep = (values, actions) => {
     if (activeStep === steps.length - 1) {
       handleNext();
-      //here comes
     } else {
       handleNext();
+      actions.setTouched({});
+      actions.setSubmitting(false);
     }
   };
 
@@ -198,13 +227,18 @@ const Multistep = () => {
                       <Grid item lg={8} md={6} xs={12} sm={8}>
                         <Formik
                           initialValues={initialValues}
-                          validationSchema={validationSchema}
+                          validationSchema={validationSchema[activeStep]}
                           onSubmit={handleMultistep}
                         >
                           {(formik) => {
-                            const { handleSubmit, isValid, dirty } = formik;
+                            const {
+                              handleSubmit,
+                              isValid,
+                              dirty,
+                              isSubmitting,
+                            } = formik;
                             return (
-                              <Form onSubmit={handleSubmit}>
+                              <Form onSubmit={handleSubmit} id="checkoutForm">
                                 <Card>
                                   <CardHeader
                                     subheader="This information can't be edited"
@@ -212,11 +246,7 @@ const Multistep = () => {
                                   />
                                   <Divider />
                                   <CardContent>
-                                    {getStepContent(
-                                      activeStep,
-                                      formik,
-                                      setButtonDisable
-                                    )}
+                                    {getStepContent(activeStep, formik)}
                                   </CardContent>
                                   <Divider />
                                   <Box
@@ -238,9 +268,8 @@ const Multistep = () => {
                                         color="primary"
                                         // onClick={handleNext}
                                         className={classes.button}
-                                        disabled={
-                                          !(dirty && isValid) || disableButton
-                                        }
+                                        // disabled={!(dirty && isValid)}
+                                        disabled={isSubmitting}
                                       >
                                         {activeStep === steps.length - 1
                                           ? "Finish"
