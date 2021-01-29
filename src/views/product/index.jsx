@@ -21,6 +21,12 @@ import {
   productListFailure,
   productListFetch,
 } from "../../redux/productList/productListAction";
+import {
+  searchListRequest,
+  searchListSuccess,
+  searchListFailure,
+  searchListFetch,
+} from "../../redux/search/searchAction";
 import { connect } from "react-redux";
 import { capitalizeFirstLetter } from "../../utils/capitalizeFirstLetter";
 
@@ -36,46 +42,10 @@ const useStyles = makeStyles((theme) => ({
     cursor: "pointer",
   },
 }));
-const options = [
-  {
-    color: "#98B2D1",
-    id: "",
-    name: "none",
-    pantone_value: "15-4020",
-    year: 2000,
-  },
-  {
-    color: "#98B2D1",
-    id: 1,
-    name: "cerulean",
-    pantone_value: "15-4020",
-    year: 2000,
-  },
-  {
-    id: 2,
-    name: "fuchsia rose",
-    year: 2001,
-    color: "#C74375",
-    pantone_value: "17-2031",
-  },
-  {
-    id: 3,
-    name: "true red",
-    year: 2002,
-    color: "#BF1932",
-    pantone_value: "19-1664",
-  },
-  {
-    id: 4,
-    name: "aqua sky",
-    year: 2003,
-    color: "#7BC4C4",
-    pantone_value: "14-4811",
-  },
-];
+
 const Product = (props) => {
   const [snackbar, setSnackbar] = useState(false);
-  const [value, setValue] = useState(options[0]);
+  const [value, setValue] = useState({ id: "", name: "None" });
   const [inputValue, setInputValue] = useState("");
   const classes = useStyles();
   const {
@@ -83,6 +53,10 @@ const Product = (props) => {
     productListFetch,
     productListSuccess,
     productListFailure,
+    searchListRequest,
+    searchListSuccess,
+    searchListFailure,
+    searchListFetch,
   } = props;
 
   useEffect(() => {
@@ -94,11 +68,24 @@ const Product = (props) => {
       .catch((error) => {
         productListFailure(error.message);
       });
+
+    searchListRequest();
+    searchListFetch()
+      .then((response) => {
+        searchListSuccess(response.data);
+      })
+      .catch((error) => {
+        searchListFailure(error.message);
+      });
   }, [
     productListRequest,
     productListFetch,
     productListSuccess,
     productListFailure,
+    searchListRequest,
+    searchListSuccess,
+    searchListFailure,
+    searchListFetch,
   ]);
   const handleClick = () => {
     setSnackbar(true);
@@ -113,7 +100,7 @@ const Product = (props) => {
       setValue(productDetail);
       productId = productDetail.id;
     } else {
-      setValue(options[0]);
+      setValue({ id: "", name: "None" });
       productId = "";
     }
     productListRequest();
@@ -146,8 +133,11 @@ const Product = (props) => {
               onInputChange={(event, newInputValue) => {
                 setInputValue(newInputValue);
               }}
-              options={options}
-              getOptionLabel={(option) => option.name}
+              options={
+                props.searchListData.searchList.data !== undefined &&
+                props.searchListData.searchList.data
+              }
+              getOptionLabel={(option) => capitalizeFirstLetter(option.name)}
               style={{ width: 200 }}
               renderInput={(params) => (
                 <TextField {...params} label="Combo box" variant="outlined" />
@@ -221,6 +211,7 @@ const Product = (props) => {
 const mapStateToProps = (state) => {
   return {
     productListData: state.productListRed,
+    searchListData: state.searchListRed,
   };
 };
 const mapDispatchToProps = (dispatch) => {
@@ -231,6 +222,12 @@ const mapDispatchToProps = (dispatch) => {
     productListFailure: (errorMessage) =>
       dispatch(productListFailure(errorMessage)),
     productListFetch: (productId) => dispatch(productListFetch(productId)),
+
+    searchListRequest: () => dispatch(searchListRequest()),
+    searchListSuccess: (searchList) => dispatch(searchListSuccess(searchList)),
+    searchListFailure: (errorMessage) =>
+      dispatch(searchListFailure(errorMessage)),
+    searchListFetch: () => dispatch(searchListFetch()),
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Product);

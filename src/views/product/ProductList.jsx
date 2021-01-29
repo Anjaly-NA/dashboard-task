@@ -45,8 +45,7 @@ const ProductList = ({ className, product, ...rest }) => {
           gutterBottom
           variant="h4"
         >
-          {product.name}
-          {/* {capitalizeFirstLetter(product.name)} */}
+          {product.name !== undefined && capitalizeFirstLetter(product.name)}
         </Typography>
         <Typography align="center" color="textPrimary" variant="body1">
           {product.name} {product.year} {product.color} {product.pantone_value}{" "}
