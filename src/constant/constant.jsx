@@ -4,6 +4,7 @@ import { v4 as uuid } from "uuid";
 import ImageIcon from "@material-ui/icons/Image";
 import LocalAtmIcon from "@material-ui/icons/LocalAtm";
 import LocalShippingIcon from "@material-ui/icons/LocalShipping";
+import BugReportIcon from "@material-ui/icons/BugReport";
 
 export const editUserList = [
   {
@@ -62,6 +63,11 @@ export const items = [
     href: "/user/checkout",
     icon: LocalShippingIcon,
     title: "Checkout",
+  },
+  {
+    href: "/user/covid",
+    icon: BugReportIcon,
+    title: "Covid Status",
   },
 ];
 

@@ -231,12 +231,7 @@ const Multistep = () => {
                           onSubmit={handleMultistep}
                         >
                           {(formik) => {
-                            const {
-                              handleSubmit,
-                              isValid,
-                              dirty,
-                              isSubmitting,
-                            } = formik;
+                            const { handleSubmit, isSubmitting } = formik;
                             return (
                               <Form onSubmit={handleSubmit} id="checkoutForm">
                                 <Card>

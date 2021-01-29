@@ -10,6 +10,7 @@ import {
   TextField,
   Card,
   CardContent,
+  CardHeader,
 } from "@material-ui/core";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import CloseIcon from "@material-ui/icons/Close";
@@ -121,7 +122,8 @@ const Product = (props) => {
   return (
     <Page className={classes.root} title="Products">
       <Container maxWidth={false}>
-        <Card title="Search...">
+        <Card>
+          <CardHeader title="Search..." />
           <CardContent>
             <Autocomplete
               id="combo-box-demo"
