@@ -9,7 +9,6 @@ import {
   AccordionDetails,
   Typography,
   CardHeader,
-  Divider,
   Box,
 } from "@material-ui/core";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
