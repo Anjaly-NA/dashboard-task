@@ -9,6 +9,8 @@ import {
   AccordionDetails,
   Typography,
   CardHeader,
+  Divider,
+  Box,
 } from "@material-ui/core";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import Page from "../../components/Page";
@@ -21,6 +23,12 @@ const useStyles = makeStyles((theme) => ({
     paddingBottom: theme.spacing(3),
     paddingTop: theme.spacing(3),
   },
+  content: {
+    flexDirection: "column",
+  },
+  list:{
+    color:theme.palette.primary.color3
+  }
 }));
 
 const Covid = () => {
@@ -30,15 +38,16 @@ const Covid = () => {
     axios
       .get("https://api.covid19india.org/state_district_wise.json")
       .then((response) => {
-        const objectArray = Object.entries(response.data);
-        setData(objectArray);
-        objectArray.map((item) => {
-          console.log(item, "item");
-          const objectArray2 = Object.entries(item[1].districtData);
-          objectArray2.map((i) => {
-            console.log(i, "i");
-          });
-        });
+        setData(response.data);
+        // const objectArray = Object.entries(response.data);
+        // setData(objectArray);
+        // objectArray.map((item) => {
+        //   console.log(item, "item");
+        //   const objectArray2 = Object.entries(item[1].districtData);
+        //   objectArray2.map((i) => {
+        //     console.log(i[0], "i");
+        //   });
+        // });
       });
   }, []);
   return (
@@ -47,9 +56,8 @@ const Covid = () => {
         <Card>
           <CardHeader title="Covid status" />
           <CardContent>
-            {/* {console.log(data, "data")} */}
             {data !== undefined &&
-              data.map((item) => (
+              Object.entries(data).map((states) => (
                 <Accordion>
                   <AccordionSummary
                     expandIcon={<ExpandMoreIcon />}
@@ -57,13 +65,18 @@ const Covid = () => {
                     id="panel1a-header"
                   >
                     <Typography variant="h6" color="textSecondary">
-                      {item[0]}
+                      {states[0]}
                     </Typography>
                   </AccordionSummary>
-                  <AccordionDetails>
-                    <Typography variant="h5" color="textSec ondary">
-                      district data
-                    </Typography>
+                  <AccordionDetails className={classes.content}>
+                    {Object.entries(states[1].districtData).map((districts) => (
+                      <Box component="div">
+                        <Typography variant="caption" className={classes.list}>
+                          {districts[0]}
+                        </Typography>
+                        <br />
+                      </Box>
+                    ))}
                   </AccordionDetails>
                 </Accordion>
               ))}
