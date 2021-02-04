@@ -24,6 +24,7 @@ import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import Page from "../../components/Page";
 import axios from "axios";
 import clsx from "clsx";
+import CustomTooltip from "../../components/CustomTooltip";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -110,68 +111,104 @@ const Covid = () => {
                         </Typography>
                       </Grid>
                       <Grid item xs={3}>
-                        <Chip
-                          variant="outlined"
-                          avatar={
-                            <Avatar
-                              className={clsx(
-                                classes.activeAvatar,
-                                classes.fontColor
-                              )}
-                            >
-                              A
-                            </Avatar>
+                        <CustomTooltip
+                          title={
+                            <React.Fragment>
+                              <Typography color="textSecondary" variant="h6">
+                                Active Cases
+                              </Typography>
+                            </React.Fragment>
                           }
-                          label={Object.entries(states[1].districtData).reduce(
-                            (totalActive, item) => totalActive + item[1].active,
-                            0
-                          )}
-                          // color="secondary"
-                          className={classes.active}
-                        />
+                        >
+                          <Chip
+                            variant="outlined"
+                            avatar={
+                              <Avatar
+                                className={clsx(
+                                  classes.activeAvatar,
+                                  classes.fontColor
+                                )}
+                              >
+                                A
+                              </Avatar>
+                            }
+                            label={Object.entries(
+                              states[1].districtData
+                            ).reduce(
+                              (totalActive, item) =>
+                                totalActive + item[1].active,
+                              0
+                            )}
+                            // color="secondary"
+                            className={classes.active}
+                          />
+                        </CustomTooltip>
                       </Grid>
                       <Grid item xs={3}>
-                        <Chip
-                          variant="outlined"
-                          avatar={
-                            <Avatar
-                              className={clsx(
-                                classes.confirmedAvatar,
-                                classes.fontColor
-                              )}
-                            >
-                              C
-                            </Avatar>
+                        <CustomTooltip
+                          title={
+                            <React.Fragment>
+                              <Typography color="textSecondary" variant="h6">
+                                Confirmed Cases
+                              </Typography>
+                            </React.Fragment>
                           }
-                          label={Object.entries(states[1].districtData).reduce(
-                            (totalActive, item) =>
-                              totalActive + item[1].confirmed,
-                            0
-                          )}
-                          className={classes.confirmed}
-                          // color="secondary"
-                        />
+                        >
+                          <Chip
+                            variant="outlined"
+                            avatar={
+                              <Avatar
+                                className={clsx(
+                                  classes.confirmedAvatar,
+                                  classes.fontColor
+                                )}
+                              >
+                                C
+                              </Avatar>
+                            }
+                            label={Object.entries(
+                              states[1].districtData
+                            ).reduce(
+                              (totalActive, item) =>
+                                totalActive + item[1].confirmed,
+                              0
+                            )}
+                            className={classes.confirmed}
+                          />
+                        </CustomTooltip>
                       </Grid>
                       <Grid item xs={3}>
-                        <Chip
-                          variant="outlined"
-                          avatar={
-                            <Avatar
-                              className={clsx(
-                                classes.recoveredAvatar,
-                                classes.fontColor
-                              )}
-                            >
-                              R
-                            </Avatar>
+                        <CustomTooltip
+                          title={
+                            <React.Fragment>
+                              <Typography color="textSecondary" variant="h6">
+                                Recovered Cases
+                              </Typography>
+                            </React.Fragment>
                           }
-                          label={Object.entries(states[1].districtData).reduce(
-                            (totalActive, item) =>
-                              totalActive + item[1].recovered,
-                            0
-                          )}
-                          className={classes.recovered}
-                        />
+                        >
+                          <Chip
+                            variant="outlined"
+                            avatar={
+                              <Avatar
+                                className={clsx(
+                                  classes.recoveredAvatar,
+                                  classes.fontColor
+                                )}
+                              >
+                                R
+                              </Avatar>
+                            }
+                            label={Object.entries(
+                              states[1].districtData
+                            ).reduce(
+                              (totalActive, item) =>
+                                totalActive + item[1].recovered,
+                              0
+                            )}
+                            className={classes.recovered}
+                          />
+                        </CustomTooltip>
                       </Grid>
                     </Grid>
                     {/* <Typography variant="h6" color="textSecondary">
