@@ -16,10 +16,14 @@ import {
   TableCell,
   TableBody,
   Paper,
+  Chip,
+  Avatar,
+  Grid,
 } from "@material-ui/core";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import Page from "../../components/Page";
 import axios from "axios";
+import clsx from "clsx";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -27,6 +31,9 @@ const useStyles = makeStyles((theme) => ({
     minHeight: "100%",
     paddingBottom: theme.spacing(3),
     paddingTop: theme.spacing(3),
+  },
+  fontColor: {
+    color: "white",
   },
   content: {
     flexDirection: "column",
@@ -44,6 +51,24 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.primary.color3,
   },
   activecases: { color: theme.palette.primary.color1 },
+  active: {
+    backgroundColor: theme.palette.primary.color6,
+  },
+  activeAvatar: {
+    backgroundColor: theme.palette.primary.color1,
+  },
+  confirmed: {
+    backgroundColor: theme.palette.primary.color7,
+  },
+  confirmedAvatar: {
+    backgroundColor: theme.palette.primary.color4,
+  },
+  recovered: {
+    backgroundColor: theme.palette.primary.color8,
+  },
+  recoveredAvatar: {
+    backgroundColor: theme.palette.primary.color3,
+  },
 }));
 
 const Covid = () => {
@@ -59,7 +84,7 @@ const Covid = () => {
         //   console.log(item, "item");
         //   const objectArray2 = Object.entries(item[1].districtData);
         //   objectArray2.map((i) => {
-        //     console.log(i, "i");
+        //     console.log(i[1].active, "i", active);
         //   });
         // });
       });
@@ -78,9 +103,94 @@ const Covid = () => {
                     aria-controls="panel1a-content"
                     id="panel1a-header"
                   >
-                    <Typography variant="h6" color="textSecondary">
+                    <Grid container spacing={3}>
+                      <Grid item xs={3}>
+                        <Typography variant="h6" color="textSecondary">
+                          {states[0]}
+                        </Typography>
+                      </Grid>
+                      <Grid item xs={3}>
+                        <Chip
+                          variant="outlined"
+                          avatar={
+                            <Avatar
+                              className={clsx(
+                                classes.activeAvatar,
+                                classes.fontColor
+                              )}
+                            >
+                              A
+                            </Avatar>
+                          }
+                          label={Object.entries(states[1].districtData).reduce(
+                            (totalActive, item) => totalActive + item[1].active,
+                            0
+                          )}
+                          // color="secondary"
+                          className={classes.active}
+                        />
+                      </Grid>
+                      <Grid item xs={3}>
+                        <Chip
+                          variant="outlined"
+                          avatar={
+                            <Avatar
+                              className={clsx(
+                                classes.confirmedAvatar,
+                                classes.fontColor
+                              )}
+                            >
+                              C
+                            </Avatar>
+                          }
+                          label={Object.entries(states[1].districtData).reduce(
+                            (totalActive, item) =>
+                              totalActive + item[1].confirmed,
+                            0
+                          )}
+                          className={classes.confirmed}
+                          // color="secondary"
+                        />
+                      </Grid>
+                      <Grid item xs={3}>
+                        <Chip
+                          variant="outlined"
+                          avatar={
+                            <Avatar
+                              className={clsx(
+                                classes.recoveredAvatar,
+                                classes.fontColor
+                              )}
+                            >
+                              R
+                            </Avatar>
+                          }
+                          label={Object.entries(states[1].districtData).reduce(
+                            (totalActive, item) =>
+                              totalActive + item[1].recovered,
+                            0
+                          )}
+                          className={classes.recovered}
+                        />
+                      </Grid>
+                    </Grid>
+                    {/* <Typography variant="h6" color="textSecondary">
                       {states[0]}
-                    </Typography>
+                    </Typography> */}
+                    {/* <Chip
+                      avatar={<Avatar>A</Avatar>}
+                      label={Object.entries(states[1].districtData).reduce(
+                        (totalActive, item) => totalActive + item[1].active,
+                        0
+                      )}
+                      color="secondary"
+                    /> */}
+                    {/* <Typography variant="h6" color="textSecondary">
+                      {Object.entries(states[1].districtData).reduce(
+                        (totalActive, item) => totalActive + item[1].active,
+                        0
+                      )}
+                    </Typography> */}
                   </AccordionSummary>
                   <AccordionDetails className={classes.content}>
                     <TableContainer component={Paper}>
@@ -160,15 +270,6 @@ const Covid = () => {
                         </TableBody>
                       </Table>
                     </TableContainer>
-
-                    {/* {Object.entries(states[1].districtData).map((districts) => (
-                      <Box component="div">
-                        <Typography variant="caption" className={classes.list}>
-                          {districts[0]}
-                        </Typography>
-                        <br />
-                      </Box>
-                    ))} */}
                   </AccordionDetails>
                 </Accordion>
               ))}
