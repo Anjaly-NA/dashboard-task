@@ -86,7 +86,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Gallery = (props) => {
+const Gallery = () => {
   const classes = useStyles();
 
   return (

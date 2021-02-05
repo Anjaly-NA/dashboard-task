@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 // import { Link as RouterLink } from "react-router-dom";
 import { useLocation, useNavigate } from "react-router-dom";
-import PropTypes from "prop-types";
 import {
   Avatar,
   Box,
@@ -18,7 +17,7 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import { items } from "../../../constant/constant";
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
   mobileDrawer: {
     width: 256,
   },
@@ -92,6 +91,7 @@ const NavBar = ({ onMobileClose, openMobile }) => {
         </List>
       </Box>
       <Box flexGrow={1} />
+
       {/* <Box p={2} m={2} bgcolor="background.dark">
         <Typography align="center" gutterBottom variant="h4">
           Need more?
@@ -138,16 +138,6 @@ const NavBar = ({ onMobileClose, openMobile }) => {
       </Hidden>
     </>
   );
-};
-
-NavBar.propTypes = {
-  onMobileClose: PropTypes.func,
-  openMobile: PropTypes.bool,
-};
-
-NavBar.defaultProps = {
-  onMobileClose: () => {},
-  openMobile: false,
 };
 
 export default NavBar;

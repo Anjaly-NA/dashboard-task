@@ -25,6 +25,7 @@ import Page from "../../components/Page";
 import axios from "axios";
 import clsx from "clsx";
 import CustomTooltip from "../../components/CustomTooltip";
+import SkeletonLoad from "../../components/SkeletonLoad";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -75,7 +76,9 @@ const useStyles = makeStyles((theme) => ({
 const Covid = () => {
   const classes = useStyles();
   const [data, setData] = useState([]);
+  const [load, setLoad] = useState(true);
   useEffect(() => {
+    setLoad(true);
     axios
       .get("https://api.covid19india.org/state_district_wise.json")
       .then((response) => {
@@ -89,6 +92,7 @@ const Covid = () => {
         //   });
         // });
       });
+    setLoad(false);
   }, []);
   return (
     <Page className={classes.root} title="Covid Status">
@@ -96,6 +100,7 @@ const Covid = () => {
         <Card>
           <CardHeader title="Covid status" />
           <CardContent>
+            {load && <SkeletonLoad />}
             {data !== undefined &&
               Object.entries(data).map((states) => (
                 <Accordion>
@@ -105,12 +110,12 @@ const Covid = () => {
                     id="panel1a-header"
                   >
                     <Grid container spacing={3}>
-                      <Grid item xs={3}>
+                      <Grid item sm={3} xs={6}>
                         <Typography variant="h6" color="textSecondary">
                           {states[0]}
                         </Typography>
                       </Grid>
-                      <Grid item xs={3}>
+                      <Grid item sm={3} xs={6}>
                         <CustomTooltip
                           title={
                             <React.Fragment>
@@ -144,7 +149,7 @@ const Covid = () => {
                           />
                         </CustomTooltip>
                       </Grid>
-                      <Grid item xs={3}>
+                      <Grid item sm={3} xs={6}>
                         <CustomTooltip
                           title={
                             <React.Fragment>
@@ -177,7 +182,7 @@ const Covid = () => {
                           />
                         </CustomTooltip>
                       </Grid>
-                      <Grid item xs={3}>
+                      <Grid item sm={3} xs={6}>
                         <CustomTooltip
                           title={
                             <React.Fragment>

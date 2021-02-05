@@ -28,12 +28,12 @@ const PopOver = (props) => {
         anchorEl={anchorEl}
         onClose={handleClose}
         anchorOrigin={{
-          vertical: "bottom",
+          vertical: "top",
           horizontal: "center",
         }}
         transformOrigin={{
-          vertical: "top",
-          horizontal: "center",
+          vertical: "bottom",
+          horizontal: "right",
         }}
       >
         <DesignDetail designId={props.designId} />

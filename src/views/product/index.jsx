@@ -11,6 +11,7 @@ import {
   Card,
   CardContent,
   CardHeader,
+  Avatar,
 } from "@material-ui/core";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import CloseIcon from "@material-ui/icons/Close";
@@ -140,6 +141,14 @@ const Product = (props) => {
                 props.searchListData.searchList.data
               }
               getOptionLabel={(option) => capitalizeFirstLetter(option.name)}
+              renderOption={(option) => (
+                <React.Fragment>
+                  <Avatar
+                    style={{ color: option.color, marginRight: "10px" }}
+                  />
+                  {capitalizeFirstLetter(option.name)}
+                </React.Fragment>
+              )}
               style={{ width: 200 }}
               renderInput={(params) => (
                 <TextField {...params} label="Combo box" variant="outlined" />

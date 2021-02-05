@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
-import { makeStyles } from "@material-ui/core";
+import { makeStyles, Fab } from "@material-ui/core";
 import NavBar from "./NavBar/index";
 import TopBar from "./TopBar";
+import SettingsRoundedIcon from "@material-ui/icons/SettingsRounded";
 // import firebase from "../../firebase";
+import Settings from "../../components/Settings";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -32,12 +34,19 @@ const useStyles = makeStyles((theme) => ({
     height: "100%",
     overflow: "auto",
   },
+  plusButton: {
+    position: "absolute",
+    bottom: "47px",
+    right: "65px",
+  },
 }));
 
 const DashboardLayout = () => {
   const classes = useStyles();
   const navigate = useNavigate();
   const [isMobileNavOpen, setMobileNavOpen] = useState(false);
+  const [anchor, setAnchor] = useState(null);
+
   useEffect(() => {
     if (!localStorage.getItem("userToken")) {
       navigate("/");
@@ -48,6 +57,15 @@ const DashboardLayout = () => {
     //   navigate("/");
     // }
   });
+
+  const handleClick = (event) => {
+    setAnchor(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchor(null);
+  };
+
   return (
     <div className={classes.root}>
       <TopBar onMobileNavOpen={() => setMobileNavOpen(true)} />
@@ -59,6 +77,18 @@ const DashboardLayout = () => {
         <div className={classes.contentContainer}>
           <div className={classes.content}>
             <Outlet />
+            <Fab
+              color="secondary"
+              className={classes.plusButton}
+              onClick={handleClick}
+            >
+              <SettingsRoundedIcon />
+            </Fab>
+            <Settings
+              handleClick={handleClick}
+              handleClose={handleClose}
+              anchor={anchor}
+            />
           </div>
         </div>
       </div>
