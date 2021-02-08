@@ -18,6 +18,8 @@ import {
 import InfoRoundedIcon from "@material-ui/icons/InfoRounded";
 import NotificationsRoundedIcon from "@material-ui/icons/NotificationsRounded";
 import DataUsageRoundedIcon from "@material-ui/icons/DataUsageRounded";
+import General from "./settings/General";
+import Notification from "./settings/Notification";
 import "./index.css";
 
 const useStyles = makeStyles((theme) => ({
@@ -175,13 +177,13 @@ const Settings = (props) => {
                 />
               </Tabs>
               <TabPanel value={value} index={0}>
-                Item One
+                <General />
               </TabPanel>
               <TabPanel value={value} index={1}>
-                Item Two
+                <Notification />
               </TabPanel>
               <TabPanel value={value} index={2}>
-                Item Three
+                <General />
               </TabPanel>
             </div>
             {/* <List>
