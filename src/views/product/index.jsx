@@ -12,6 +12,7 @@ import {
   CardContent,
   CardHeader,
   Avatar,
+  Chip,
 } from "@material-ui/core";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import CloseIcon from "@material-ui/icons/Close";
@@ -140,7 +141,7 @@ const Product = (props) => {
                 props.searchListData.searchList.data !== undefined &&
                 props.searchListData.searchList.data
               }
-              getOptionLabel={(option) => capitalizeFirstLetter(option.name)}
+              getOptionLabel={(option) => (capitalizeFirstLetter(option.name))}
               renderOption={(option) => (
                 <React.Fragment>
                   <Avatar

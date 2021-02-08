@@ -26,6 +26,7 @@ import axios from "axios";
 import clsx from "clsx";
 import CustomTooltip from "../../components/CustomTooltip";
 import SkeletonLoad from "../../components/SkeletonLoad";
+import Progress from "../../components/Progress";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -76,13 +77,14 @@ const useStyles = makeStyles((theme) => ({
 const Covid = () => {
   const classes = useStyles();
   const [data, setData] = useState([]);
-  const [load, setLoad] = useState(true);
+  const [open, setOpen] = useState(true);
   useEffect(() => {
-    setLoad(true);
+    setOpen(true);
     axios
       .get("https://api.covid19india.org/state_district_wise.json")
       .then((response) => {
         setData(response.data);
+        setOpen(false);
         // const objectArray = Object.entries(response.data);
         // objectArray.map((item) => {
         //   console.log(item, "item");
@@ -92,7 +94,6 @@ const Covid = () => {
         //   });
         // });
       });
-    setLoad(false);
   }, []);
   return (
     <Page className={classes.root} title="Covid Status">
@@ -100,7 +101,8 @@ const Covid = () => {
         <Card>
           <CardHeader title="Covid status" />
           <CardContent>
-            {load && <SkeletonLoad />}
+            <Progress open={open} />
+
             {data !== undefined &&
               Object.entries(data).map((states) => (
                 <Accordion>
@@ -216,23 +218,6 @@ const Covid = () => {
                         </CustomTooltip>
                       </Grid>
                     </Grid>
-                    {/* <Typography variant="h6" color="textSecondary">
-                      {states[0]}
-                    </Typography> */}
-                    {/* <Chip
-                      avatar={<Avatar>A</Avatar>}
-                      label={Object.entries(states[1].districtData).reduce(
-                        (totalActive, item) => totalActive + item[1].active,
-                        0
-                      )}
-                      color="secondary"
-                    /> */}
-                    {/* <Typography variant="h6" color="textSecondary">
-                      {Object.entries(states[1].districtData).reduce(
-                        (totalActive, item) => totalActive + item[1].active,
-                        0
-                      )}
-                    </Typography> */}
                   </AccordionSummary>
                   <AccordionDetails className={classes.content}>
                     <TableContainer component={Paper}>
