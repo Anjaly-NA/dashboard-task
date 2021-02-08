@@ -9,7 +9,7 @@ const useStyle = makeStyles(() => ({
     position: "absolute",
     top: "35%",
     left: "48%",
-    zIndex:1
+    zIndex:11
   },
 }));
 

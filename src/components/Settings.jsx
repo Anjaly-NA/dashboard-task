@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Typography,
   Card,
@@ -11,14 +11,17 @@ import {
   ListItem,
   ListItemIcon,
   ListItemText,
+  Tab,
+  Tabs,
+  Box,
 } from "@material-ui/core";
 import InfoRoundedIcon from "@material-ui/icons/InfoRounded";
 import NotificationsRoundedIcon from "@material-ui/icons/NotificationsRounded";
 import DataUsageRoundedIcon from "@material-ui/icons/DataUsageRounded";
+import "./index.css";
 
 const useStyles = makeStyles((theme) => ({
   typography: {
-    padding: theme.spacing(2),
     color: theme.palette.primary.main,
   },
   general: {
@@ -30,15 +33,48 @@ const useStyles = makeStyles((theme) => ({
   data: {
     color: theme.palette.primary.color1,
   },
-  card: {},
+  root: {
+    flexGrow: 1,
+    backgroundColor: theme.palette.background.paper,
+    display: "flex",
+  },
+  tabs: {
+    borderRight: `1px solid ${theme.palette.divider}`,
+    alignItems: "flex-start",
+  },
 }));
+
+const TabPanel = (props) => {
+  const { children, value, index, ...other } = props;
+
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`vertical-tabpanel-${index}`}
+      aria-labelledby={`vertical-tab-${index}`}
+      {...other}
+    >
+      {value === index && (
+        <Box p={3}>
+          <Typography>{children}</Typography>
+        </Box>
+      )}
+    </div>
+  );
+};
 
 const Settings = (props) => {
   const classes = useStyles();
+  const [value, setValue] = useState(0);
   const open = Boolean(props.anchor);
   const id = open ? "simple-popover" : undefined;
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
+
   return (
-    <div>
+    <div className="settings-main-container">
       <Popover
         id={id}
         open={open}
@@ -63,7 +99,92 @@ const Settings = (props) => {
           />
           <Divider />
           <CardContent>
-            <List>
+            <div className={classes.root}>
+              <Tabs
+                orientation="vertical"
+                variant="scrollable"
+                value={value}
+                onChange={handleChange}
+                aria-label="Vertical tabs example"
+                className={classes.tabs}
+              >
+                <Tab
+                  label={
+                    <List>
+                      <ListItem button>
+                        <ListItemIcon>
+                          <InfoRoundedIcon className={classes.general} />
+                        </ListItemIcon>
+                        <ListItemText
+                          primary={
+                            <Typography
+                              variant="h6"
+                              className={classes.typography}
+                            >
+                              General
+                            </Typography>
+                          }
+                        />
+                      </ListItem>
+                    </List>
+                  }
+                />
+                <Tab
+                  label={
+                    <List>
+                      <ListItem button>
+                        <ListItemIcon>
+                          <NotificationsRoundedIcon
+                            className={classes.notification}
+                          />
+                        </ListItemIcon>
+                        <ListItemText
+                          primary={
+                            <Typography
+                              variant="h6"
+                              className={classes.typography}
+                            >
+                              Notifications
+                            </Typography>
+                          }
+                        />
+                      </ListItem>
+                    </List>
+                  }
+                />
+                <Tab
+                  label={
+                    <List>
+                      <ListItem button>
+                        <ListItemIcon>
+                          <DataUsageRoundedIcon className={classes.data} />
+                        </ListItemIcon>
+                        <ListItemText
+                          primary={
+                            <Typography
+                              variant="h6"
+                              className={classes.typography}
+                            >
+                              Data and Sync
+                            </Typography>
+                          }
+                        />
+                      </ListItem>
+                    </List>
+                  }
+                />
+              </Tabs>
+              <TabPanel value={value} index={0}>
+                Item One
+              </TabPanel>
+              <TabPanel value={value} index={1}>
+                Item Two
+              </TabPanel>
+              <TabPanel value={value} index={2}>
+                Item Three
+              </TabPanel>
+            </div>
+            {/* <List>
               <ListItem button>
                 <ListItemIcon>
                   <InfoRoundedIcon className={classes.general} />
@@ -91,7 +212,7 @@ const Settings = (props) => {
                   className={classes.typography}
                 />
               </ListItem>
-            </List>
+            </List> */}
           </CardContent>
         </Card>
       </Popover>
