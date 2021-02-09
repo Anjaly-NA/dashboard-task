@@ -13,6 +13,7 @@ import Gallery from "./views/gallery/Gallery";
 import Payment from "./views/payment/Payment";
 import Multistep from "./components/Multistep";
 import Covid from "./views/covid/Covid";
+import Post from "./views/post/index";
 
 const routes = [
   {
@@ -38,6 +39,7 @@ const routes = [
       { path: "product", element: <Product /> },
       { path: "gallery", element: <Gallery /> },
       { path: "covid", element: <Covid /> },
+      { path: "post", element: <Post /> },
       { path: "*", element: <Navigate to="/404" /> },
     ],
   },

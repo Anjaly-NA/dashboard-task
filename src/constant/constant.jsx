@@ -5,6 +5,7 @@ import ImageIcon from "@material-ui/icons/Image";
 import LocalAtmIcon from "@material-ui/icons/LocalAtm";
 import LocalShippingIcon from "@material-ui/icons/LocalShipping";
 import BugReportIcon from "@material-ui/icons/BugReport";
+import EmailIcon from '@material-ui/icons/Email';
 
 export const editUserList = [
   {
@@ -68,6 +69,11 @@ export const items = [
     href: "/user/covid",
     icon: BugReportIcon,
     title: "Covid Status",
+  },
+  {
+    href: "/user/post",
+    icon: EmailIcon,
+    title: "Post",
   },
 ];
 
