@@ -63,3 +63,4 @@ export {
   searchListSuccess,
   searchListFailure,
 } from "../redux/search/searchAction";
+export { setLike, unsetLike } from "../redux/like/likeAction";

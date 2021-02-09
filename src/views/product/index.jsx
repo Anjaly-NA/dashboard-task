@@ -4,18 +4,13 @@ import {
   Container,
   Grid,
   makeStyles,
-  Button,
-  IconButton,
-  Snackbar,
   TextField,
   Card,
   CardContent,
   CardHeader,
   Avatar,
-  Chip,
 } from "@material-ui/core";
 import Autocomplete from "@material-ui/lab/Autocomplete";
-import CloseIcon from "@material-ui/icons/Close";
 import Page from "../../components/Page";
 import ProductList from "./ProductList";
 import {
@@ -47,7 +42,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Product = (props) => {
-  const [snackbar, setSnackbar] = useState(false);
   const [value, setValue] = useState({ id: "", name: "None" });
   const [inputValue, setInputValue] = useState("");
   const classes = useStyles();
@@ -90,12 +84,6 @@ const Product = (props) => {
     searchListFailure,
     searchListFetch,
   ]);
-  const handleClick = () => {
-    setSnackbar(true);
-  };
-  const handleClose = () => {
-    setSnackbar(false);
-  };
   const handleSearch = (productDetail) => {
     var productId;
     var productArray = [];
@@ -141,7 +129,7 @@ const Product = (props) => {
                 props.searchListData.searchList.data !== undefined &&
                 props.searchListData.searchList.data
               }
-              getOptionLabel={(option) => (capitalizeFirstLetter(option.name))}
+              getOptionLabel={(option) => capitalizeFirstLetter(option.name)}
               renderOption={(option) => (
                 <React.Fragment>
                   <Avatar
@@ -163,7 +151,6 @@ const Product = (props) => {
               ? props.productListData.productList.data.map((product) => (
                   <Grid item key={product.id} lg={4} md={6} xs={12} sm={6}>
                     <ProductList
-                      onClick={handleClick}
                       className={classes.productCard}
                       product={product}
                     />
@@ -172,50 +159,14 @@ const Product = (props) => {
               : props.productListData.productList.map((product) => (
                   <Grid item key={product.id} lg={4} md={6} xs={12} sm={6}>
                     <ProductList
-                      onClick={handleClick}
                       className={classes.productCard}
                       product={product}
                     />
                   </Grid>
                 ))}
-            {/* {props.productListData.productList.data &&
-              props.productListData.productList.data.map((product) => (
-                <Grid item key={product.id} lg={4} md={6} xs={12} sm={6}>
-                  <ProductList
-                    onClick={handleClick}
-                    className={classes.productCard}
-                    product={product}
-                  />
-                </Grid>
-              ))} */}
           </Grid>
         </Box>
       </Container>
-      <Snackbar
-        anchorOrigin={{
-          vertical: "bottom",
-          horizontal: "left",
-        }}
-        open={snackbar}
-        autoHideDuration={6000}
-        onClose={handleClose}
-        message="Selected"
-        action={
-          <React.Fragment>
-            <Button color="secondary" size="small" onClick={handleClose}>
-              CLOSE
-            </Button>
-            <IconButton
-              size="small"
-              aria-label="close"
-              color="inherit"
-              onClick={handleClose}
-            >
-              <CloseIcon fontSize="small" />
-            </IconButton>
-          </React.Fragment>
-        }
-      />
     </Page>
   );
 };

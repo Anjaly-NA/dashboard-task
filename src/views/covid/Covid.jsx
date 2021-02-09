@@ -25,7 +25,6 @@ import Page from "../../components/Page";
 import axios from "axios";
 import clsx from "clsx";
 import CustomTooltip from "../../components/CustomTooltip";
-import SkeletonLoad from "../../components/SkeletonLoad";
 import Progress from "../../components/Progress";
 
 const useStyles = makeStyles((theme) => ({

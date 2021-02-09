@@ -36,8 +36,8 @@ const useStyles = makeStyles((theme) => ({
   },
   plusButton: {
     position: "absolute",
-    bottom: "47px",
-    right: "65px",
+    bottom: "100px",
+    right: "80px",
   },
 }));
 

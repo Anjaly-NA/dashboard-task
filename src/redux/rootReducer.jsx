@@ -10,6 +10,7 @@ import userEditReducer from "./userEdit/userEditReducer";
 import modalReducer from "../redux/common/modal/modalReducer";
 import productListReducer from "../redux/productList/productListReducer";
 import searchListReducer from "../redux/search/searchReducer";
+import likeReducer from "../redux/like/likeReducer";
 
 const rootReducer = combineReducers({
   loginRed: loginReducer,
@@ -23,5 +24,6 @@ const rootReducer = combineReducers({
   modalRed: modalReducer,
   productListRed: productListReducer,
   searchListRed: searchListReducer,
+  likeRed: likeReducer,
 });
 export default rootReducer;
