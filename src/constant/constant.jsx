@@ -5,7 +5,7 @@ import ImageIcon from "@material-ui/icons/Image";
 import LocalAtmIcon from "@material-ui/icons/LocalAtm";
 import LocalShippingIcon from "@material-ui/icons/LocalShipping";
 import BugReportIcon from "@material-ui/icons/BugReport";
-import EmailIcon from '@material-ui/icons/Email';
+import EmailIcon from "@material-ui/icons/Email";
 
 export const editUserList = [
   {
@@ -245,5 +245,28 @@ export const countries = [
   {
     value: "333",
     label: "Vietnam",
+  },
+];
+export const post = [
+  {
+    postId: 1,
+    postTitle: "abcd",
+    postContent:
+      "With a theme and an overrides property. If that's not sufficient, you can check the implementation of the component for more detail",
+    liked: true,
+  },
+  {
+    postId: 2,
+    postTitle: "pqrs",
+    postContent:
+      "With a theme and an overrides property. If that's not sufficient, you can check the implementation of the component for more detail",
+    liked: false,
+  },
+  {
+    postId: 3,
+    postTitle: "wxyz",
+    postContent:
+      "With a theme and an overrides property. If that's not sufficient, you can check the implementation of the component for more detail",
+    liked: false,
   },
 ];

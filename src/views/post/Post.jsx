@@ -8,35 +8,11 @@ import {
   Typography,
   makeStyles,
   CardActions,
-  Button,
   Grid,
 } from "@material-ui/core";
-import ThumbUpAltIcon from "@material-ui/icons/ThumbUpAlt";
-import ThumbDownAltIcon from "@material-ui/icons/ThumbDownAlt";
-
-const post = [
-  {
-    postId: 1,
-    postTitle: "abcd",
-    postContent:
-      "With a theme and an overrides property. If that's not sufficient, you can check the implementation of the component for more detail",
-    liked: true,
-  },
-  {
-    postId: 2,
-    postTitle: "pqrs",
-    postContent:
-      "With a theme and an overrides property. If that's not sufficient, you can check the implementation of the component for more detail",
-    liked: false,
-  },
-  {
-    postId: 3,
-    postTitle: "wxyz",
-    postContent:
-      "With a theme and an overrides property. If that's not sufficient, you can check the implementation of the component for more detail",
-    liked: false,
-  },
-];
+import { post } from "../../constant/constant";
+import LikeButton from "../../components/LikeButton";
+import CommentButton from "../../components/CommentButton";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -50,15 +26,6 @@ const useStyles = makeStyles((theme) => ({
   },
   statsIcon: {
     color: theme.palette.primary.color4,
-  },
-  likeButton: {
-    color: theme.palette.text.secondary,
-  },
-  unlikeButton: {
-    color: theme.palette.primary.color3,
-  },
-  pointer: {
-    cursor: "pointer",
   },
 }));
 
@@ -101,23 +68,8 @@ const Post = ({ className, ...rest }) => {
             </CardContent>
             <Divider />
             <CardActions>
-              {item.liked ? (
-                <ThumbDownAltIcon
-                  className={clsx(classes.unlikeButton, classes.pointer)}
-                  onClick={() => handleLike(item.postId, "unlike")}
-                />
-              ) : (
-                <ThumbUpAltIcon
-                  className={clsx(classes.likeButton, classes.pointer)}
-                  onClick={() => handleLike(item.postId, "like")}
-                />
-              )}
-              <Typography
-                variant="caption"
-                color={item.liked ? "secondary" : "primary"}
-              >
-                {item.liked ? "Unlike" : "Like"}
-              </Typography>
+              <LikeButton item={item} handleLike={handleLike} />
+              <CommentButton />
             </CardActions>
             <Box flexGrow={1} />
             <Divider />

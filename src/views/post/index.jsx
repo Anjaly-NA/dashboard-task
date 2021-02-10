@@ -24,11 +24,7 @@ const PostList = () => {
       <Container maxWidth={false}>
         <Box mt={3}>
           <Grid container spacing={3}>
-            {/* {post.map((item) => (
-              <Grid item lg={4} md={6} xs={12} sm={6}> */}
             <Post />
-            {/* </Grid>
-            ))} */}
           </Grid>
         </Box>
       </Container>

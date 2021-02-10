@@ -1,3 +1,6 @@
-.MuiTab-wrapper{
-    align-items: flex-start !important;
+.MuiTab-wrapper {
+  align-items: flex-start !important;
+}
+li {
+  white-space: wrap !important;
 }

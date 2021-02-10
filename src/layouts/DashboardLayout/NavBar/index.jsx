@@ -40,17 +40,17 @@ const NavBar = ({ onMobileClose, openMobile }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    getData();
+    // getData();
     if (openMobile && onMobileClose) {
       onMobileClose();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location.pathname]);
 
-  const getData = async () => {
-    const result = await firebase.getCurrentUserInfo();
-    setDesignation(result.designation);
-  };
+  // const getData = async () => {
+  //   const result = await firebase.getCurrentUserInfo();
+  //   setDesignation(result.designation);
+  // };
   const LogOut = async () => {
     await firebase.logout();
     // firebase case: the below statement is not required
