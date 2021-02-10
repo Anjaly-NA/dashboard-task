@@ -16,26 +16,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const post = [
-  {
-    postId: 1,
-    postTitle: "abcd",
-    postContent:
-      "With a theme and an overrides property. If that's not sufficient, you can check the implementation of the component for more detail",
-  },
-  {
-    postId: 2,
-    postTitle: "pqrs",
-    postContent:
-      "With a theme and an overrides property. If that's not sufficient, you can check the implementation of the component for more detail",
-  },
-  {
-    postId: 3,
-    postTitle: "wxyz",
-    postContent:
-      "With a theme and an overrides property. If that's not sufficient, you can check the implementation of the component for more detail",
-  },
-];
 const PostList = () => {
   const classes = useStyles();
 
@@ -44,11 +24,11 @@ const PostList = () => {
       <Container maxWidth={false}>
         <Box mt={3}>
           <Grid container spacing={3}>
-            {post.map((item) => (
-              <Grid item lg={4} md={6} xs={12} sm={6}>
-                <Post post={item} />
-              </Grid>
-            ))}
+            {/* {post.map((item) => (
+              <Grid item lg={4} md={6} xs={12} sm={6}> */}
+            <Post />
+            {/* </Grid>
+            ))} */}
           </Grid>
         </Box>
       </Container>
