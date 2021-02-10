@@ -2,19 +2,22 @@ import React, { useState } from "react";
 import {
   Button,
   makeStyles,
-  Menu,
-  MenuItem,
   TextField,
   List,
   ListItem,
   ListItemAvatar,
   Avatar,
-  Divider,
   Typography,
   ListItemText,
   Box,
+  Popover,
+  CardHeader,
+  Card,
+  CardContent,
+  Divider,
 } from "@material-ui/core";
 import "./index.css";
+import { comment } from "../constant/constant";
 
 const useStyles = makeStyles((theme) => ({
   commentButton: {
@@ -25,14 +28,26 @@ const useStyles = makeStyles((theme) => ({
     maxWidth: "36ch",
     backgroundColor: theme.palette.background.paper,
   },
-  inline: {
-    display: "inline",
+  addComment: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-between",
+  },
+  typography: {
+    padding: theme.spacing(2),
+  },
+  commentBox: {
+    maxHeight: "200px",
+    height: "auto",
+    overflowY: "scroll",
   },
 }));
 
 const CommentButton = (props) => {
   const classes = useStyles();
   const [menu, setMenu] = useState(null);
+  const [commentList, setCommentList] = useState(comment);
+  const [commentAdd, setCommentAdd] = useState("");
 
   const handleClick = (event) => {
     setMenu(event.currentTarget);
@@ -41,6 +56,18 @@ const CommentButton = (props) => {
   const handleClose = () => {
     setMenu(null);
   };
+  const handlChange = (event) => {
+    setCommentAdd(event.target.value);
+  };
+  const handleAddComment = () => {
+    let data = commentList;
+    let newComment = { id: 5, comment: commentAdd };
+    data.push(newComment);
+    setCommentList([...commentList]);
+  };
+
+  const open = Boolean(menu);
+  // const id = open ? "simple-popover" : undefined;
   return (
     <React.Fragment>
       <Button
@@ -50,51 +77,72 @@ const CommentButton = (props) => {
       >
         Comment
       </Button>
-
-      <Menu
-        id="simple-menu"
+      <Popover
+        id="simple-popover"
+        open={open}
         anchorEl={menu}
-        keepMounted
-        open={Boolean(menu)}
         onClose={handleClose}
+        anchorOrigin={{
+          vertical: "bottom",
+          horizontal: "center",
+        }}
+        transformOrigin={{
+          vertical: "top",
+          horizontal: "center",
+        }}
       >
-        <MenuItem>
-          <TextField
-            id="outlined-basic"
-            label="Comment..."
-            variant="outlined"
-            color="secondary"
-          ></TextField>
-          <Button
-            size="small"
-            onClick={handleClose}
-            variant="contained"
-            color="secondary"
-          >
-            Add
-          </Button>
-        </MenuItem>
-        <MenuItem onClick={handleClose}>
-          <List className={classes.root}>
-            <ListItem alignItems="flex-start">
-              <ListItemAvatar>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
-              </ListItemAvatar>
-              <ListItemText
-                primary="Brunch this weekend?"
-                secondary={
-                  <Box>
-                    <Typography variant="h6" color="textPrimary">
-                      Ali Connors what is the difference between
-                    </Typography>
-                  </Box>
-                }
+        <Card>
+          <CardHeader>Comments</CardHeader>
+          <CardContent>
+            <Box className={classes.addComment} component="div">
+              <TextField
+                color="secondary"
+                variant="outlined"
+                label="Comments..."
+                value={commentAdd}
+                onChange={handlChange}
               />
-            </ListItem>
-            <Divider variant="inset" component="li" />
-          </List>
-        </MenuItem>
-      </Menu>
+              <Button
+                color="secondary"
+                variant="contained"
+                onClick={handleAddComment}
+              >
+                Add
+              </Button>
+            </Box>
+            <Box className={classes.commentBox}>
+              <Divider />
+              <List className={classes.root}>
+                {commentList.map((item) => (
+                  <>
+                    <ListItem alignItems="flex-start">
+                      <ListItemAvatar>
+                        <Avatar />
+                      </ListItemAvatar>
+                      <ListItemText
+                        // primary="Brunch this weekend?"
+                        secondary={
+                          <React.Fragment>
+                            <Typography
+                              component="span"
+                              variant="body2"
+                              className={classes.inline}
+                              color="textPrimary"
+                            >
+                              {item.comment}
+                            </Typography>
+                          </React.Fragment>
+                        }
+                      />
+                    </ListItem>
+                    <Divider />
+                  </>
+                ))}
+              </List>
+            </Box>
+          </CardContent>
+        </Card>
+      </Popover>
     </React.Fragment>
   );
 };
