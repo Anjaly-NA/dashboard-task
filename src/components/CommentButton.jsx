@@ -64,7 +64,7 @@ const CommentButton = (props) => {
       let data = commentList;
       let dataLength = commentList.length + 1;
       let addedComment = commentAdd;
-      let commentDate = moment().format("YYYYMMDDTHHMM");
+      let commentDate = moment().format("YYYYMMDDThhmm");
       setCommentAdd("");
       let newComment = {
         id: dataLength,
@@ -102,7 +102,19 @@ const CommentButton = (props) => {
         }}
       >
         <Card>
-          <CardHeader>Comments</CardHeader>
+          <CardHeader
+            title={
+              <Typography
+                component="div"
+                variant="caption"
+                className={classes.inline}
+                color="secondary"
+              >
+                Comments
+              </Typography>
+            }
+          />
+          <Divider />
           <CardContent>
             <Box className={classes.addComment} component="div">
               <TextField
