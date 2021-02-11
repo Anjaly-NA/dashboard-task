@@ -17,7 +17,7 @@ import {
   Divider,
 } from "@material-ui/core";
 import "./index.css";
-import { comment } from "../constant/constant";
+import moment from "moment";
 
 const useStyles = makeStyles((theme) => ({
   commentButton: {
@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
   addComment: {
     display: "flex",
     alignItems: "center",
-    justifyContent: "space-between",
+    justifyContent: "space-evenly",
   },
   typography: {
     padding: theme.spacing(2),
@@ -60,13 +60,20 @@ const CommentButton = (props) => {
     setCommentAdd(event.target.value);
   };
   const handleAddComment = () => {
-    let data = commentList;
-    let dataLength = commentList.length + 1;
-    let addedComment = commentAdd;
-    setCommentAdd("");
-    let newComment = { id: dataLength, comment: addedComment };
-    data.push(newComment);
-    setCommentList([...data]);
+    if (commentAdd !== "") {
+      let data = commentList;
+      let dataLength = commentList.length + 1;
+      let addedComment = commentAdd;
+      let commentDate = moment().format("YYYYMMDDTHHMM");
+      setCommentAdd("");
+      let newComment = {
+        id: dataLength,
+        comment: addedComment,
+        postedOn: commentDate,
+      };
+      data.push(newComment);
+      setCommentList([...data]);
+    }
   };
 
   const open = Boolean(menu);
@@ -114,7 +121,6 @@ const CommentButton = (props) => {
               </Button>
             </Box>
             <Box className={classes.commentBox}>
-              <Divider />
               <List className={classes.root}>
                 {commentList
                   .slice(0)
@@ -133,9 +139,26 @@ const CommentButton = (props) => {
                                 component="span"
                                 variant="body2"
                                 className={classes.inline}
-                                color="textPrimary"
+                                color="textSecondary"
                               >
                                 {item.comment}
+                              </Typography>
+                              <Typography
+                                component="div"
+                                variant="caption"
+                                className={classes.inline}
+                                color="primary"
+                              >
+                                Posted on :{" "}
+                                <Typography
+                                  variant="caption"
+                                  className={classes.inline}
+                                  color="textPrimary"
+                                >
+                                  {moment(item.postedOn).format(
+                                    "MMMM Do YYYY, h:mm a"
+                                  )}{" "}
+                                </Typography>
                               </Typography>
                             </React.Fragment>
                           }

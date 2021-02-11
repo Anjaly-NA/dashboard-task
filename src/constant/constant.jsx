@@ -259,6 +259,7 @@ export const post = [
         id: 1,
         comment:
           "the combination of html css and javascript build the react js library. render method is important in the class component",
+        postedOn: "20130208T0809",
       },
     ],
   },
@@ -273,6 +274,7 @@ export const post = [
         id: 1,
         comment:
           "i wish i could be aperfect daughter in this island. every trail i take every step i took",
+        postedOn: "20181219T0809",
       },
     ],
   },
@@ -287,6 +289,7 @@ export const post = [
         id: 1,
         comment:
           "react js is a front end development javascript library.there are class based components and functional based components.",
+        postedOn: "20190617T0809",
       },
     ],
   },
