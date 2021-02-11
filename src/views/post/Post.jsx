@@ -69,7 +69,7 @@ const Post = ({ className, ...rest }) => {
             <Divider />
             <CardActions>
               <LikeButton item={item} handleLike={handleLike} />
-              <CommentButton />
+              <CommentButton postComment={item.postComment} />
             </CardActions>
             <Box flexGrow={1} />
             <Divider />

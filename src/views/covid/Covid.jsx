@@ -104,7 +104,7 @@ const Covid = () => {
 
             {data !== undefined &&
               Object.entries(data).map((states) => (
-                <Accordion>
+                <Accordion key={states[0]}>
                   <AccordionSummary
                     expandIcon={<ExpandMoreIcon />}
                     aria-controls="panel1a-content"

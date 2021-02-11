@@ -254,6 +254,13 @@ export const post = [
     postContent:
       "With a theme and an overrides property. If that's not sufficient, you can check the implementation of the component for more detail",
     liked: false,
+    postComment: [
+      {
+        id: 1,
+        comment:
+          "the combination of html css and javascript build the react js library. render method is important in the class component",
+      },
+    ],
   },
   {
     postId: 2,
@@ -261,6 +268,13 @@ export const post = [
     postContent:
       "With a theme and an overrides property. If that's not sufficient, you can check the implementation of the component for more detail",
     liked: false,
+    postComment: [
+      {
+        id: 1,
+        comment:
+          "i wish i could be aperfect daughter in this island. every trail i take every step i took",
+      },
+    ],
   },
   {
     postId: 3,
@@ -268,6 +282,13 @@ export const post = [
     postContent:
       "With a theme and an overrides property. If that's not sufficient, you can check the implementation of the component for more detail",
     liked: false,
+    postComment: [
+      {
+        id: 1,
+        comment:
+          "react js is a front end development javascript library.there are class based components and functional based components.",
+      },
+    ],
   },
 ];
 export const comment = [

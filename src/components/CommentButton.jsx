@@ -46,7 +46,7 @@ const useStyles = makeStyles((theme) => ({
 const CommentButton = (props) => {
   const classes = useStyles();
   const [menu, setMenu] = useState(null);
-  const [commentList, setCommentList] = useState(comment);
+  const [commentList, setCommentList] = useState(props.postComment);
   const [commentAdd, setCommentAdd] = useState("");
 
   const handleClick = (event) => {
@@ -61,9 +61,12 @@ const CommentButton = (props) => {
   };
   const handleAddComment = () => {
     let data = commentList;
-    let newComment = { id: 5, comment: commentAdd };
+    let dataLength = commentList.length + 1;
+    let addedComment = commentAdd;
+    setCommentAdd("");
+    let newComment = { id: dataLength, comment: addedComment };
     data.push(newComment);
-    setCommentList([...commentList]);
+    setCommentList([...data]);
   };
 
   const open = Boolean(menu);
@@ -113,31 +116,34 @@ const CommentButton = (props) => {
             <Box className={classes.commentBox}>
               <Divider />
               <List className={classes.root}>
-                {commentList.map((item) => (
-                  <>
-                    <ListItem alignItems="flex-start">
-                      <ListItemAvatar>
-                        <Avatar />
-                      </ListItemAvatar>
-                      <ListItemText
-                        // primary="Brunch this weekend?"
-                        secondary={
-                          <React.Fragment>
-                            <Typography
-                              component="span"
-                              variant="body2"
-                              className={classes.inline}
-                              color="textPrimary"
-                            >
-                              {item.comment}
-                            </Typography>
-                          </React.Fragment>
-                        }
-                      />
-                    </ListItem>
-                    <Divider />
-                  </>
-                ))}
+                {commentList
+                  .slice(0)
+                  .reverse()
+                  .map((item) => (
+                    <>
+                      <ListItem alignItems="flex-start">
+                        <ListItemAvatar>
+                          <Avatar />
+                        </ListItemAvatar>
+                        <ListItemText
+                          // primary="Brunch this weekend?"
+                          secondary={
+                            <React.Fragment>
+                              <Typography
+                                component="span"
+                                variant="body2"
+                                className={classes.inline}
+                                color="textPrimary"
+                              >
+                                {item.comment}
+                              </Typography>
+                            </React.Fragment>
+                          }
+                        />
+                      </ListItem>
+                      <Divider />
+                    </>
+                  ))}
               </List>
             </Box>
           </CardContent>
