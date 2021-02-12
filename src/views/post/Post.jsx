@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import clsx from "clsx";
 import {
   Box,
@@ -10,9 +10,9 @@ import {
   CardActions,
   Grid,
 } from "@material-ui/core";
-import { post } from "../../constant/constant";
 import LikeButton from "../../components/LikeButton";
 import CommentButton from "../../components/CommentButton";
+import { capitalizeFirstLetter } from "../../utils/capitalizeFirstLetter";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -29,9 +29,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Post = ({ className, ...rest }) => {
+const Post = ({ className, passedPost, ...rest }) => {
   const classes = useStyles();
-  const [postList, setPostList] = useState(post);
+  const [postList, setPostList] = useState(passedPost);
+
+  useEffect(() => {
+    setPostList(passedPost);
+  }, [passedPost]);
 
   const handleLike = (id, type) => {
     let data = postList;
@@ -56,11 +60,11 @@ const Post = ({ className, ...rest }) => {
             <CardContent>
               <Typography
                 align="center"
-                color="textPrimary"
+                color="secondary"
                 gutterBottom
                 variant="h4"
               >
-                {item.postTitle}
+                {capitalizeFirstLetter(item.postTitle)}
               </Typography>
               <Typography align="center" color="textPrimary" variant="body1">
                 {item.postContent}

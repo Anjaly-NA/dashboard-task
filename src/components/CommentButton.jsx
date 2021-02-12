@@ -85,7 +85,7 @@ const CommentButton = (props) => {
         size="small"
         onClick={handleClick}
       >
-        Comment
+        {commentList.length} Comment(s)
       </Button>
       <Popover
         id="simple-popover"
@@ -118,7 +118,7 @@ const CommentButton = (props) => {
           <CardContent>
             <Box className={classes.addComment} component="div">
               <TextField
-                color="secondary"
+                color="primary"
                 variant="outlined"
                 label="Comments..."
                 value={commentAdd}

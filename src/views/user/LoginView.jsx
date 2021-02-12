@@ -9,7 +9,7 @@ import {
   Link,
   TextField,
   Typography,
-  makeStyles,
+  Card,
 } from "@material-ui/core";
 import Page from "../../components/Page";
 import ModalBox from "../../components/Modal";
@@ -22,15 +22,20 @@ import {
 } from "../../redux";
 import Loader from "../../components/Loader";
 import { setModal, unsetModal } from "../../redux/common/modal/modalAction";
+import useStyles from "../../assets/styles/views/UserStyle";
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    backgroundColor: theme.palette.background.dark,
-    height: "100%",
-    paddingBottom: theme.spacing(3),
-    paddingTop: theme.spacing(3),
-  },
-}));
+// const useStyles = makeStyles((theme) => ({
+//   root: {
+//     backgroundColor: theme.palette.background.dark,
+//     height: "100%",
+//     paddingBottom: theme.spacing(3),
+//     paddingTop: theme.spacing(3),
+//   },
+//   card: {
+//     padding: theme.spacing(3),
+//     borderRadius: 15,
+//   },
+// }));
 
 const initialValues = {
   email: "",
@@ -111,85 +116,91 @@ const LoginView = (props) => {
           justifyContent="center"
         >
           <Container maxWidth="sm">
-            {props.loginData.loading && <Loader />}
-            <Formik
-              initialValues={initialValues}
-              validationSchema={signInSchema}
-              onSubmit={submitLogin}
-            >
-              {(formik) => {
-                const {
-                  values,
-                  handleChange,
-                  handleSubmit,
-                  errors,
-                  touched,
-                  handleBlur,
-                  isValid,
-                  dirty,
-                } = formik;
-                return (
-                  <form onSubmit={handleSubmit}>
-                    <Box mb={3}>
-                      <Typography color="textPrimary" variant="h2">
-                        Sign in
-                      </Typography>
-                      <Typography
-                        color="textSecondary"
-                        gutterBottom
-                        variant="body2"
-                      >
-                        Sign in to the application
-                      </Typography>
-                    </Box>
-                    <TextField
-                      error={Boolean(touched.email && errors.email)}
-                      fullWidth
-                      helperText={touched.email && errors.email}
-                      label="Email Address"
-                      margin="normal"
-                      name="email"
-                      onBlur={handleBlur}
-                      onChange={handleChange}
-                      type="email"
-                      value={values.email}
-                      variant="outlined"
-                    />
-                    <TextField
-                      error={Boolean(touched.password && errors.password)}
-                      fullWidth
-                      helperText={touched.password && errors.password}
-                      label="Password"
-                      margin="normal"
-                      name="password"
-                      onBlur={handleBlur}
-                      onChange={handleChange}
-                      type="password"
-                      value={values.password}
-                      variant="outlined"
-                    />
-                    <Box my={2}>
-                      <Button
-                        color="primary"
-                        disabled={!(dirty && isValid)}
+            <Card className={classes.card}>
+              {props.loginData.loading && <Loader />}
+              <Formik
+                initialValues={initialValues}
+                validationSchema={signInSchema}
+                onSubmit={submitLogin}
+              >
+                {(formik) => {
+                  const {
+                    values,
+                    handleChange,
+                    handleSubmit,
+                    errors,
+                    touched,
+                    handleBlur,
+                    isValid,
+                    dirty,
+                  } = formik;
+                  return (
+                    <form onSubmit={handleSubmit}>
+                      <Box mb={3}>
+                        <Typography color="textPrimary" variant="h2">
+                          Sign in
+                        </Typography>
+                        <Typography
+                          color="textSecondary"
+                          gutterBottom
+                          variant="body2"
+                        >
+                          Sign in to the application
+                        </Typography>
+                      </Box>
+                      <TextField
+                        error={Boolean(touched.email && errors.email)}
                         fullWidth
-                        size="large"
-                        type="submit"
-                        variant="contained"
-                      >
-                        Sign in now
-                      </Button>
-                    </Box>
-                    <Typography color="textSecondary" variant="body1">
-                      Don&apos;t have an account?{" "}
-                      <Link component={RouterLink} to="/register" variant="h6">
-                        Sign up
-                      </Link>
-                    </Typography>
-                  </form>
-                );
-              }}
-            </Formik>
+                        helperText={touched.email && errors.email}
+                        label="Email Address"
+                        margin="normal"
+                        name="email"
+                        onBlur={handleBlur}
+                        onChange={handleChange}
+                        type="email"
+                        value={values.email}
+                        variant="outlined"
+                      />
+                      <TextField
+                        error={Boolean(touched.password && errors.password)}
+                        fullWidth
+                        helperText={touched.password && errors.password}
+                        label="Password"
+                        margin="normal"
+                        name="password"
+                        onBlur={handleBlur}
+                        onChange={handleChange}
+                        type="password"
+                        value={values.password}
+                        variant="outlined"
+                      />
+                      <Box my={2}>
+                        <Button
+                          color="primary"
+                          disabled={!(dirty && isValid)}
+                          fullWidth
+                          size="large"
+                          type="submit"
+                          variant="contained"
+                        >
+                          Sign in now
+                        </Button>
+                      </Box>
+                      <Typography color="textSecondary" variant="body1">
+                        Don&apos;t have an account?{" "}
+                        <Link
+                          component={RouterLink}
+                          to="/register"
+                          variant="h6"
+                        >
+                          Sign up
+                        </Link>
+                      </Typography>
+                    </form>
+                  );
+                }}
+              </Formik>
+            </Card>
           </Container>
         </Box>
       </Page>

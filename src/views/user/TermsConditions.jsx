@@ -1,24 +1,25 @@
 import React from "react";
 import Page from "../../components/Page";
-import { Box, Container, makeStyles, Typography } from "@material-ui/core";
+import { Box, Container, Typography } from "@material-ui/core";
+import useStyles from "../../assets/styles/views/UserStyle";
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    backgroundColor: theme.palette.background.dark,
-    height: "100%",
-    paddingBottom: theme.spacing(3),
-    paddingTop: theme.spacing(3),
-    width: "70%",
-  },
-  page: {
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  point: {
-    color: theme.palette.primary.color4,
-  },
-}));
+// const useStyles = makeStyles((theme) => ({
+//   root: {
+//     backgroundColor: theme.palette.background.dark,
+//     height: "100%",
+//     paddingBottom: theme.spacing(3),
+//     paddingTop: theme.spacing(3),
+//     width: "70%",
+//   },
+//   page: {
+//     display: "flex",
+//     justifyContent: "center",
+//     alignItems: "center",
+//   },
+//   point: {
+//     color: theme.palette.primary.color4,
+//   },
+// }));
 
 const TermsConditions = (props) => {
   const classes = useStyles();
@@ -31,7 +32,7 @@ const TermsConditions = (props) => {
           height="100%"
           justifyContent="center"
           flexWrap="wrap"
-          className={classes.root}
+          className={classes.rootTerms}
         >
           <Container maxWidth="sm">
             <Typography color="textPrimary" variant="h2" gutterBottom>

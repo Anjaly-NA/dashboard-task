@@ -1,5 +1,5 @@
 import React from "react";
-import { Container, Grid, makeStyles } from "@material-ui/core";
+import { Container, Grid } from "@material-ui/core";
 import Page from "../../components/Page";
 import Planning from "./Planning";
 import CalendarTodayIcon from "@material-ui/icons/CalendarToday";
@@ -10,28 +10,51 @@ import Development from "./Development";
 import Design from "./Design";
 import Users from "./Users";
 import EditUser from "./EditUser";
+import useStyles from "../../assets/styles/views/DashboardSTyle";
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    backgroundColor: theme.palette.background.dark,
-    minHeight: "100%",
-    paddingBottom: theme.spacing(3),
-    paddingTop: theme.spacing(3),
-  },
-  icon1: {
-    backgroundColor: theme.palette.primary.color1,
-  },
-  icon2: {
-    backgroundColor: theme.palette.primary.color2,
-  },
-  icon3: {
-    backgroundColor: theme.palette.primary.color3,
-  },
-  icon4: {
-    backgroundColor: theme.palette.primary.color4,
-  },
-}));
+// const useStyles = makeStyles((theme) => ({
+//   root: {
+//     backgroundColor: theme.palette.background.dark,
+//     minHeight: "100%",
+//     paddingBottom: theme.spacing(3),
+//     paddingTop: theme.spacing(3),
+//   },
+//   icon1: {
+//     backgroundColor: theme.palette.primary.color1,
+//   },
+//   icon2: {
+//     backgroundColor: theme.palette.primary.color2,
+//   },
+//   icon3: {
+//     backgroundColor: theme.palette.primary.color3,
+//   },
+//   icon4: {
+//     backgroundColor: theme.palette.primary.color4,
+//   },
+// }));
 
+const boxes = [
+  {
+    head: "Planning",
+    subHead: "Plan",
+    icon: <DescriptionIcon />,
+  },
+  {
+    head: "Design",
+    subHead: "Design",
+    icon: <CalendarTodayIcon />,
+  },
+  {
+    head: "Development",
+    subHead: "Module",
+    icon: <DeveloperBoardIcon />,
+  },
+  {
+    head: "Testing",
+    subHead: "Test",
+    icon: <DoneOutlineIcon />,
+  },
+];
 const Dashboard = () => {
   const classes = useStyles();
 
@@ -39,15 +62,18 @@ const Dashboard = () => {
     <Page className={classes.root} title="Dashboard">
       <Container maxWidth={false}>
         <Grid container spacing={3}>
-          <Grid item lg={3} sm={6} xl={3} xs={12}>
-            <Planning
-              head="Planning"
-              subHead="Plan"
-              icon={<DescriptionIcon />}
-              bg={classes.icon1}
-            />
-          </Grid>
-          <Grid item lg={3} sm={6} xl={3} xs={12}>
+          {boxes.map((item) => (
+            <Grid item lg={3} sm={6} xl={3} xs={12}>
+              <Planning
+                head={item.head}
+                subHead={item.subHead}
+                icon={item.icon}
+                bg={classes.icon1}
+              />
+            </Grid>
+          ))}
+
+          {/* <Grid item lg={3} sm={6} xl={3} xs={12}>
             <Planning
               head="Design"
               subHead="Design"
@@ -70,7 +96,7 @@ const Dashboard = () => {
               icon={<DoneOutlineIcon />}
               bg={classes.icon4}
             />
-          </Grid>
+          </Grid> */}
           <Grid item lg={8} md={12} xl={9} xs={12}>
             <Development />
           </Grid>
